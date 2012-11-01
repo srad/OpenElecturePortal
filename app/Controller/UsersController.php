@@ -4,13 +4,15 @@ App::uses('AppController', 'Controller');
  * Users Controller
  *
  * @property User $User
- * @property Auth $Auth
  */
 class UsersController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('login');
+        if ($this->isAdmin()) {
+            $this->Auth->allow('*');
+        }
+        $this->Auth->allow('login', 'logout');
     }
 
     /**
@@ -18,7 +20,7 @@ class UsersController extends AppController {
      *
      * @return void
      */
-    public function index() {
+    public function admin_index() {
         $this->User->recursive = 0;
         $this->set('users', $this->paginate());
     }
@@ -30,7 +32,7 @@ class UsersController extends AppController {
      * @param string $id
      * @return void
      */
-    public function view($id = null) {
+    public function admin_view($id = null) {
         $this->User->id = $id;
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
@@ -43,7 +45,7 @@ class UsersController extends AppController {
      *
      * @return void
      */
-    public function add() {
+    public function admin_add() {
         if ($this->request->is('post')) {
             $this->User->create();
             if ($this->User->save($this->request->data)) {
@@ -65,7 +67,7 @@ class UsersController extends AppController {
      * @param string $id
      * @return void
      */
-    public function edit($id = null) {
+    public function admin_edit($id = null) {
         $this->User->id = $id;
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
@@ -94,7 +96,7 @@ class UsersController extends AppController {
      * @param string $id
      * @return void
      */
-    public function delete($id = null) {
+    public function admin_delete($id = null) {
         if (!$this->request->is('post')) {
             throw new MethodNotAllowedException();
         }
@@ -111,12 +113,41 @@ class UsersController extends AppController {
     }
 
     public function login() {
-        if ($this->Auth->login()) {
-            return $this->redirect($this->Auth->redirect());
-        }
-        else {
-            $this->Session->setFlash(__('Username or password is incorrect'));
+        if ($this->request->is('post')) {
+            if ($this->Auth->login()) {
+                if ($this->isAdmin() || $this->isAssistant()) {
+                    $this->redirect('/admin/listings');
+                }
+            }
+            else {
+                $this->Session->setFlash(__('Ungültiges Passwort oder Benutzername. Setzen Sie Ihr Passwort zurück falls nötig. <br />Beachten Sie, dass Ihr Konto auch deaktiviert worden sein könnte.'), 'flash_error');
+            }
         }
     }
+
+    public function logout() {
+        debug($this->Auth->logout());
+        $this->redirect($this->Auth->logout());
+    }
+
+    /*
+    public function createAdminUser() {
+        $this->User->create();
+
+        $group = $this->User->Group->find('first', array('conditions' => array('Group.name' => 'admin')));
+        $this->User->set(array(
+            'User' => array(
+                'username'  => 'admin',
+                'password'  => 'n4z074znmqx9037t4',
+                'firstname' => 'admin',
+                'lastname'  => 'admin',
+                'active'    => 1,
+                'group_id'  => $group['Group']['id']
+            )
+        ));
+        debug($this->User->save());
+        $this->redirect('/users/login');
+    }
+    */
 
 }

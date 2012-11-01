@@ -21,7 +21,7 @@ class PostsController extends AppController {
         $this->Post->recursive = 0;
 
         $posts = $this->Post->find('all', array(
-            'fields' => array('Post.*', 'User.id', 'User.email', 'User.firstname', 'User.lastname'),
+            'fields' => array('Post.*', 'User.id', 'User.firstname', 'User.lastname'),
             'conditions' => array(
                 'AND' => array(
                     'Post.show_frontpage' => 1,
@@ -69,7 +69,7 @@ class PostsController extends AppController {
      *
      * @return void
      */
-    public function add() {
+    public function admin_add() {
         if ($this->request->is('post')) {
             $this->Post->create();
             if ($this->Post->save($this->request->data)) {
@@ -91,7 +91,7 @@ class PostsController extends AppController {
      * @param string $id
      * @return void
      */
-    public function edit($id = null) {
+    public function admin_edit($id = null) {
         $this->Post->id = $id;
         if (!$this->Post->exists()) {
             throw new NotFoundException(__('Invalid post'));

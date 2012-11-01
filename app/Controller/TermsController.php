@@ -7,17 +7,27 @@ App::uses('AppController', 'Controller');
  */
 class TermsController extends AppController {
 
+    public function beforeFilter() {
+        parent::beforeFilter();
+        if ($this->isAssistant()) {
+            $this->Auth->allow('*');
+        }
+        else {
+            $this->Auth->allow('view');
+        }
+    }
+
     /**
      * index method
      *
      * @return void
      */
-    public function index() {
+    public function admin_index() {
         $terms = $this->Term->find('list', array('order' => 'Term.ordering ASC'));
         $this->set(compact('terms'));
     }
 
-    public function sort() {
+    public function admin_sort() {
         $this->autoRender = false;
 
         if ($this->request->is('post')) {
@@ -37,7 +47,7 @@ class TermsController extends AppController {
      *
      * @return void
      */
-    public function add() {
+    public function admin_add() {
         if ($this->request->is('post')) {
             $this->Term->create();
             // Place at the end of the list
@@ -56,7 +66,7 @@ class TermsController extends AppController {
     /**
      * Updates all courses at once
      */
-    public function edit() {
+    public function admin_edit() {
         if ($this->request->is('post') || $this->request->is('put')) {
             if ($this->Term->saveAll($this->request->data['Term'])) {
                 $this->Session->setFlash(__('The term has been saved'));
@@ -79,7 +89,7 @@ class TermsController extends AppController {
      * @param string $id
      * @return void
      */
-    public function delete($id = null) {
+    public function admin_delete($id = null) {
         if (!$this->request->is('post')) {
             throw new MethodNotAllowedException();
         }

@@ -10,11 +10,33 @@
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     <li data-controller="posts" data-action="index" data-id="*"><?php echo $this->Html->link(__('Startseite'), '/startseite'); ?></li>
-                    <li data-controller="videos" data-action="latest" data-id="*"><?php echo $this->Html->link(__('Neuste Videos'), array('controller' => 'videos', 'action' => 'latest')); ?></li>
+                    <li data-controller="videos" data-action="latest" data-id="*"><?php echo $this->Html->link(__('Neuste Videos'), '/videos/latest'); ?></li>
                     <?php if (isset($categories)): ?>
                     <?php foreach ($categories as $id => $category): ?>
                         <li data-controller="categories||listings" data-action="*" data-id="<?php echo $id; ?>"><?php echo $this->Html->link($category, '/categories/view/' . $id); ?></li>
                         <?php endforeach; ?>
+                    <?php endif; ?>
+                </ul>
+
+                <ul class="nav pull-right">
+
+                    <?php if ($loggedIn) : ?>
+                    <li class="divider-vertical"></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user icon-white"></i> <?php echo __('Administration'); ?> <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><?php echo $this->Html->link(__('Menüpunkte'), '/admin/listings'); ?></li>
+                            <li><?php echo $this->Html->link(__('Semester'), '/admin/terms'); ?></li>
+                            <li><?php echo $this->Html->link(__('Kategorien'), '/admin/categories'); ?></li>
+                            <?php if ($group == 'admin'): ?>
+                            <li class="divider"></li>
+                                <li><?php echo $this->Html->link(__('Benutzer-Übersicht'), '/admin/users'); ?></li>
+                                <li><?php echo $this->Html->link(__('Benutzer anlegen'), '/admin/users/add'); ?></li>
+                            <?php endif; ?>
+                            <li class="divider"></li>
+                            <li><?php echo $this->Html->link(__('Abmelden'), '/users/logout'); ?></li>
+                        </ul>
+                    </li>
                     <?php endif; ?>
                 </ul>
             </div>

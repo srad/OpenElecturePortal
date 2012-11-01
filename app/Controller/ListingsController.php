@@ -13,7 +13,12 @@ class ListingsController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('view');
+        if ($this->isAssistant()) {
+            $this->Auth->allow('*');
+        }
+        else {
+            $this->Auth->allow('view');
+        }
     }
 
     /**
@@ -21,7 +26,7 @@ class ListingsController extends AppController {
      * @param null $termId
      * @return string
      */
-    public function index($categoryId = null, $termId = null) {
+    public function admin_index($categoryId = null, $termId = null) {
         if ($this->request->is('ajax')) {
             $this->autoRender = false;
 
@@ -41,7 +46,7 @@ class ListingsController extends AppController {
         $this->set(compact('providers', 'terms', 'listings'));
     }
 
-    public function sort() {
+    public function admin_sort() {
         $this->autoRender = false;
         $this->layout = 'ajax';
 
@@ -107,7 +112,7 @@ class ListingsController extends AppController {
         $this->set(compact('id', 'listing_id', 'term_id', 'category', 'videos', 'title_for_layout', 'categoryList', 'terms', 'links'));
     }
 
-    public function add() {
+    public function admin_add() {
         $this->layout = 'ajax';
         $this->autoRender = false;
 
@@ -137,19 +142,13 @@ class ListingsController extends AppController {
     /**
      * Updates all courses at once
      */
-    public function edit() {
+    public function admin_edit() {
         if ($this->request->is('post') || $this->request->is('put')) {
             // Checked boxes are submitted as "on", we convert them to "1"
-            foreach($this->request->data['Listing'] as $key => $item) {
-                if (isset($this->request->data['Listing'][$key]['inactive']) && $this->request->data['Listing'][$key]['inactive'] == 'on') {
-                    $this->request->data['Listing'][$key]['inactive'] = 1;
-                }
-                if (isset($this->request->data['Listing'][$key]['dynamic_view']) && $this->request->data['Listing'][$key]['dynamic_view'] == 'on') {
-                    $this->request->data['Listing'][$key]['dynamic_view'] = 1;
-                }
-                if (isset($this->request->data['Listing'][$key]['invert_sorting']) && $this->request->data['Listing'][$key]['invert_sorting'] == 'on') {
-                    $this->request->data['Listing'][$key]['invert_sorting'] = 1;
-                }
+            foreach ($this->request->data['Listing'] as $key => $item) {
+                $this->request->data['Listing'][$key]['inactive'] = (isset($this->request->data['Listing'][$key]['inactive']) && $this->request->data['Listing'][$key]['inactive'] == 'on');
+                $this->request->data['Listing'][$key]['dynamic_view'] = (isset($this->request->data['Listing'][$key]['dynamic_view']) && $this->request->data['Listing'][$key]['dynamic_view'] == 'on');
+                $this->request->data['Listing'][$key]['invert_sorting'] = (isset($this->request->data['Listing'][$key]['invert_sorting']) && $this->request->data['Listing'][$key]['invert_sorting'] == 'on');
             }
 
             if ($this->Listing->saveAll($this->request->data['Listing'])) {
@@ -172,7 +171,7 @@ class ListingsController extends AppController {
      * @throws NotFoundException
      * @return void
      */
-    public function delete() {
+    public function admin_delete() {
         $this->autoRender = false;
 
         if ($this->request->is('ajax') && isset($this->request->data['id'])) {

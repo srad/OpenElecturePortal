@@ -1,10 +1,10 @@
 <?php echo $this->Html->script('vendor/jquery.mjs.nestedSortable'); ?>
 <?php echo $this->Html->script('vendor/mustache'); ?>
-<link rel="stylesheet/less" type="text/css" href="css/listings/index.less">
+<link rel="stylesheet/less" type="text/css" href="<?php echo $this->base; ?>/css/listings/index.less">
 
 <div class="span11">
 
-    <?php echo $this->Form->create('Listing', array('id' => 'formListing', 'class' => 'hero-unit')); ?>
+    <?php echo $this->Form->create('Listing', array('action' => 'add', 'id' => 'formListing', 'class' => 'hero-unit')); ?>
         <legend><?php echo __('Veranstaltung Anlegen'); ?></legend>
         <p class="text-info"><?php echo __('Zum Filtern der Menüpunkte bitte Semester und Kategorie wählen'); ?></p>
 
@@ -48,7 +48,7 @@
         <input type="submit" class="btn btn-primary" value="<?php echo __('Speichern'); ?>"/>
     <?php echo $this->Form->end(); ?>
 
-    <?php echo $this->Form->create('listings', array('class' => 'form hero-unit', 'action' => 'edit')); ?>
+    <?php echo $this->Form->create('listings', array('action' => 'edit', 'class' => 'form hero-unit', 'action' => 'edit')); ?>
     <fieldset>
 
         <legend>
@@ -207,7 +207,7 @@ $(function () {
      * Initializes the delete button event.
      */
     UFM.ep.listings.events.remove = function () {
-        UFM.ep.listings.$root.find('li form button.btn-delete').click(function (event) {
+        UFM.ep.listings.$root.find('li .form-inline button.btn-delete').click(function (event) {
             event.preventDefault();
 
             if (!window.confirm('<?php echo __('Löschen? Alle Kinder des Knotens werden auch gelöscht!'); ?>')) {
@@ -335,7 +335,7 @@ $(function () {
      * @param callback Callback after a successful request.
      */
     UFM.ep.listings.add = function (data, callback) {
-        data += '&position=' + UFM.ep.listings.$sortable.toArray().length;
+        data += '&position=' + UFM.ep.listings.$sortable.nestedSortable('toArray').length;
 
         $.ajax({
             type: 'POST',

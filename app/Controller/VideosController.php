@@ -17,7 +17,7 @@ class VideosController extends AppController {
      *
      * @return void
      */
-    public function index() {
+    public function admin_index() {
         $this->Video->recursive = 0;
         $this->set('videos', $this->paginate());
     }
@@ -28,8 +28,8 @@ class VideosController extends AppController {
 
         $videos = $this->Video->find('all', array(
             //'fields' => array('Video.*', 'Type.*'),
-            'order'  => array('Video.video_date' => 'DESC'),
-            'limit'  => 20,
+            'order' => array('Video.video_date' => 'DESC'),
+            'limit' => 20,
         ));
 
         $this->set(compact('links', 'videos'));
@@ -52,11 +52,11 @@ class VideosController extends AppController {
                 foreach ($search_term as $term) {
                     array_push($terms, array(
                             'OR' => array(
-                                'Video.title LIKE'       => '%' . trim($term) . '%',
+                                'Video.title LIKE' => '%' . trim($term) . '%',
                                 'Video.description LIKE' => '%' . trim($term) . '%',
-                                'Video.subtitle LIKE'    => '%' . trim($term) . '%',
-                                'Video.speaker LIKE'     => '%' . trim($term) . '%',
-                                'Listing.name LIKE'      => '%' . trim($term) . '%',
+                                'Video.subtitle LIKE' => '%' . trim($term) . '%',
+                                'Video.speaker LIKE' => '%' . trim($term) . '%',
+                                'Listing.name LIKE' => '%' . trim($term) . '%',
                             )
                         )
                     );
@@ -68,8 +68,8 @@ class VideosController extends AppController {
                     $videos = $this->Video->find('all', array(
                         'recursive' => 0,
                         'fields' => array('Listing.name', 'Listing.id', 'Video.*'),
-                        'order'      => array('Video.video_date' => 'DESC'),
-                        'limit'      => 20,
+                        'order' => array('Video.video_date' => 'DESC'),
+                        'limit' => 20,
                         'conditions' => array('OR' => $terms)
                     ));
 
@@ -78,8 +78,8 @@ class VideosController extends AppController {
                 else {
                     $videos = $this->Video->find('all', array(
                         'fields' => array('Listing.name', 'Listing.id', 'Video.*'),
-                        'order'      => array('Video.video_date' => 'DESC'),
-                        'limit'      => 300,
+                        'order' => array('Video.video_date' => 'DESC'),
+                        'limit' => 300,
                         'conditions' => array('OR' => $terms)
                     ));
                 }
@@ -95,9 +95,7 @@ class VideosController extends AppController {
      * view method
      *
      * @throws NotFoundException
-     *
      * @param string $id
-     *
      * @return void
      */
     public function view($id = null) {
@@ -113,13 +111,14 @@ class VideosController extends AppController {
      *
      * @return void
      */
-    public function add() {
+    public function admin_add() {
         if ($this->request->is('post')) {
             $this->Video->create();
             if ($this->Video->save($this->request->data)) {
                 $this->Session->setFlash(__('The video has been saved'));
                 $this->redirect(array('action' => 'index'));
-            } else {
+            }
+            else {
                 $this->Session->setFlash(__('The video could not be saved. Please, try again.'));
             }
         }
@@ -132,12 +131,10 @@ class VideosController extends AppController {
      * edit method
      *
      * @throws NotFoundException
-     *
      * @param string $id
-     *
      * @return void
      */
-    public function edit($id = null) {
+    public function admin_edit($id = null) {
         $this->Video->id = $id;
         if (!$this->Video->exists()) {
             throw new NotFoundException(__('Invalid video'));
@@ -146,10 +143,12 @@ class VideosController extends AppController {
             if ($this->Video->save($this->request->data)) {
                 $this->Session->setFlash(__('The video has been saved'));
                 $this->redirect(array('action' => 'index'));
-            } else {
+            }
+            else {
                 $this->Session->setFlash(__('The video could not be saved. Please, try again.'));
             }
-        } else {
+        }
+        else {
             $this->request->data = $this->Video->read(null, $id);
         }
         $listings = $this->Video->Listing->find('list');
@@ -162,12 +161,10 @@ class VideosController extends AppController {
      *
      * @throws MethodNotAllowedException
      * @throws NotFoundException
-     *
      * @param string $id
-     *
      * @return void
      */
-    public function delete($id = null) {
+    public function admin_delete($id = null) {
         if (!$this->request->is('post')) {
             throw new MethodNotAllowedException();
         }
@@ -182,4 +179,5 @@ class VideosController extends AppController {
         $this->Session->setFlash(__('Video was not deleted'));
         $this->redirect(array('action' => 'index'));
     }
+
 }

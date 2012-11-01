@@ -9,7 +9,12 @@ class CategoriesController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('view');
+        if ($this->isAssistant()) {
+            $this->Auth->allow('*');
+        }
+        else {
+            $this->Auth->allow('view');
+        }
     }
 
     /**
@@ -17,12 +22,12 @@ class CategoriesController extends AppController {
      *
      * @return void
      */
-    public function index() {
+    public function admin_index() {
         $categoryData = $this->Category->find('all', array('recursive' => -1, 'order' => 'Category.ordering ASC'));
         $this->set(compact('categoryData'));
     }
 
-    public function sort() {
+    public function admin_sort() {
         $this->autoRender = false;
 
         if ($this->request->is('post')) {
@@ -80,7 +85,7 @@ class CategoriesController extends AppController {
      *
      * @return void
      */
-    public function add() {
+    public function admin_add() {
         if ($this->request->is('post')) {
             $this->Category->create();
             // Place at the end of the list
@@ -99,7 +104,7 @@ class CategoriesController extends AppController {
     /**
      * Updates all courses at once
      */
-    public function edit() {
+    public function admin_edit() {
         if ($this->request->is('post') || $this->request->is('put')) {
             if ($this->Category->saveAll($this->request->data['Category'])) {
                 $this->Session->setFlash(__('The Category has been saved'));
@@ -122,7 +127,7 @@ class CategoriesController extends AppController {
      * @param string $id
      * @return void
      */
-    public function delete($id = null) {
+    public function admin_delete($id = null) {
         if (!$this->request->is('post')) {
             throw new MethodNotAllowedException();
         }

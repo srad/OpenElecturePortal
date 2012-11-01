@@ -1,25 +1,17 @@
-<form class="form-signin">
-    <h2 class="form-signin-heading">Please sign in</h2>
-    <input type="text" class="input-block-level" placeholder="Email address">
-    <input type="password" class="input-block-level" placeholder="Password">
-    <label class="checkbox">
-        <input type="checkbox" value="remember-me"> Remember me
-    </label>
-    <button class="btn btn-large btn-primary" type="submit">Sign in</button>
-</form>
+<?php echo $this->Form->create('User', array('class' => 'validate', 'action' => 'login', 'class' => 'form-signin')); ?>
+<h2 class="form-signin-heading"><?php echo __('Bitte anmelden'); ?></h2>
+<?php echo $this->Form->input('username', array('label' => false, 'required' => true, 'class' => 'input-block-level', 'placeholder' => __('Benutzername'))); ?>
+<?php echo $this->Form->input('password', array('label' => false, 'type' => 'password', 'required' => true, 'class' => 'input-block-level', 'placeholder' => __('Passwort'))); ?>
+<hr/>
+<button class="btn btn-large btn-primary" type="submit"><?php echo __('Anmelden'); ?></button>
+<?php echo $this->Form->end(); ?>
 
 
 <style type="text/css">
-    body {
-        padding-top: 40px;
-        padding-bottom: 40px;
-        background-color: #f5f5f5;
-    }
-
     .form-signin {
         max-width: 300px;
         padding: 19px 29px 29px;
-        margin: 0 auto 20px;
+        margin: 90px auto;
         background-color: #fff;
         border: 1px solid #e5e5e5;
         -webkit-border-radius: 5px;

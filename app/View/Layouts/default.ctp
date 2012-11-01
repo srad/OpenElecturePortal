@@ -9,7 +9,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-        <title><?php echo 'studiumdigitale eLectureportal — ' . $title_for_layout; ?></title>
+        <title><?php echo 'studiumdigitale eLectureportal - ' . $title_for_layout; ?></title>
 
         <meta name="description" content="Die Goethe-Universität ist eine forschungsstarke Hochschule in der europäischen Finanzmetropole Frankfurt. Lebendig, urban und weltoffen besitzt sie als Stiftungsuniversität ein einzigartiges Maß an Eigenständigkeit.">
         <meta name="viewport" content="width=device-width">
@@ -19,7 +19,6 @@
         echo $this->Html->css('bootstrap-responsive.min.css');
         ?>
         <link rel="stylesheet/less" type="text/css" href="<?php echo $this->base; ?>/css/main.less">
-
 
         <script>
         UFM = {};
@@ -52,11 +51,6 @@
 
         <div class="container">
 
-            <div>
-                <?php echo $this->Session->flash(); ?>
-                <?php echo $this->Session->flash('auth'); ?>
-            </div>
-
             <div class="row row-header">
 
                 <span class="span2 logo">
@@ -78,6 +72,14 @@
 
             <div class="row row-content">
                 <?php echo $this->element('navbar', (isset($categories) ? $categories : null)); ?>
+
+                <?php if($this->Session->check('Message.flash')): ?>
+                <div class="alert alert-info span11" style="margin-bottom: 20px">
+                    <?php echo $this->Session->flash(); ?>
+                    <?php echo $this->Session->flash('auth'); ?>
+                </div>
+                <?php endif; ?>
+
                 <?php echo $this->fetch('content'); ?>
             </div>
 

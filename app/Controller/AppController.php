@@ -28,27 +28,25 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
 
+    public $helpers = array('Datetime');
+
     public $components = array(
         'Session',
         'Auth' => array(
             'loginAction' => array(
                 'controller' => 'users',
-                'action' => 'login'
+                'action' => 'login',
             ),
-            'loginRedirect' => array(
-                'controller' => 'listings',
-                'action' => 'index'
+            'authenticate' => array(
+                'Form' => array(
+                    'scope' => array(
+                        'User.active' => 1
+                    )
+                )
             ),
-            'authenticate' => array('Basic'),
-            'loginUsers' => array(
-                'admin' => 'admin'
-            ),
-            'authError' => "You are not authorized to view this page.",
-            'authorize' => array('Controller')
-        )
+            'authorize' => 'controller'
+        ),
     );
-
-    public $helpers = array('Datetime');
 
     public function beforeFilter() {
         if ($this->name !== 'Categories') {
@@ -60,6 +58,29 @@ class AppController extends Controller {
             'order' => array('Category.ordering ASC')
         ));
         $this->set(compact('categories'));
+
+        $this->set('loggedIn', $this->Auth->loggedIn());
+        $this->set('group', $this->Auth->user('Group.name'));
+        $this->set('username', $this->Auth->user('name'));
+    }
+
+    public function isAuthorized($user) {
+        if (!empty($this->params['prefix']) && $this->params['prefix'] === 'admin') {
+            // Assistants can access: listings, categories, terms controllers.
+            if (($this->name == 'listings' || $this->name == 'categories' || $this->name == 'terms') && $this->isAssistant()) {
+                return true;
+            }
+            return $this->isAdmin();
+        }
+        return false;
+    }
+
+    protected function isAdmin() {
+        return $this->Auth->user('Group.name') === 'admin';
+    }
+
+    protected function isAssistant() {
+        return $this->Auth->user('Group.name') === 'assistant';
     }
 
 }
