@@ -75,12 +75,13 @@ class PostsController extends AppController {
     public function admin_add() {
         if ($this->request->is('post')) {
             $this->Post->create();
-            if ($this->Post->save($this->request->data)) {
+            $this->request->data['Post']['user_id'] = $this->getUserId();
+            if ($this->Post->save($this->request->data))  {
                 $this->Session->setFlash(__('The post has been saved'));
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(array('action' => '/startseite'));
             }
             else {
-                $this->Session->setFlash(__('The post could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('Der Beitrag konnte nicht gespeichert werden.'));
             }
         }
         $users = $this->Post->User->find('list');

@@ -8,7 +8,7 @@ App::uses('AppModel', 'Model');
 class Post extends AppModel {
 
     public function beforeSave($options = array()) {
-        $this->data['slug'] = Inflector::slug($this->data['title']);
+        $this->data['Post']['slug'] = Inflector::slug(strtolower($this->data['Post']['title']), '-');
     }
 
     public function findLinks() {

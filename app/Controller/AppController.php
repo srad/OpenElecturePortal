@@ -102,4 +102,8 @@ class AppController extends Controller {
         return $this->Auth->user('Group.name') === 'assistant';
     }
 
+    protected function getUserId() {
+        return $this->Auth->user('id');
+    }
+
 }
