@@ -9,6 +9,9 @@ class PostsController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
+        if ($this->isAdmin()) {
+            $this->Auth->allow('*');
+        }
         $this->Auth->allow(array('index', 'view'));
     }
 
@@ -120,7 +123,7 @@ class PostsController extends AppController {
      * @param string $id
      * @return void
      */
-    public function delete($id = null) {
+    public function admin_delete($id = null) {
         if (!$this->request->is('post')) {
             throw new MethodNotAllowedException();
         }

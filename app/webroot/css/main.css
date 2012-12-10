@@ -1,390 +1,346 @@
-/* ==========================================================================
-   General Style
-   ========================================================================== */
 body {
-    background: #666;
+  background: #666666;
 }
-
 h1 {
-    color: #25172C;
-    font-family: Georgia, serif;
-    font-size: 26px;
-    font-weight: normal;
-    line-height: 28px;
+  color: #25172c;
+  color: #25172c;
+  color: #25172c;
+  font-family: Georgia, serif;
+  font-family: Georgia, serif;
+  font-family: Georgia, serif;
+  font-size: 26px;
+  font-size: 23px;
+  font-weight: normal;
+  font-weight: normal;
+  font-weight: normal;
+  line-height: 28px;
+  line-height: 28px;
+  letter-spacing: 0;
+  margin-bottom: 25px;
+  margin-top: 0px;
 }
-
 html {
-    color: #333333;
-    font-family: Arial, sans-serif;
-    font-size: 11px;
-    line-height: 14px;
+  color: #333333;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  line-height: 14px;
 }
-
-legend { margin-bottom: 10px; }
-
+legend {
+  margin-bottom: 10px;
+}
 .container .row-content {
-    background: #D1D2D3;
+  background: #d1d2d3;
 }
-
+.container .row .video-row:hover {
+  box-shadow: 0 0 2px 2px #87cefa;
+}
 .navbar-inner {
-    border-radius: 0px !important;
+  border-radius: 0px !important;
 }
-
 .row-header {
-    background: #005EAA;
-    /*
-    background: rgb(0, 94, 170);
-    background: -moz-linear-gradient(top, rgba(0, 94, 170, 1) 0%, rgba(51, 126, 187, 1) 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 94, 170, 1)), color-stop(100%, rgba(51, 126, 187, 1)));
-    background: -webkit-linear-gradient(top, rgba(0, 94, 170, 1) 0%, rgba(51, 126, 187, 1) 100%);
-    background: -o-linear-gradient(top, rgba(0, 94, 170, 1) 0%, rgba(51, 126, 187, 1) 100%);
-    background: -ms-linear-gradient(top, rgba(0, 94, 170, 1) 0%, rgba(51, 126, 187, 1) 100%);
-    background: linear-gradient(to bottom, rgba(0, 94, 170, 1) 0%, rgba(51, 126, 187, 1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#005eaa', endColorstr = '#ECEDED', GradientType = 0);
-    */
-    height: 130px;
-    vertical-align: middle;
+  background: #005eaa;
+  height: 130px;
+  vertical-align: middle;
 }
-
 .logo:first-child {
-    margin-left: 60px;
+  margin-left: 60px;
 }
-
 .logo {
-    margin: 20px 0 0;
+  margin: 20px 0 0;
 }
-
-.logo+.logo {
-    padding-left: 20px;
-    border-left: 1px solid white;
+.logo + .logo {
+  padding-left: 20px;
+  border-left: 1px solid white;
 }
-
 .form-search {
-    background-position: right bottom;
-    margin-top: 75px;
-    padding-right: 15px;
+  background-position: right bottom;
+  margin-top: 75px;
+  padding-right: 15px;
 }
-
-.hero-unit {
-    background-color: #EEEEEE;
-    border-radius: 5px 5px 5px 5px;
-    font-size: 13px;
-    margin-bottom: 30px;
-    padding: 15px 30px;
-}
-
-.hero-unit p {
-    color: inherit;
-    font-size: 14px;
-    line-height: 30px;
-}
-
-hr {
-    border: 1px dotted white;
-    margin: 10px 0;
-}
-
-h1, h2, h3, h4, h5 {
-    color: #25172C;
-    font-family: Georgia, serif;
-    font-weight: normal;
-}
-
-.hero-unit h1, h1 {
-    color: #25172C;
-    font-family: Georgia, serif;
-    font-size: 23px;
-    font-weight: normal;
-    letter-spacing: 0;
-    line-height: 28px;
-    margin-bottom: 25px;
-    margin-top: 0px;
-}
-
 .form-search .input-append .search-query {
-    border-radius: 3px 0 0 3px;
+  border-radius: 3px 0 0 3px;
 }
-
 .form-search .input-append .btn {
-    border-radius: 0 5px 5px 0;
+  border-radius: 0 5px 5px 0;
 }
-
+.hero-unit {
+  background-color: #eeeeee;
+  border-radius: 5px 5px 5px 5px;
+  font-size: 13px;
+  margin-bottom: 30px;
+  padding: 15px 30px;
+}
+.hero-unit p {
+  color: inherit;
+  font-size: 14px;
+  line-height: 30px;
+}
+.hero-unit h1 {
+  color: #25172c;
+  font-family: Georgia, serif;
+  font-size: 23px;
+  font-weight: normal;
+  letter-spacing: 0;
+  line-height: 28px;
+  margin-bottom: 25px;
+  margin-top: 0px;
+}
+hr {
+  border: 1px dotted white;
+  margin: 10px 0;
+}
+h2,
+h3,
+h4,
+h5 {
+  color: #25172c;
+  font-family: Georgia, serif;
+  font-weight: normal;
+}
 input.search-query {
-    padding-left: 5px;
-    padding-right: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
-
-/* ==========================================================================
-   Sidebar balloon box
-   ========================================================================== */
-
 .triangle-right {
-    position: relative;
-    padding: 15px;
-    margin: 1em 0 3em;
-    margin-bottom: 0;
-    color: #fff;
-    background: #ECEDED; /* default background for browsers without gradient support */
-    /* css3 */
-    background: -webkit-gradient(linear, 0 0, 0 100%, from(#2e88c4), to(#ECEDED));
-    background: -moz-linear-gradient(#2e88c4, #ECEDED);
-    background: -o-linear-gradient(#2e88c4, #ECEDED);
-    background: linear-gradient(#2e88c4, #ECEDED);
-    border-radius: 3px;
+  position: relative;
+  padding: 15px;
+  margin: 1em 0 3em;
+  margin-bottom: 0;
+  color: #ffffff;
+  background: #eceded;
+  background: -webkit-gradient(linear,0 0,0 100%,from(#2e88c4),to(#eceded));
+  background: -moz-linear-gradient(#2e88c4,#eceded);
+  background: -o-linear-gradient(#2e88c4,#eceded);
+  background: linear-gradient(#2e88c4,#eceded);
+  border-radius: 3px;
 }
-
-/* Variant : for top positioned triangle
------------------------------------------- */
-
 .triangle-right.top {
-    background: #ECEDED;
+  background: #eceded;
 }
-
 .triangle-right:after {
-    content: "";
-    position: absolute;
-    bottom: -20px; /* value = - border-top-width - border-bottom-width */
-    left: 50px; /* controls horizontal position */
-    border-width: 20px 0 0 20px; /* vary these values to change the angle of the vertex */
-    border-style: solid;
-    border-color: #ECEDED transparent;
-    /* reduce the damage in FF3.0 */
-    display: block;
-    width: 0;
+  content: "";
+  position: absolute;
+  bottom: -20px;
+  left: 50px;
+  border-width: 20px 0 0 20px;
+  border-style: solid;
+  border-color: #eceded transparent;
+  display: block;
+  width: 0;
 }
-
-/* Variant : top
------------------------------------------- */
-
 .triangle-right.top:after {
-    top: -20px; /* value = - border-top-width - border-bottom-width */
-    left: 50px; /* controls horizontal position */
-    bottom: auto;
-    left: auto;
-    border-width: 20px 20px 0 0; /* vary these values to change the angle of the vertex */
-    border-color: transparent #ECEDED;
+  top: -20px;
+  left: 50px;
+  left: auto;
+  bottom: auto;
+  border-width: 20px 20px 0 0;
+  border-color: transparent #eceded;
 }
-
-/* BLUE BALLOON */
-
 .triangle-right-blue {
-    font-size: 13px;
-    position: relative;
-    padding: 7px 0px !important;
-    margin: 1em 0 3em;
-    color: #fff;
-    background: #005EAA;
-    /*
-    background: rgb(0, 94, 170);
-    background: -moz-linear-gradient(top, rgba(0, 94, 170, 1) 0%, rgba(51, 126, 187, 1) 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 94, 170, 1)), color-stop(100%, rgba(51, 126, 187, 1)));
-    background: -webkit-linear-gradient(top, rgba(0, 94, 170, 1) 0%, rgba(51, 126, 187, 1) 100%);
-    background: -o-linear-gradient(top, rgba(0, 94, 170, 1) 0%, rgba(51, 126, 187, 1) 100%);
-    background: -ms-linear-gradient(top, rgba(0, 94, 170, 1) 0%, rgba(51, 126, 187, 1) 100%);
-    background: linear-gradient(to bottom, rgba(0, 94, 170, 1) 0%, rgba(51, 126, 187, 1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#005eaa', endColorstr = '#ECEDED', GradientType = 0);
-    */
-    border-radius: 3px;
+  font-size: 13px;
+  position: relative;
+  padding: 7px 0px !important;
+  margin: 1em 0 0em;
+  color: #ffffff;
+  background: #005eaa;
+  border-radius: 3px;
 }
-
-/* Variant : for top positioned triangle
------------------------------------------- */
-
+.triangle-right-blue .ui-accordion-content p {
+  line-height: 22px;
+  margin: 0;
+}
+.triangle-right-blue .accordion-header .disabled {
+  color: #696969 !important;
+  cursor: default !important;
+  text-decoration: none !important;
+}
 .triangle-right-blue.top {
-    background: rgba(0, 94, 170, 1);
+  background: #005eaa;
 }
-
 .triangle-right-blue:after {
-    content: "";
-    position: absolute;
-    bottom: -20px; /* value = - border-top-width - border-bottom-width */
-    left: 50px; /* controls horizontal position */
-    border-width: 20px 0 0 20px; /* vary these values to change the angle of the vertex */
-    border-style: solid;
-    border-color: rgba(0, 94, 170, 1) transparent;
-    /* reduce the damage in FF3.0 */
-    display: block;
-    width: 0;
+  content: "";
+  position: absolute;
+  bottom: -20px;
+  left: 50px;
+  border-width: 20px 0 0 20px;
+  border-style: solid;
+  border-color: #005eaa transparent;
+  display: block;
+  width: 0;
 }
-
-/* Variant : top
------------------------------------------- */
-
 .triangle-right-blue.top:after {
-    top: -20px; /* value = - border-top-width - border-bottom-width */
-    left: 50px; /* controls horizontal position */
-    bottom: auto;
-    left: 15px;
-    border-width: 20px 20px 0 0; /* vary these values to change the angle of the vertex */
-    border-color: transparent rgba(0, 94, 170, 1);
+  top: -20px;
+  left: 50px;
+  left: 15px;
+  bottom: auto;
+  border-width: 20px 20px 0 0;
+  border-color: transparent #005eaa;
 }
-
 div.sidebar div.row div.span3 {
-    width: 238px;
+  width: 238px;
 }
-
-div.sidebar div.row div.span3 a {
-    color: #000;
-}
-
 div.sidebar div.row div.span3 h4 {
-    font-size: 15px;
-    font-variant: small-caps;
-    margin-bottom: 25px;
+  font-size: 15px;
+  font-variant: small-caps;
+  margin-bottom: 25px;
 }
-
+div.sidebar form {
+  margin: 0;
+}
+div.sidebar form div.input select {
+  margin-bottom: 0;
+}
+div.sidebar form select.span2 {
+  margin-bottom: 0;
+  width: 205px;
+}
 .sidebar .triangle-right-blue .accordion-header a {
-    font-size: 11px;
-    color: white !important;
+  font-size: 11px;
+  color: #ffffff;
 }
-
 .sidebar .triangle-right-blue .ui-accordion-content {
-    font-size: 11px;
-    color: dimgrey;
-    background: rgb(255, 255, 255); /* Old browsers */
-    background: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(246, 246, 246, 1) 47%, rgba(237, 237, 237, 1) 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 1)), color-stop(47%, rgba(246, 246, 246, 1)), color-stop(100%, rgba(237, 237, 237, 1))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(246, 246, 246, 1) 47%, rgba(237, 237, 237, 1) 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(246, 246, 246, 1) 47%, rgba(237, 237, 237, 1) 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(246, 246, 246, 1) 47%, rgba(237, 237, 237, 1) 100%); /* IE10+ */
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(246, 246, 246, 1) 47%, rgba(237, 237, 237, 1) 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#ffffff', endColorstr = '#ededed', GradientType = 0); /* IE6-9 */
+  font-size: 11px;
+  color: dimgrey;
+  background: #ffffff;
+  background: -moz-linear-gradient(top,#ffffff 0%,#f6f6f6 47%,#ededed 100%);
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#ffffff),color-stop(47%,#f6f6f6),color-stop(100%,#ededed));
+  background: -webkit-linear-gradient(top,#ffffff 0%,#f6f6f6 47%,#ededed 100%);
+  background: -o-linear-gradient(top,#ffffff 0%,#f6f6f6 47%,#ededed 100%);
+  background: -ms-linear-gradient(top,#ffffff 0%,#f6f6f6 47%,#ededed 100%);
+  background: linear-gradient(to bottom,#ffffff 0%,#f6f6f6 47%,#ededed 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#ededed',GradientType=0);
 }
-
-/* ==========================================================================
-   jQuery UI Accordion
-   ========================================================================== */
-
 .ui-accordion-header-active {
-    background: black;
+  background: black;
 }
-
 .ui-accordion .ui-accordion-content,
 .ui-accordion .ui-accordion-icons {
-    padding: 4px 13px !important;
+  padding: 4px 13px !important;
 }
-
-ul#listings.sortable li.item .btn-danger input[type="submit"],
-ul#listings.sortable li.item .btn-danger input[type="button"] {
-    color: white;
-    border-radius: 4px;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-    color: #FFFFFF;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    font-size: 12px;
-    line-height: 18px;
-    padding: 3px 9px;
+ul#listings.sortable li .btn-danger input[type="submit"],
+ul#listings.sortable li .btn-danger input[type="button"] {
+  color: white;
+  color: #ffffff;
+  border-radius: 4px;
+  border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+  font-size: 12px;
+  line-height: 18px;
+  padding: 3px 9px;
 }
-
-.triangle-right-blue .ui-accordion-content p {
-    line-height: 22px;
-    margin: 0;
-}
-
 .balloon {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
-
-/* ==========================================================================
-   Video Block Style
-   ========================================================================== */
-
 .video-row {
-    background-color: #EEEEEE;
-    border: 2px solid ghostwhite;
-    border-radius: 5px 5px 5px 5px;
-    font-size: 13px;
-    margin-bottom: 15px;
-    padding: 10px 10px 0;
+  background-color: #eeeeee;
+  border: 2px solid ghostwhite;
+  border-radius: 5px 5px 5px 5px;
+  font-size: 13px;
+  margin-bottom: 15px;
+  padding: 10px 10px 0;
 }
-
 .video-row .video-details {
-    list-style: none outside none;
-    margin: 0;
-    padding: 0;
+  list-style: none outside none;
+  margin: 0;
+  padding: 0;
 }
-
 .video-row .thumbnails > li {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
-
 .video-row h4 {
-    font-size: 16px;
-    line-height: 17px;
-    margin: 1px 0 13px;
-    padding: 0;
+  font-size: 16px;
+  line-height: 17px;
+  margin: 1px 0 13px;
+  padding: 0;
 }
-
+.video-row:hover {
+  transform: translate3d(0,0,0);
+  -webkit-backface-visibility: hidden;
+  -webkit-transition: all 0.4s ease-out;
+  -moz-transition: all 0.4s ease-out;
+  -ms-transition: all 0.4s ease-out;
+  -o-transition: all 0.4s ease-out;
+  -webkit-transform: rotate(0.3deg);
+  -moz-transform: rotate(0.3deg) !important;
+  -ms-transform: rotate(0.3deg);
+  -o-transform: rotate(0.3deg);
+}
+.video-row hr {
+  border: 1px dotted white;
+  margin: 0 0 8px;
+}
+.video-row .meta {
+  padding-bottom: 6px;
+}
 ul.video-details li.subtitle {
-    line-height: 22px;
+  line-height: 22px;
 }
-
 ul.video-details li span.sub-header {
-    font-weight: bold;
+  font-weight: bold;
 }
-
-.container .row .video-row:hover {
-    box-shadow: 0 0 2px 2px #87cefa;
-}
-
-/* ==========================================================================
-   Video-Buttons CSS-Sprites
-   ========================================================================== */
-
 ul.video-buttons {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    margin-bottom: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  margin-bottom: 10px;
 }
-
 ul.video-buttons li {
-    line-height: 26px;
+  line-height: 26px;
 }
-
 ul.video-buttons li span {
-    background: url("../img/video-buttons.png") no-repeat scroll left top transparent;
-    border: 1px solid lightgray;
-    border-radius: 3px 3px 3px 3px;
-    display: inline-block;
-    vertical-align: sub;
+  background: url("../img/video-buttons.png") no-repeat scroll left top transparent;
+  border: 1px solid lightgray;
+  border-radius: 3px 3px 3px 3px;
+  display: inline-block;
+  vertical-align: sub;
 }
-
 ul.video-buttons li span.video-label {
-    line-height: 20px;
-    margin-left: 6px;
-    vertical-align: super;
+  line-height: 20px;
+  margin-left: 6px;
+  vertical-align: super;
 }
-
-.mp3 { background-position: 0 0; width: 33px; height: 23px; }
-
-.flash { background-position: -38px 0 !important; width: 33px; height: 23px; }
-
-.html5 { background-position: -76px 0 !important; width: 33px; height: 23px; }
-
-.mobile { background-position: -114px 0 !important; width: 33px; height: 23px; }
-
-.quicktime { background-position: -152px 0 !important; width: 33px; height: 23px; }
-
-.silverlight { background-position: -190px 0 !important; width: 33px; height: 23px; }
-
-div.sidebar form div.input select,
-div.sidebar form,
-div.sidebar form select.span2 {
-    margin-bottom: 0;
+.mp3 {
+  background-position: 0 0;
+  width: 33px;
+  height: 23px;
 }
-
-div.sidebar form select.span2 {
-    width: 205px;
+.flash {
+  background-position: -38px 0 !important;
+  width: 33px;
+  height: 23px;
 }
-
+.html5 {
+  background-position: -76px 0 !important;
+  width: 33px;
+  height: 23px;
+}
+.mobile {
+  background-position: -114px 0 !important;
+  width: 33px;
+  height: 23px;
+}
+.quicktime {
+  background-position: -152px 0 !important;
+  width: 33px;
+  height: 23px;
+}
+.silverlight {
+  background-position: -190px 0 !important;
+  width: 33px;
+  height: 23px;
+}
 .ui-menu {
-    background: none repeat scroll 0 0 white;
-    border-radius: 2px 2px 2px 2px;
-    padding: 2px;
+  background: none repeat scroll 0 0 white;
+  border-radius: 2px 2px 2px 2px;
+  padding: 2px;
 }
-.ui-autocomplete li.ui-menu-item a, .ui-autocomplete li.ui-menu-item a:hover {
-    padding: 3px;
-    margin: 0;
-    font-size: 13px;
+.ui-autocomplete li.ui-menu-item a,
+.ui-autocomplete li.ui-menu-item a:hover {
+  padding: 3px;
+  margin: 0;
+  font-size: 13px;
+}
+ul.video-list {
+  list-style: none;
+  margin: 0;
 }

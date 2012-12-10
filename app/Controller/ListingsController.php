@@ -16,9 +16,7 @@ class ListingsController extends AppController {
         if ($this->isAssistant()) {
             $this->Auth->allow('*');
         }
-        else {
-            $this->Auth->allow('view');
-        }
+        $this->Auth->allow('view');
     }
 
     /**
@@ -48,29 +46,18 @@ class ListingsController extends AppController {
 
     public function admin_sort() {
         $this->autoRender = false;
-        $this->layout = 'ajax';
 
         if ($this->request->is('post')) {
             $this->Listing->recursive = -1;
 
             $position = 0;
             foreach ($this->request->data['listing'] as $id => $parentId) {
-                $this->Listing->updateAll(
-                    array(
-                        'Listing.parent_id' => $parentId,
-                        'Listing.ordering' => $position
-                    ),
-                    array(
-                        'Listing.id' => $id
-                    )
-                );
+                $this->Listing->id = $id;
+                $this->Listing->set(array('Listing' => array('parent_id' => $parentId, 'ordering' => $position)));
+                $this->Listing->save();
                 $position += 1;
             }
-            $this->Listing->reorder(array(
-                'field' => 'Listing.ordering',
-                'order' => 'ASC',
-                'verify' => true
-            ));
+            $this->Listing->reorder(array('field' => 'Listing.ordering'));
         }
     }
 
@@ -78,42 +65,60 @@ class ListingsController extends AppController {
      * @param      $id
      * @param      $category_id
      * @param null $term_id
+     * @param null $slug
      * @throws NotFoundException
      */
-    public function view($id, $category_id, $term_id) {
+    public function view($id, $category_id, $term_id = null, $slug = null) {
         $this->Listing->id = $id;
 
         if (!$this->Listing->exists()) {
-            throw new NotFoundException(__('Invalid listing'));
+            throw new NotFoundException(__('Ungültige Videoliste'));
         }
         $this->Listing->recursive = 0;
-        $this->Listing->data = $this->Listing->read(array('Provider.id', 'Provider.name', 'Category.*', 'Listing.name', 'Listing.category_id', 'Listing.last_update', 'Listing.code'), $id);
+        $this->Listing->data = $this->Listing->read(array('Provider.name', 'Category.*', 'Listing.name', 'Listing.category_id', 'Listing.last_update', 'Listing.code'), $id);
 
         if ($this->Listing->isUpdateRequired() && $this->Listing->hasValidVideoListId()) {
             $this->Listing->updateVideos();
         }
 
-        $categoryList = $this->Listing->findThreaded($category_id, $term_id);
-        $category['Category'] = $categoryList['Category'];
+        $this->Listing->Category->recursive = -1;
+        $category = $this->Listing->Category->read(array('Category.name', 'Category.id'), $category_id);
 
         $terms = $this->Listing->Term->find('list', array('order' => 'Term.id DESC'));
 
         $this->loadModel('Post');
         $links = $this->Post->findLinks();
 
-        $videos = $this->Listing->Video->find('all', array(
-            'conditions' => array('Listing.id' => $id, 'Listing.term_id' => $term_id),
-            'order' => array('Video.video_date' => 'DESC')
+        $categoryList = $this->Listing->find('threaded', array(
+            'recursive' => -1,
+            'conditions' => array('Listing.category_id' => $category_id, 'Listing.term_id' => $term_id),
+            'order' => array('Listing.ordering ASC')
+        ));
+
+        // Removed unused relations
+        $this->Listing->unbindModel(array('belongsTo' => array('Provider', 'Category', 'Term'), 'hasMany' => array('MediaSite', 'Vilea')));
+
+        $childIds = $this->Listing->findChildIds($id);
+
+        $videos = $this->Listing->find('all', array(
+            'fields' => array('Listing.name', 'Listing.id', 'Listing.parent_id', 'Listing.dynamic_view'),
+            'recursive' => 2,
+            'conditions' => array('Listing.id' => $childIds)
+        ));
+
+        $videos = Hash::nest($videos, array(
+            'idPath' => '{n}.Listing.id',
+            'parentPath' => '{n}.Listing.parent_id'
         ));
 
         $title_for_layout = $this->Listing->data['Listing']['name'];
         $listing_id = $id;
 
+        $this->set('isDynamicView', (isset($videos[0]['Listing']) && $videos[0]['Listing']['dynamic_view']) );
         $this->set(compact('id', 'listing_id', 'term_id', 'category', 'videos', 'title_for_layout', 'categoryList', 'terms', 'links'));
     }
 
     public function admin_add() {
-        $this->layout = 'ajax';
         $this->autoRender = false;
 
         if ($this->request->is('post')) {
@@ -127,7 +132,7 @@ class ListingsController extends AppController {
                     'dynamic_view' => $this->request->data['dynamic_view'],
                     'inactive' => $this->request->data['inactive'],
                     'invert_sorting' => $this->request->data['invert_sorting'],
-                    'provider_id' => (trim($this->request->data['provider_id']) === '') ? null : $this->request->data['provider_id'],
+                    'provider_name' => (trim($this->request->data['provider_id']) === '') ? null : $this->request->data['provider_id'],
                     'term_id' => (trim($this->request->data['term_id']) === '') ? null : $this->request->data['term_id'],
                     'ordering' => $this->request->data['position']
                 )

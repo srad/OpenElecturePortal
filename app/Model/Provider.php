@@ -7,6 +7,10 @@ App::uses('AppModel', 'Model');
  */
 class Provider extends AppModel {
 
+    public $primaryKey = 'name';
+
+    public $displayField = 'name';
+
     /**
      * Validation rules
      *
@@ -35,7 +39,7 @@ class Provider extends AppModel {
     public $hasMany = array(
         'Listing' => array(
             'className'    => 'Listing',
-            'foreignKey'   => 'provider_id',
+            'foreignKey'   => 'provider_name',
             'dependent'    => false,
             'conditions'   => '',
             'fields'       => '',

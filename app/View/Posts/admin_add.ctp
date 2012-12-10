@@ -1,4 +1,4 @@
-<div class="posts form">
+<div class="posts form hero-unit">
 <?php echo $this->Form->create('Post'); ?>
 	<fieldset>
 		<legend><?php echo __('Add Post'); ?></legend>

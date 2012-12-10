@@ -27,9 +27,10 @@ class VideosController extends AppController {
         $links = $this->Post->findLinks();
 
         $videos = $this->Video->find('all', array(
-            //'fields' => array('Video.*', 'Type.*'),
-            'order' => array('Video.video_date' => 'DESC'),
-            'limit' => 20,
+            'fields' => array('Video.*'),
+            'recursive' => 1,
+            'order' => array('Video.video_date DESC'),
+            'limit' => 3
         ));
 
         $this->set(compact('links', 'videos'));

@@ -57,7 +57,7 @@
         </legend>
 
         <ul id="listings" class="sortable">
-            <li><span class="icon-refresh"> <?php echo __('Lade...'); ?></span></li>
+            <li><h3><?php echo __('Lade...'); ?></h3></li>
         </ul>
 
         <div class="form-actions">
@@ -68,6 +68,13 @@
     <?php echo $this->Form->end(); ?>
 </div>
 
+<style>
+ul#listings li ul li label.inactive,
+ul#listings li ul li label.dynamic-view {
+    display: none !important;
+}
+</style>
+
 <script id="listItem" type="text/html">
 <li class="{{className}}" id="listing_{{id}}">
     <div class="form-inline">
@@ -77,17 +84,17 @@
         <?php echo $this->Form->input('Listing.{{id}}.code', array('label' => false, 'value' => '{{code}}', 'div' => false, 'class' => 'span2 code')); ?>
 
         <span class="pull-right">
-        <label class="checkbox">
+        <label class="checkbox inactive">
             <input type="checkbox" name="data[Listing][{{id}}][inactive]" {{inactive}} />
             <?php echo __('Inactive?'); ?>
         </label>&nbsp;&nbsp;
 
-        <label class="checkbox">
+        <label class="checkbox dynamic-view">
             <input type="checkbox" name="data[Listing][{{id}}][dynamic_view]" {{dynamic_view}} />
             <?php echo __('Dyn. Anz.?'); ?>
         </label>&nbsp;&nbsp;
 
-        <label class="checkbox">
+        <label class="checkbox invert-sorting">
             <input type="checkbox" name="data[Listing][{{id}}][invert_sorting]" {{invert_sorting}} />
             <?php echo __('Sort. Aufstreig.?'); ?>
         </label>&nbsp;&nbsp;
@@ -101,6 +108,9 @@
 
 <script>
 $(function () {
+    // Notice that we are using the javascript module pattern
+    // described by Douglas Crockford.
+
     UFM.ep.listings = {};
     UFM.ep.listings.$root = $('ul#listings.sortable');
     UFM.ep.listings.$sortable = $('ul#listings');
@@ -141,18 +151,36 @@ $(function () {
 
         var traverseChildren = function (obj, depth) {
             $(obj).each(function () {
-                if (typeof this.children === 'undefined') {
-                    toggleClass(this.id, 'no-children');
-                }
-                else {
-                    toggleClass(this.id, 'has-children');
-                    traverseChildren(this.children, ++depth);
-                }
+                //if (typeof this.children !== 'undefined') {
+                    toggleRootCodeField(this.id, (typeof this.children === 'undefined'));
+                    //toggleClass(this.id, 'no-children');
+//                }
+//                else {
+//                    toggleClass(this.id, 'has-children');
+//                    traverseChildren(this.children, ++depth);
+//                }
             });
         };
 
+        var toggleRootCodeField = function (id, show) {
+            var $li = $('#' + UFM.ep.listings.createElementId(id));
+
+            var $codeInput = $li.find('input.code:first');
+            var $nameInput = $li.find('input.name:first');
+
+            if (show) {
+                $codeInput.show();
+                $nameInput.addClass('span4');
+                $nameInput.removeClass('span6');
+            } else {
+                $codeInput.hide();
+                $nameInput.addClass('span6');
+                $nameInput.removeClass('span4');
+            }
+        };
+
         var toggleClass = function (id, className) {
-            var $item = $('#' + UFM.ep.listings.createElementId(id, className));
+            var $item = $('#' + UFM.ep.listings.createElementId(id));
 
             $item.removeClass('no-children');
             $item.removeClass('has-children');
@@ -187,6 +215,8 @@ $(function () {
                     url: UFM.ep.here + 'sort.json',
                     data: $('#listings').nestedSortable('serialize'),
                     success: function (data) {
+                        // Removes the code field for all items which have children.
+                        // TODO: Needed?
                         UFM.ep.listings.toggleListingItemClassName();
                     },
                     error: function (response) {
@@ -377,6 +407,10 @@ $(function () {
         var $form = $('#formListing');
 
         $('#ListingTermId,#ListingCategoryId').change(function () {
+            if (this.id === 'ListingTermId' && $(this).find('option:selected').val() === '') {
+                // TODO: search the correct id
+                $('#ListingCategoryId').val(3);
+            }
             UFM.ep.listings.renderer.fetch();
         });
 

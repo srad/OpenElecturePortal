@@ -73,7 +73,12 @@ class CategoriesController extends AppController {
         $this->loadModel('Post');
         $links = $this->Post->findLinks();
 
-        $categoryList = $this->Category->Listing->findThreaded($id, $term_id);
+//        $categoryList = $this->Category->Listing->findThreaded($id, $term_id);
+        $categoryList = $this->Category->Listing->find('threaded', array(
+            'recursive' => -1,
+            'conditions' => array('Listing.category_id' => $id, 'Listing.term_id' => $term_id),
+            'order' => array('Listing.ordering ASC')
+        ));
 
         $title_for_layout = $category['Category']['name'];
 

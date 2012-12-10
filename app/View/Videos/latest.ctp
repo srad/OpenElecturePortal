@@ -1,7 +1,11 @@
 <div class="span9">
     <h1><?php echo __('Neue Videos'); ?></h1>
 
-    <?php echo $this->element('video_row', $videos); ?>
+    <?php
+    foreach ($videos as $video) {
+        echo $this->element('video_row', array('videos' => $videos));
+    };
+    ?>
 </div>
 
 <div class="sidebar span3">

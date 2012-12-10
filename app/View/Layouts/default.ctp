@@ -17,8 +17,8 @@
         <?php
         echo $this->Html->css('bootstrap.min.css');
         echo $this->Html->css('bootstrap-responsive.min.css');
+        echo $this->Html->css('main');
         ?>
-        <link rel="stylesheet/less" type="text/css" href="<?php echo $this->base; ?>/css/main.less">
 
         <script>
         UFM = {};

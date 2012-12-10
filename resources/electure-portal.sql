@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS `electure_portal`.`terms` ;
 CREATE  TABLE IF NOT EXISTS `electure_portal`.`terms` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(100) NOT NULL ,
-  `position` BIGINT NOT NULL DEFAULT 0 ,
+  `ordering` BIGINT NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `idx_unique_name` (`name` ASC) )
 ENGINE = InnoDB;
@@ -28,8 +28,9 @@ DROP TABLE IF EXISTS `electure_portal`.`categories` ;
 CREATE  TABLE IF NOT EXISTS `electure_portal`.`categories` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(100) NOT NULL ,
-  `position` BIGINT NOT NULL DEFAULT 0 ,
+  `ordering` BIGINT NOT NULL DEFAULT 0 ,
   `hide` TINYINT(1) NOT NULL DEFAULT 0 ,
+  `term_free` TINYINT(1) NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `idx_unique_name` (`name` ASC) )
 ENGINE = InnoDB;
@@ -41,9 +42,8 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `electure_portal`.`providers` ;
 
 CREATE  TABLE IF NOT EXISTS `electure_portal`.`providers` (
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(100) NOT NULL ,
-  PRIMARY KEY (`id`) )
+  PRIMARY KEY (`name`) )
 ENGINE = InnoDB;
 
 
@@ -58,8 +58,8 @@ CREATE  TABLE IF NOT EXISTS `electure_portal`.`listings` (
   `slug` VARCHAR(200) NULL ,
   `code` VARCHAR(200) NULL ,
   `last_update` DATETIME NULL ,
+  `provider_name` VARCHAR(100) NULL ,
   `category_id` BIGINT UNSIGNED NULL ,
-  `provider_id` BIGINT UNSIGNED NULL ,
   `term_id` BIGINT UNSIGNED NULL ,
   `html` VARCHAR(255) NULL ,
   `inactive` TINYINT(1) NOT NULL DEFAULT 0 ,
@@ -74,7 +74,9 @@ CREATE  TABLE IF NOT EXISTS `electure_portal`.`listings` (
   PRIMARY KEY (`id`) ,
   INDEX `fk_lists_terms1_idx` (`term_id` ASC) ,
   INDEX `fk_lists_categories1_idx` (`category_id` ASC) ,
-  INDEX `fk_listings_providers1_idx` (`provider_id` ASC) ,
+  INDEX `idx_ordering` (`ordering` ASC) ,
+  INDEX `idx_parent_id` (`parent_id` ASC) ,
+  INDEX `fk_listings_providers1_idx` (`provider_name` ASC) ,
   CONSTRAINT `fk_lists_terms1`
     FOREIGN KEY (`term_id` )
     REFERENCES `electure_portal`.`terms` (`id` )
@@ -86,8 +88,8 @@ CREATE  TABLE IF NOT EXISTS `electure_portal`.`listings` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_listings_providers1`
-    FOREIGN KEY (`provider_id` )
-    REFERENCES `electure_portal`.`providers` (`id` )
+    FOREIGN KEY (`provider_name` )
+    REFERENCES `electure_portal`.`providers` (`name` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -116,6 +118,7 @@ CREATE  TABLE IF NOT EXISTS `electure_portal`.`videos` (
   PRIMARY KEY (`id`) ,
   INDEX `fk_videos_list_idx` (`listing_id` ASC) ,
   UNIQUE INDEX `idx_unique_video_list_provider` (`listing_id` ASC, `video_id` ASC) ,
+  INDEX `idx_video_date` (`video_date` DESC) ,
   CONSTRAINT `fk_videos_lists`
     FOREIGN KEY (`listing_id` )
     REFERENCES `electure_portal`.`listings` (`id` )
@@ -185,15 +188,15 @@ DROP TABLE IF EXISTS `electure_portal`.`users` ;
 CREATE  TABLE IF NOT EXISTS `electure_portal`.`users` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `group_id` BIGINT UNSIGNED NOT NULL ,
-  `email` VARCHAR(45) NOT NULL ,
+  `username` VARCHAR(45) NOT NULL ,
   `password` VARCHAR(45) NOT NULL ,
   `firstname` VARCHAR(45) NOT NULL ,
   `lastname` VARCHAR(45) NOT NULL ,
   `active` TINYINT(1) NOT NULL ,
-  `last_login` DATETIME NOT NULL ,
+  `last_login` DATETIME NULL ,
   `created` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) ,
+  UNIQUE INDEX `email_UNIQUE` (`username` ASC) ,
   INDEX `fk_users_groups1_idx` (`group_id` ASC) ,
   CONSTRAINT `fk_users_groups1`
     FOREIGN KEY (`group_id` )
@@ -252,12 +255,12 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `electure_portal`;
-INSERT INTO `electure_portal`.`terms` (`id`, `name`, `position`) VALUES (1, 'SS 10', 0);
-INSERT INTO `electure_portal`.`terms` (`id`, `name`, `position`) VALUES (2, 'WS 10/11', 0);
-INSERT INTO `electure_portal`.`terms` (`id`, `name`, `position`) VALUES (3, 'SS 11', 0);
-INSERT INTO `electure_portal`.`terms` (`id`, `name`, `position`) VALUES (4, 'WS 11/12', 0);
-INSERT INTO `electure_portal`.`terms` (`id`, `name`, `position`) VALUES (5, 'SS 12', 0);
-INSERT INTO `electure_portal`.`terms` (`id`, `name`, `position`) VALUES (6, 'WS 12/13', 0);
+INSERT INTO `electure_portal`.`terms` (`id`, `name`, `ordering`) VALUES (1, 'SS 10', 0);
+INSERT INTO `electure_portal`.`terms` (`id`, `name`, `ordering`) VALUES (2, 'WS 10/11', 0);
+INSERT INTO `electure_portal`.`terms` (`id`, `name`, `ordering`) VALUES (3, 'SS 11', 0);
+INSERT INTO `electure_portal`.`terms` (`id`, `name`, `ordering`) VALUES (4, 'WS 11/12', 0);
+INSERT INTO `electure_portal`.`terms` (`id`, `name`, `ordering`) VALUES (5, 'SS 12', 0);
+INSERT INTO `electure_portal`.`terms` (`id`, `name`, `ordering`) VALUES (6, 'WS 12/13', 0);
 
 COMMIT;
 
@@ -266,9 +269,9 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `electure_portal`;
-INSERT INTO `electure_portal`.`categories` (`id`, `name`, `position`, `hide`) VALUES (1, 'Vorlesungen', 0, 0);
-INSERT INTO `electure_portal`.`categories` (`id`, `name`, `position`, `hide`) VALUES (2, 'Einzelveranstaltungen', 1, 0);
-INSERT INTO `electure_portal`.`categories` (`id`, `name`, `position`, `hide`) VALUES (3, 'Veranstaltungsreihen', 2, 0);
+INSERT INTO `electure_portal`.`categories` (`id`, `name`, `ordering`, `hide`, `term_free`) VALUES (1, 'Vorlesungen', 0, 0, 0);
+INSERT INTO `electure_portal`.`categories` (`id`, `name`, `ordering`, `hide`, `term_free`) VALUES (2, 'Einzelveranstaltungen', 1, 0, 0);
+INSERT INTO `electure_portal`.`categories` (`id`, `name`, `ordering`, `hide`, `term_free`) VALUES (3, 'Veranstaltungsreihen', 2, 0, 1);
 
 COMMIT;
 
@@ -277,8 +280,8 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `electure_portal`;
-INSERT INTO `electure_portal`.`providers` (`id`, `name`) VALUES (NULL, 'vilea');
-INSERT INTO `electure_portal`.`providers` (`id`, `name`) VALUES (NULL, 'mediasite');
+INSERT INTO `electure_portal`.`providers` (`name`) VALUES ('vilea');
+INSERT INTO `electure_portal`.`providers` (`name`) VALUES ('mediasite');
 
 COMMIT;
 

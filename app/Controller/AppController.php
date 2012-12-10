@@ -62,6 +62,25 @@ class AppController extends Controller {
         $this->set('loggedIn', $this->Auth->loggedIn());
         $this->set('group', $this->Auth->user('Group.name'));
         $this->set('username', $this->Auth->user('name'));
+
+        $this->loadLESS();
+    }
+
+    public function loadLESS() {
+        // only compile it on development mode
+        if (Configure::read('debug') > 0) {
+            // import the file to application
+            App::import('Vendor', 'lessc');
+
+            // set the LESS file location
+            $less = ROOT . DS . APP_DIR . DS . 'webroot' . DS . 'css' . DS . 'main.less';
+
+            // set the CSS file to be written
+            $css = ROOT . DS . APP_DIR . DS . 'webroot' . DS . 'css' . DS . 'main.css';
+
+            // compile the file
+            lessc::ccompile($less, $css);
+        }
     }
 
     public function isAuthorized($user) {

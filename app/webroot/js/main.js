@@ -12,6 +12,11 @@ $(function () {
         var $this = $(this),
             href = $this.attr('href');
 
+        if ($this.hasClass('disabled')) {
+            event.stopPropagation();
+            return false;
+        }
+
         if (href !== '') {
             event.stopPropagation();
 

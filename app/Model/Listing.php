@@ -24,11 +24,15 @@ class Listing extends AppModel {
 
     private $httpVideoData;
 
+    public function beforeSave($options = array()) {
+        $this->data[$this->name]['slug'] = Inflector::slug(strtolower($this->data[$this->name]['name']), '-');
+    }
+
     /**
      * Determines based on the 'last_update' database field, if an
      * update is required by using the interval set in
-     * @const {MINUTES_UPDATE_CYCLE}.
      *
+     * @const {MINUTES_UPDATE_CYCLE}.
      * @return bool
      */
     public function isUpdateRequired() {
@@ -69,7 +73,7 @@ class Listing extends AppModel {
         $formats = $this->Video->Type->find('list');
 
         foreach ($this->httpVideoData['data'] as $videoId => $video) {
-            $data = $this->Video->find('first', array('recursive' => -1, 'fields' => array('Video.id'),'conditions' => array('Video.video_id' => $videoId)));
+            $data = $this->Video->find('first', array('recursive' => -1, 'fields' => array('Video.id'), 'conditions' => array('Video.video_id' => $videoId)));
 
             if ($data) {
                 $this->Video->id = $data['Video']['id'];
@@ -133,7 +137,7 @@ class Listing extends AppModel {
 
         return array(
             'image-data' => $image,
-            'mime-type'  => $mimeType
+            'mime-type' => $mimeType
         );
     }
 
@@ -153,10 +157,8 @@ class Listing extends AppModel {
     /**
      * Returns a nested list that we can use for the video list at the
      * right sidebar and the editable menu list within the admin backend.
-     *
      * We can't use the build in "threaded" cakephp function
      * because the nested video results have a wrong sorting.
-     *
      * In this case we are limited to a tree depth of 2,
      * mysql doesn't support recursive joins, deeper trees
      * need additional joins or another data structure.
@@ -166,28 +168,36 @@ class Listing extends AppModel {
      * @return array
      */
     public function findThreaded($category_id, $term_id) {
-        $sql = <<<EOD
-        SELECT
-            Category.id, Category.name,
-            Listing.id, Listing.name, Listing.code, Listing.parent_id, Listing.category_id, Listing.inactive, Listing.invert_sorting, Listing.dynamic_view,
-            Children1.id, Children1.parent_id, Children1.name, Children1.code, Children1.parent_id, Children1.inactive, Children1.invert_sorting, Children1.dynamic_view,
-            Children2.id, Children2.parent_id, Children2.name, Children2.code, Children2.parent_id, Children2.inactive, Children2.invert_sorting, Children2.dynamic_view
-        FROM
-            categories Category
-            INNER JOIN listings Listing ON (Category.id = Listing.category_id)
-            LEFT OUTER JOIN listings Children1 ON (Listing.id = Children1.parent_id)
-            LEFT OUTER JOIN listings Children2 ON (Children1.id = Children2.parent_id)
-        WHERE
-            Category.id = ? AND Listing.term_id = ?
-            AND
-            Listing.parent_id IS NULL
-        ORDER BY
-            Listing.ordering ASC,
-            Children1.ordering ASC,
-            Children2.ordering ASC;
-EOD;
+        $params = array($category_id);
 
-        $rows = $this->query($sql, array($category_id, $term_id));
+        if ($term_id != null) {
+            array_push($params, $term_id);
+        }
+
+        $sql = '';
+        $sql .= ' SELECT';
+        $sql .= '    Category.id, Category.name,';
+        $sql .= '    Listing.id, Listing.name, Listing.code, Listing.parent_id, Listing.category_id, Listing.inactive, Listing.invert_sorting, Listing.dynamic_view,';
+        $sql .= '    Children1.id, Children1.parent_id, Children1.name, Children1.code, Children1.inactive, Children1.invert_sorting, Children1.dynamic_view,';
+        $sql .= '    Children2.id, Children2.parent_id, Children2.name, Children2.code, Children2.inactive, Children2.invert_sorting, Children2.dynamic_view';
+
+        $sql .= ' FROM';
+        $sql .= '    categories Category';
+        $sql .= '    INNER JOIN listings Listing ON (Category.id = Listing.category_id)';
+        $sql .= '    LEFT OUTER JOIN listings Children1 ON (Listing.id = Children1.parent_id)';
+        $sql .= '    LEFT OUTER JOIN listings Children2 ON (Children1.id = Children2.parent_id)';
+
+        $sql .= ' WHERE';
+        $sql .= '    Category.id = ?' . (($term_id != null) ? ' AND Listing.term_id = ?' : '');
+        $sql .= '    AND';
+        $sql .= '    Listing.parent_id IS NULL';
+
+        $sql .= ' ORDER BY';
+        $sql .= '    Listing.ordering ASC,';
+        $sql .= '    Children1.ordering ASC,';
+        $sql .= '    Children2.ordering ASC;';
+
+        $rows = $this->query($sql, $params);
 
         // We use a hashing method for nesting
         $nestedArray = array();
@@ -204,6 +214,138 @@ EOD;
             }
             if ($row['Children2']['id'] !== null) {
                 $nestedArray['Listing'][$row['Listing']['id']]['Children1'][$row['Children1']['id']]['Children2'][$row['Children2']['id']] = $row['Children2'];
+            }
+        }
+        return $nestedArray;
+    }
+
+    /**
+     * Returns an array of all children ids, which is useful to query subtrees.
+     * This tree is limited to the depth of 2.
+     *
+     * @param $parentId
+     * @return mixed
+     */
+    public function findChildIds($parentId) {
+        $sql = '';
+        $sql .= ' SELECT Listing.id, Children1.id, Children2.id';
+        $sql .= ' FROM listings Listing';
+        $sql .= '   LEFT OUTER JOIN listings Children1 ON (Listing.id = Children1.parent_id)';
+        $sql .= '   LEFT OUTER JOIN listings Children2 ON (Children1.id = Children2.parent_id)';
+        $sql .= ' WHERE Listing.id = ?';
+
+        $rows = $this->query($sql, array($parentId));
+        $rows = Hash::flatten($rows);
+
+        $ids = array();
+        foreach($rows as $colName => $childId) {
+            if ($childId != null) {
+                array_push($ids, $childId);
+            }
+        }
+        return $ids;
+    }
+
+    /**
+     * This query returns all video data down to the tree depth of 2
+     * this data is supposed to be used for the final output of the video
+     * rows.
+     *
+     * This query is really expensive but is compensated by Cakephps query caching
+     * and sorted indexes in the database for the video_date and ordering.
+     *
+     * @param $categoryId
+     * @param $termId
+     * @return array
+     */
+    public function findVideosGroupedByCategoryAndListing($categoryId, $termId) {
+        $params = array($categoryId);
+
+        if ($termId != null) {
+            array_push($params, $termId);
+        }
+
+        $sql = '';
+        $sql .= ' SELECT';
+        $sql .= '    Category.id, Category.name,';
+        $sql .= '    Listing.id, Listing.name, Listing.code, Listing.parent_id, Listing.category_id, Listing.inactive, Listing.invert_sorting, Listing.dynamic_view,';
+        $sql .= '    Listing_Video.id, Listing_Video.title, Listing_Video.subtitle, Listing_Video.speaker, Listing_Video.location, Listing_Video.description,';
+        $sql .= '    Listing_Video.thumbnail, Listing_Video.thumbnail_mime_type, Listing_Video.video_date,';
+        $sql .= '    Listing_VideoTypes.type_name, Listing_VideoTypes.url,';
+
+        $sql .= '    Children1.id, Children1.name, Children1.code, Children1.parent_id, Children1.inactive, Children1.invert_sorting, Children1.dynamic_view,';
+        $sql .= '    Children1_Video.id, Children1_Video.title, Children1_Video.subtitle, Children1_Video.speaker, Children1_Video.location, Children1_Video.description,';
+        $sql .= '    Children1_Video.thumbnail, Children1_Video.thumbnail_mime_type, Children1_Video.video_date,';
+        $sql .= '    Children1_VideoTypes.type_name, Children1_VideoTypes.url,';
+        
+        $sql .= '    Children2.id, Children2.name, Children2.code, Children2.parent_id, Children2.inactive, Children2.invert_sorting, Children2.dynamic_view,';
+        $sql .= '    Children2_Video.id, Children2_Video.title, Children2_Video.subtitle, Children2_Video.speaker, Children2_Video.location, Children2_Video.description,';
+        $sql .= '    Children2_Video.thumbnail, Children2_Video.thumbnail_mime_type, Children2_Video.video_date,';
+        $sql .= '    Children2_VideoTypes.type_name, Children2_VideoTypes.url';
+        
+        $sql .= ' FROM';
+        $sql .= '    categories Category';
+        $sql .= '    INNER JOIN listings Listing ON (Category.id = Listing.category_id)';
+        $sql .= '    LEFT OUTER JOIN videos Listing_Video ON (Listing.id = Listing_Video.listing_id)';
+        $sql .= '    LEFT OUTER JOIN videos_types Listing_VideoTypes ON (Listing_Video.id = Listing_VideoTypes.video_id)';
+        
+        $sql .= '    LEFT OUTER JOIN listings Children1 ON (Listing.id = Children1.parent_id)';
+        $sql .= '    LEFT OUTER JOIN videos Children1_Video ON (Children1.id = Children1_Video.listing_id)';
+        $sql .= '    LEFT OUTER JOIN videos_types Children1_VideoTypes ON (Children1_Video.id = Children1_VideoTypes.video_id)';
+        
+        $sql .= '    LEFT OUTER JOIN listings Children2 ON (Children1.id = Children2.parent_id)';
+        $sql .= '    LEFT OUTER JOIN videos Children2_Video ON (Children2.id = Children2_Video.listing_id)';
+        $sql .= '    LEFT OUTER JOIN videos_types Children2_VideoTypes ON (Children2_Video.id = Children2_VideoTypes.video_id)';
+
+        $sql .= ' WHERE';
+        $sql .= '    Category.id = ?' . (($termId != null) ? ' AND Listing.term_id = ?' : '');
+
+        $sql .= ' ORDER BY';
+        $sql .= '    Listing.ordering ASC,';
+        $sql .= '    Children1.ordering ASC,';
+        $sql .= '    Children2.ordering ASC,';
+        $sql .= '    Listing_Video.video_date DESC,';
+        $sql .= '    Children1_Video.video_date DESC,';
+        $sql .= '    Children2_Video.video_date DESC';
+
+        $rows = $this->query($sql, $params);
+
+        // We use a hashing method for nesting
+        $nestedArray = array();
+
+        foreach ($rows as $row) {
+            if (!isset($nestedArray['Category'])) {
+                $nestedArray['Category'] = $row['Category'];
+            }
+
+            if (!isset($nestedArray['Listing'][$row['Listing']['id']])) {
+                $nestedArray['Listing'][$row['Listing']['id']] = $row['Listing'];
+            }
+            if ($row['Listing_Video']['id'] !== null) {
+                $nestedArray['Listing'][$row['Listing']['id']]['Video'][$row['Listing_Video']['id']] = $row['Listing_Video'];
+            }
+            if ($row['Listing_VideoTypes']['type_name'] !== null) {
+                $nestedArray['Listing'][$row['Listing']['id']]['Video'][$row['Listing_Video']['id']][$row['Listing_VideoTypes']['type_name']] = $row['Listing_VideoTypes'];
+            }
+
+            if ($row['Children1']['id'] !== null) {
+                $nestedArray['Listing'][$row['Listing']['id']]['Children1'][$row['Children1']['id']] = $row['Children1'];
+            }
+            if ($row['Children1_Video']['id'] !== null) {
+                $nestedArray['Listing'][$row['Listing']['id']]['Children1'][$row['Children1']['id']]['Video'][$row['Children1_Video']['id']] = $row['Children1_Video'];
+            }
+            if ($row['Children1_VideoTypes']['type_name'] !== null) {
+                $nestedArray['Listing'][$row['Listing']['id']]['Children1'][$row['Children1']['id']]['Video'][$row['Children1_Video']['id']][$row['Children1_VideoTypes']['type_name']] = $row['Children1_VideoTypes'];
+            }
+
+            if ($row['Children2']['id'] !== null) {
+                $nestedArray['Listing'][$row['Listing']['id']]['Children1'][$row['Children1']['id']]['Children2'][$row['Children2']['id']] = $row['Children2'];
+            }
+            if ($row['Children2_Video']['id'] !== null) {
+                $nestedArray['Listing'][$row['Listing']['id']]['Children1'][$row['Children1']['id']]['Children2'][$row['Children2']['id']]['Video'][$row['Children2_Video']['id']] = $row['Children2_Video'];
+            }
+            if ($row['Children2_VideoTypes']['type_name'] !== null) {
+                $nestedArray['Listing'][$row['Listing']['id']]['Children1'][$row['Children1']['id']]['Children2'][$row['Children2']['id']]['Video'][$row['Children2_Video']['id']][$row['Children2_VideoTypes']['type_name']] = $row['Children2_VideoTypes'];
             }
         }
         return $nestedArray;
@@ -291,7 +433,7 @@ EOD;
         ),
         'Provider' => array(
             'className' => 'Provider',
-            'foreignKey' => 'provider_id',
+            'foreignKey' => 'provider_name',
             'conditions' => '',
             'fields' => '',
             'order' => ''
@@ -310,7 +452,7 @@ EOD;
             'dependent' => true,
             'conditions' => '',
             'fields' => '',
-            'order' => '',
+            'order' => array('IF((SELECT invert_sorting FROM listings WHERE listings.id = Video.listing_id) = 1, unix_timestamp(Video.video_date), -unix_timestamp(Video.video_date))'),
             'limit' => '',
             'offset' => '',
             'exclusive' => '',
