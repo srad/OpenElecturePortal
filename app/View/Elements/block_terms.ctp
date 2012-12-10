@@ -5,9 +5,9 @@
 
         <div class="triangle-right top">
             <?php
-            if ($this->params['controller'] == 'categories') {
+            if ($this->request->params['controller'] == 'categories') {
                 $term_switch = $this->Html->url(array('controller' => 'categories', 'action' => 'view', $category['Category']['id']));
-            } elseif ($this->params['controller'] == 'listings') {
+            } elseif ($this->request->params['controller'] == 'listings') {
                 $term_switch = $this->Html->url(array('controller' => 'listings', 'action' => 'view', $listing_id, $category['Category']['id']));
             }
             $term_switch .= '/';

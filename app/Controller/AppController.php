@@ -84,7 +84,7 @@ class AppController extends Controller {
     }
 
     public function isAuthorized($user) {
-        if (!empty($this->params['prefix']) && $this->params['prefix'] === 'admin') {
+        if (!empty($this->request->params['prefix']) && $this->request->params['prefix'] === 'admin') {
             // Assistants can access: listings, categories, terms controllers.
             if (($this->name == 'listings' || $this->name == 'categories' || $this->name == 'terms') && $this->isAssistant()) {
                 return true;

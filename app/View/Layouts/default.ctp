@@ -23,11 +23,11 @@
         <script>
         UFM = {};
         UFM.ep = {};
-        UFM.ep.controller = '<?php echo $this->params['controller'] ?>';
-        UFM.ep.action = '<?php echo $this->params['action'] ?>';
+        UFM.ep.controller = '<?php echo $this->request->params['controller'] ?>';
+        UFM.ep.action = '<?php echo $this->request->params['action'] ?>';
         UFM.ep.currentId = <?php echo ((isset($id)) ? $id : 'null'); ?>;
-        UFM.ep.here = '<?php echo rtrim($this->here, '/') . '/'; ?>';
-        UFM.ep.baseUrl = '<?php echo $this->base; ?>';
+        UFM.ep.here = '<?php echo rtrim($this->request->here, '/') . '/'; ?>';
+        UFM.ep.baseUrl = '<?php echo $this->request->base; ?>';
         </script>
 
         <!--[if lt IE 9]>

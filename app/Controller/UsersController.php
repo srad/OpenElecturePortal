@@ -12,7 +12,7 @@ class UsersController extends AppController {
         if ($this->isAdmin()) {
             $this->Auth->allow('*');
         }
-        $this->Auth->allow('login', 'logout');
+        $this->Auth->allow('login', 'logout', 'createAdminUser');
     }
 
     /**
@@ -130,7 +130,7 @@ class UsersController extends AppController {
         $this->redirect($this->Auth->logout());
     }
 
-    /*
+
     public function createAdminUser() {
         $this->User->create();
 
@@ -148,6 +148,6 @@ class UsersController extends AppController {
         debug($this->User->save());
         $this->redirect('/users/login');
     }
-    */
+
 
 }
