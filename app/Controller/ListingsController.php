@@ -7,8 +7,6 @@ App::uses('AppController', 'Controller');
  */
 class ListingsController extends AppController {
 
-    const MINUTES_UPDATE_CYCLE = 360;
-
     public $helpers = array('Listing');
 
     public function beforeFilter() {
@@ -77,11 +75,17 @@ class ListingsController extends AppController {
         if (!$this->Listing->exists()) {
             throw new NotFoundException(__('Ungültige Videoliste'));
         }
-        $this->Listing->recursive = 0;
-        $this->Listing->data = $this->Listing->read(array('Provider.name', 'Category.*', 'Listing.name', 'Listing.category_id', 'Listing.last_update', 'Listing.code'), $id);
 
-        if ($this->Listing->isUpdateRequired() && $this->Listing->hasValidVideoListId()) {
-            $this->Listing->updateVideos();
+        // Update all children
+        $childrenIds = $this->Listing->findChildIds($id);
+
+        $this->Listing->recursive = 0;
+        foreach($childrenIds as $pos => $listId) {
+            $this->Listing->data = $this->Listing->read(array('Provider.name', 'Category.*', 'Listing.name', 'Listing.category_id', 'Listing.last_update', 'Listing.code'), $listId);
+
+            if ($this->Listing->isUpdateRequired() && $this->Listing->hasValidVideoListId()) {
+                $this->Listing->updateVideos();
+            }
         }
 
         $this->Listing->Category->recursive = -1;
@@ -110,15 +114,15 @@ class ListingsController extends AppController {
 
             $saved = $this->Listing->save(array(
                 'Listing' => array(
-                    'name' => $this->request->data['name'],
-                    'category_id' => $this->request->data['category_id'],
-                    'code' => $this->request->data['code'],
-                    'dynamic_view' => $this->request->data['dynamic_view'],
-                    'inactive' => $this->request->data['inactive'],
+                    'name'           => $this->request->data['name'],
+                    'category_id'    => $this->request->data['category_id'],
+                    'code'           => $this->request->data['code'],
+                    'dynamic_view'   => $this->request->data['dynamic_view'],
+                    'inactive'       => $this->request->data['inactive'],
                     'invert_sorting' => $this->request->data['invert_sorting'],
-                    'provider_name' => (trim($this->request->data['provider_id']) === '') ? null : $this->request->data['provider_id'],
-                    'term_id' => (trim($this->request->data['term_id']) === '') ? null : $this->request->data['term_id'],
-                    'ordering' => $this->request->data['position']
+                    'provider_name'  => (trim($this->request->data['provider_id']) === '') ? null : $this->request->data['provider_id'],
+                    'term_id'        => (trim($this->request->data['term_id']) === '') ? null : $this->request->data['term_id'],
+                    'ordering'       => $this->request->data['position']
                 )
             ));
 
@@ -141,10 +145,10 @@ class ListingsController extends AppController {
             }
 
             if ($this->Listing->saveAll($this->request->data['Listing'])) {
-                $this->Session->setFlash(__('The Listing has been saved'));
+                $this->Session->setFlash(__('Die Liste wurde gespeichert'));
             }
             else {
-                $this->Session->setFlash(__('The Listing could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('Das Speichern der Liste ist fehlgeschlagen'));
             }
         }
         else {
