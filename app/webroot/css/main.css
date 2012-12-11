@@ -154,6 +154,12 @@ input.search-query {
   cursor: default !important;
   text-decoration: none !important;
 }
+.triangle-right-blue .ui-icon {
+  display: none;
+}
+.triangle-right-blue .ui-accordion-header a {
+  padding-left: 0;
+}
 .triangle-right-blue.top {
   background: #005eaa;
 }
@@ -209,9 +215,6 @@ div.sidebar form select.span2 {
   background: -ms-linear-gradient(top,#ffffff 0%,#f6f6f6 47%,#ededed 100%);
   background: linear-gradient(to bottom,#ffffff 0%,#f6f6f6 47%,#ededed 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#ededed',GradientType=0);
-}
-.ui-accordion-header-active {
-  background: black;
 }
 .ui-accordion .ui-accordion-content,
 .ui-accordion .ui-accordion-icons {
@@ -355,4 +358,7 @@ ul.video-list {
 .cake-sql-log tr {
   border-bottom: 1px dotted black;
   padding: 3px 0px;
+}
+.ui-accordion .ui-accordion-header {
+  padding: 1px 13px 3px !important;
 }

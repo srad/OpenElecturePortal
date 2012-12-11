@@ -200,6 +200,8 @@ input.search-query {
         cursor: default !important;
         text-decoration: none !important;
     }
+    .ui-icon { display: none; }
+    .ui-accordion-header a { padding-left: 0; }
 }
 
 .triangle-right-blue.top {
@@ -266,10 +268,6 @@ div.sidebar form {
     background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(246, 246, 246, 1) 47%, rgba(237, 237, 237, 1) 100%);
     filter:progid:DXImageTransform.Microsoft.gradient
 (startColorstr = '#ffffff', endColorstr = '#ededed', GradientType = 0);
-}
-
-.ui-accordion-header-active {
-    background: black;
 }
 
 .ui-accordion {
@@ -434,4 +432,8 @@ ul.video-list {
 .cake-sql-log tr {
     border-bottom: 1px dotted black;
     padding: 3px 0px;
+}
+
+.ui-accordion .ui-accordion-header {
+    padding: 1px 13px 3px !important;
 }
