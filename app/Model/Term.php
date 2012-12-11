@@ -17,7 +17,7 @@ class Term extends AppModel {
 
         if (!$terms) {
             $terms = $this->find('list', array('order' => 'Term.id DESC'));
-            Cache::write('terms', $terms, 'longterm');
+            Cache::write('terms', $terms, 'long');
         }
 
         return $terms;

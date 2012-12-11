@@ -80,7 +80,7 @@ class AppController extends Controller {
                 'conditions' => array('Category.hide' => 0),
                 'order' => array('Category.ordering ASC')
             ));
-            Cache::write('categories', $categories, 'longterm');
+            Cache::write('categories', $categories, 'long');
         }
 
         $this->set(compact('categories'));

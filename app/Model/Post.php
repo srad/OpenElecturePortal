@@ -25,7 +25,7 @@ class Post extends AppModel {
                     )
                 )
             ));
-            Cache::write('links', $links, 'longterm');
+            Cache::write('links', $links, 'long');
         }
 
         return $links;
