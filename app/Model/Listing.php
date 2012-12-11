@@ -25,7 +25,9 @@ class Listing extends AppModel {
     private $httpVideoData;
 
     public function beforeSave($options = array()) {
-        $this->data[$this->name]['slug'] = Inflector::slug(strtolower($this->data[$this->name]['name']), '-');
+        if (isset($this->data[$this->name]['name'])) {
+            $this->data[$this->name]['slug'] = Inflector::slug(strtolower($this->data[$this->name]['name']), '-');
+        }
     }
 
     /**

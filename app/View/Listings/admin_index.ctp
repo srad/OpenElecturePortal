@@ -84,24 +84,26 @@ ul#listings li ul li label.dynamic-view {
         <?php echo $this->Form->input('Listing.{{id}}.code', array('label' => false, 'value' => '{{code}}', 'div' => false, 'class' => 'span2 code')); ?>
 
         <span class="pull-right">
-        <label class="checkbox inactive">
-            <input type="checkbox" name="data[Listing][{{id}}][inactive]" {{inactive}} />
-            <?php echo __('Inactive?'); ?>
-        </label>&nbsp;&nbsp;
+            <span class="label {{provider_class}}">{{provider_name}}</span>
 
-        <label class="checkbox dynamic-view">
-            <input type="checkbox" name="data[Listing][{{id}}][dynamic_view]" {{dynamic_view}} />
-            <?php echo __('Dyn. Anz.?'); ?>
-        </label>&nbsp;&nbsp;
+            <label class="checkbox inactive">
+                <input type="checkbox" name="data[Listing][{{id}}][inactive]" {{inactive}} />
+                <?php echo __('Inactive?'); ?>
+            </label>&nbsp;&nbsp;
 
-        <label class="checkbox invert-sorting">
-            <input type="checkbox" name="data[Listing][{{id}}][invert_sorting]" {{invert_sorting}} />
-            <?php echo __('Sort. Aufstreig.?'); ?>
-        </label>&nbsp;&nbsp;
+            <label class="checkbox dynamic-view">
+                <input type="checkbox" name="data[Listing][{{id}}][dynamic_view]" {{dynamic_view}} />
+                <?php echo __('Dyn. Anz.?'); ?>
+            </label>&nbsp;&nbsp;
 
-        <!--<button class="btn-add btn btn-mini"><?php echo __('Hinzufügen'); ?></button>&nbsp;-->
-        <button class="btn-delete btn btn-mini btn-danger"><?php echo __('Löschen'); ?></button>
-    </span>
+            <label class="checkbox invert-sorting">
+                <input type="checkbox" name="data[Listing][{{id}}][invert_sorting]" {{invert_sorting}} />
+                <?php echo __('Sort. Aufstreig.?'); ?>
+            </label>&nbsp;&nbsp;
+
+            <!--<button class="btn-add btn btn-mini"><?php echo __('Hinzufügen'); ?></button>&nbsp;-->
+            <button class="btn-delete btn btn-mini btn-danger"><?php echo __('Löschen'); ?></button>
+        </span>
     </div>
 </li>
 </script>
@@ -291,7 +293,8 @@ $(function () {
                         $(data).each(function () {
                             var $attachToElement,
                                 className,
-                                html;
+                                html,
+                                providerClass = ((this.Provider.name === 'vilea') ? 'label-warning' : 'label-info');
 
                             if (this.Listing.parent_id === null) {
                                 className = 'parent-item item';
@@ -302,6 +305,7 @@ $(function () {
                                     name: this.Listing.name,
                                     code: this.Listing.code,
                                     provider_name: this.Provider.name,
+                                    provider_class: providerClass,
                                     inactive: (this.Listing.inactive) ? 'checked' : '',
                                     dynamic_view: (this.Listing.dynamic_view) ? 'checked' : '',
                                     invert_sorting: (this.Listing.invert_sorting) ? 'checked' : ''
@@ -319,6 +323,7 @@ $(function () {
                                         name: this.Listing.name,
                                         code: this.Listing.code,
                                         provider_name: this.Provider.name,
+                                        provider_class: providerClass,
                                         inactive: (this.Listing.inactive) ? 'checked' : '',
                                         dynamic_view: (this.Listing.dynamic_view) ? 'checked' : '',
                                         invert_sorting: (this.Listing.invert_sorting) ? 'checked' : ''
@@ -332,6 +337,7 @@ $(function () {
                                         id: this.Listing.id,
                                         name: this.Listing.name,
                                         code: this.Listing.code,
+                                        provider_class: providerClass,
                                         provider_name: this.Provider.name,
                                         inactive: (this.Listing.inactive) ? 'checked' : '',
                                         dynamic_view: (this.Listing.dynamic_view) ? 'checked' : '',

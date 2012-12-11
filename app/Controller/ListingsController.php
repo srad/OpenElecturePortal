@@ -53,6 +53,9 @@ class ListingsController extends AppController {
             $position = 0;
             foreach ($this->request->data['listing'] as $id => $parentId) {
                 $this->Listing->id = $id;
+                if ($parentId === 'null') {
+                    $parentId = null;
+                }
                 $this->Listing->set(array('Listing' => array('parent_id' => $parentId, 'ordering' => $position)));
                 $this->Listing->save();
                 $position += 1;
