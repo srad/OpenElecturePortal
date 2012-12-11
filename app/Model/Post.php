@@ -12,16 +12,23 @@ class Post extends AppModel {
     }
 
     public function findLinks() {
-        return $this->find('all', array(
-            'recursive'  => -1,
-            'fields'     => array('Post.id', 'Post.title', 'Post.slug'),
-            'conditions' => array(
-                'AND' => array(
-                    'Post.publish'   => 1,
-                    'Post.show_link' => 1
+        $links = Cache::read('links', 'long');
+
+        if (!$links) {
+            $links = $this->find('all', array(
+                'recursive'  => -1,
+                'fields'     => array('Post.id', 'Post.title', 'Post.slug'),
+                'conditions' => array(
+                    'AND' => array(
+                        'Post.publish'   => 1,
+                        'Post.show_link' => 1
+                    )
                 )
-            )
-        ));
+            ));
+            Cache::write('links', $links, 'longterm');
+        }
+
+        return $links;
     }
 
     /**
@@ -71,8 +78,6 @@ class Post extends AppModel {
             ),
         ),
     );
-
-    //The Associations below have been created with all possible keys, those that are not needed can be removed
 
     /**
      * belongsTo associations

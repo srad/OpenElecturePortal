@@ -30,7 +30,7 @@ class VideosController extends AppController {
             'fields' => array('Video.*'),
             'recursive' => 1,
             'order' => array('Video.video_date DESC'),
-            'limit' => 3
+            'limit' => 3,
         ));
 
         $this->set(compact('links', 'videos'));
@@ -68,7 +68,7 @@ class VideosController extends AppController {
 
                     $videos = $this->Video->find('all', array(
                         'recursive' => 0,
-                        'fields' => array('Listing.name', 'Listing.id', 'Video.*'),
+                        'fields' => array('Listing.name', 'Listing.id', 'Listing.thumbnail_url', 'Video.*'),
                         'order' => array('Video.video_date' => 'DESC'),
                         'limit' => 20,
                         'conditions' => array('OR' => $terms)

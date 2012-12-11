@@ -38,7 +38,7 @@ class ListingsController extends AppController {
         }
 
         $providers = $this->Listing->Provider->find('list');
-        $terms = $this->Listing->Term->find('list', array('order' => array('Term.ordering ASC')));
+        $terms = $this->Listing->Term->findTermsList();
 
         $this->set('title_for_layout', __('Übersicht'));
         $this->set(compact('providers', 'terms', 'listings'));
@@ -87,7 +87,7 @@ class ListingsController extends AppController {
         $this->Listing->Category->recursive = -1;
         $category = $this->Listing->Category->read(array('Category.name', 'Category.id'), $category_id);
 
-        $terms = $this->Listing->Term->find('list', array('order' => 'Term.id DESC'));
+        $terms = $this->Listing->Term->findTermsList();
 
         $this->loadModel('Post');
         $links = $this->Post->findLinks();

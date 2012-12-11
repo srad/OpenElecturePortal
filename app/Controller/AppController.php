@@ -49,21 +49,41 @@ class AppController extends Controller {
     );
 
     public function beforeFilter() {
-        if ($this->name !== 'Categories') {
-            $this->loadModel('Category');
-        }
-        $categories = $this->Category->find('list', array(
-            'fields' => array('Category.id', 'Category.name'),
-            'conditions' => array('Category.hide' => 0),
-            'order' => array('Category.ordering ASC')
-        ));
-        $this->set(compact('categories'));
+        $this->setCategories();
+        $this->setAuthVars();
+        $this->set('debugMode', Configure::read('debug'));
+        $this->loadLESS();
+    }
 
+    /**
+     * Anything authentication related variables for the view are set here.
+     */
+    private function setAuthVars() {
         $this->set('loggedIn', $this->Auth->loggedIn());
         $this->set('group', $this->Auth->user('Group.name'));
         $this->set('username', $this->Auth->user('name'));
+    }
 
-        $this->loadLESS();
+    /**
+     * Sets the variables to render the navigation bar.
+     * We cache the categories because they change very rarely.
+     */
+    private function setCategories() {
+        if ($this->name !== 'Categories') {
+            $this->loadModel('Category');
+        }
+
+        $categories = Cache::read('categories', 'long');
+        if (!$categories) {
+            $categories = $this->Category->find('list', array(
+                'fields' => array('Category.id', 'Category.name'),
+                'conditions' => array('Category.hide' => 0),
+                'order' => array('Category.ordering ASC')
+            ));
+            Cache::write('categories', $categories, 'longterm');
+        }
+
+        $this->set(compact('categories'));
     }
 
     public function loadLESS() {

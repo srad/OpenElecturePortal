@@ -27,7 +27,7 @@
                 <ul class="thumbnails">
                     <li class="span2">
                         <div class="thumbnail">
-                            <img alt="thumbnail" src="<?php echo $video['thumbnail_url']; ?>" />
+                            <img alt="thumbnail" src="<?php echo $video['Video']['thumbnail_url']; ?>" />
                         </div>
                     </li>
                 </ul>

@@ -71,7 +71,7 @@
             </div>
 
             <div class="row row-content">
-                <?php echo $this->element('navbar', (isset($categories) ? $categories : null)); ?>
+                <?php echo $this->element( 'navbar', (isset($categories) ? $categories : null), array('cache' => array('key' => 'nav_bar', 'config' => 'view_long')) ); ?>
 
                 <?php if($this->Session->check('Message.flash')): ?>
                 <div class="alert alert-info span11" style="margin-bottom: 20px">
@@ -83,9 +83,11 @@
                 <?php echo $this->fetch('content'); ?>
             </div>
 
+            <?php if ($debugMode == 2): ?>
             <div class="hero-unit">
                 <?php echo $this->element('sql_dump'); ?>
             </div>
+            <?php endif; ?>
 
         </div>
 

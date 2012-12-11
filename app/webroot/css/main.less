@@ -1,3 +1,7 @@
+/**************************************************************
+ * LESS Functions
+ **************************************************************/
+
 .rotate(@deg) {
     -webkit-transform: rotate(@deg);
     -moz-transform: rotate(@deg) !important;
@@ -18,6 +22,10 @@
     -ms-transform: scale(@factor);
     -o-transform: scale(@factor);
 }
+
+/**************************************************************
+ * Base Style
+ **************************************************************/
 
 body {
     background: #666666;
@@ -40,6 +48,17 @@ h1 {
     letter-spacing: 0;
     margin-bottom: 25px;
     margin-top: 0px;
+}
+
+hr {
+    border: 1px dotted white;
+    margin: 10px 0;
+}
+
+h2, h3, h4, h5 {
+    color: #25172c;
+    font-family: Georgia, serif;
+    font-weight: normal;
 }
 
 html {
@@ -116,17 +135,6 @@ legend {
         margin-bottom: 25px;
         margin-top: 0px;
     }
-}
-
-hr {
-    border: 1px dotted white;
-    margin: 10px 0;
-}
-
-h2, h3, h4, h5 {
-    color: #25172c;
-    font-family: Georgia, serif;
-    font-weight: normal;
 }
 
 input.search-query {
@@ -410,6 +418,10 @@ ul.video-list {
     margin: 0;
 }
 
+/**************************************************************
+ * CakePhp component classes
+ **************************************************************/
+
 .error-message {
     background-color: lavenderblush;
     border: 1px solid silver;
@@ -417,4 +429,9 @@ ul.video-list {
     margin-bottom: 10px;
     margin-top: -5px;
     padding: 0 10px;
+}
+
+.cake-sql-log tr {
+    border-bottom: 1px dotted black;
+    padding: 3px 0px;
 }

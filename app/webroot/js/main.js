@@ -8,13 +8,6 @@ $(function () {
         active: 'span.selected'
     });
 
-    $('.sidebar .accordion-header').click(function (event) {
-        if ($(this).hasClass('disabled')) {
-            event.stopPropagation();
-            return false;
-        }
-    });
-
     $('.sidebar .accordion-header a').click(function (event) {
         var $this = $(this),
             href = $this.attr('href');
@@ -71,7 +64,7 @@ $(function () {
                 }
             });
         },
-        minLength: 2,
+        minLength: 3,
         select: function( event, ui ) {
             log( ui.item ?
                 "Selected: " + ui.item.label :

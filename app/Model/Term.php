@@ -9,13 +9,18 @@ class Term extends AppModel {
 
     public $displayField = 'name';
 
-    public function findLatestTerm() {
-        return $this->find('first', array(
-            'order' => array(
-                'Term.ordering' => 'DESC',
-                'Term.id' => 'DESC'
-            )
-        ));
+    /**
+     * Notice it uses caching. Terms only change once a term.
+     */
+    public function findTermsList() {
+        $terms = Cache::read('terms', 'long');
+
+        if (!$terms) {
+            $terms = $this->find('list', array('order' => 'Term.id DESC'));
+            Cache::write('terms', $terms, 'longterm');
+        }
+
+        return $terms;
     }
 
     /**

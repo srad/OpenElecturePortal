@@ -19,6 +19,18 @@ h1 {
   margin-bottom: 25px;
   margin-top: 0px;
 }
+hr {
+  border: 1px dotted white;
+  margin: 10px 0;
+}
+h2,
+h3,
+h4,
+h5 {
+  color: #25172c;
+  font-family: Georgia, serif;
+  font-weight: normal;
+}
 html {
   color: #333333;
   font-family: Arial, sans-serif;
@@ -84,18 +96,6 @@ legend {
   line-height: 28px;
   margin-bottom: 25px;
   margin-top: 0px;
-}
-hr {
-  border: 1px dotted white;
-  margin: 10px 0;
-}
-h2,
-h3,
-h4,
-h5 {
-  color: #25172c;
-  font-family: Georgia, serif;
-  font-weight: normal;
 }
 input.search-query {
   padding-left: 5px;
@@ -351,4 +351,8 @@ ul.video-list {
   margin-bottom: 10px;
   margin-top: -5px;
   padding: 0 10px;
+}
+.cake-sql-log tr {
+  border-bottom: 1px dotted black;
+  padding: 3px 0px;
 }
