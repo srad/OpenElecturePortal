@@ -84,14 +84,11 @@ class Listing extends AppModel {
             else {
                 $this->Video->create();
 
-                $thumbnail = $this->getImageFromUrl($video['thumbnail']);
-
                 $this->Video->set(array(
                     'Video' => array(
                         'listing_id' => $this->id,
                         'title' => $video['title'],
-                        'thumbnail' => $thumbnail['image-data'],
-                        'thumbnail_mime_type' => $thumbnail['mime-type'],
+                        'thumbnail_url' => $video['thumbnail'],
                         'subtitle' => $video['subtitle'],
                         'speaker' => $video['speaker'],
                         'location' => $video['location'],
@@ -129,18 +126,6 @@ class Listing extends AppModel {
         }
 
         return $this->saveField('last_update', date('Y-m-d H:i:s'));
-    }
-
-    private function getImageFromUrl($url) {
-        $image = file_get_contents($url);
-
-        $image_info = getimagesize($url);
-        $mimeType = $image_info["mime"];
-
-        return array(
-            'image-data' => $image,
-            'mime-type' => $mimeType
-        );
     }
 
     protected function loadVideosViaHttp() {

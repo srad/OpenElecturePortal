@@ -27,7 +27,7 @@
                 <ul class="thumbnails">
                     <li class="span2">
                         <div class="thumbnail">
-                            <?php echo '<img src="data:' . $video['Video']['thumbnail_mime_type'] . ';base64,' . base64_encode($video['Video']['thumbnail']) . '" />'; ?>
+                            <img alt="thumbnail" src="<?php echo $video['thumbnail_url']; ?>" />
                         </div>
                     </li>
                 </ul>
