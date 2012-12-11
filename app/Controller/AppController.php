@@ -1,21 +1,4 @@
 <?php
-/**
- * Application level Controller
- * This file is application-wide controller file. You can put all
- * application-wide controller-related methods here.
- * PHP 5
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       app.Controller
- * @since         CakePHP(tm) v 0.2.9
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
- */
-
 App::uses('Controller', 'Controller');
 
 /**
@@ -69,11 +52,12 @@ class AppController extends Controller {
      * We cache the categories because they change very rarely.
      */
     private function setCategories() {
-        if ($this->name !== 'Categories') {
+        $categories = Cache::read('categories', 'long');
+
+        if ($this->name !== 'Categories' && !$categories) {
             $this->loadModel('Category');
         }
 
-        $categories = Cache::read('categories', 'long');
         if (!$categories) {
             $categories = $this->Category->find('list', array(
                 'fields' => array('Category.id', 'Category.name'),
@@ -103,6 +87,12 @@ class AppController extends Controller {
         }
     }
 
+    /**
+     * Callback for auth component.
+     *
+     * @param $user
+     * @return bool
+     */
     public function isAuthorized($user) {
         if (!empty($this->request->params['prefix']) && $this->request->params['prefix'] === 'admin') {
             // Assistants can access: listings, categories, terms controllers.

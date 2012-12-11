@@ -34,10 +34,10 @@
         <?php echo $this->Html->script('vendor/html5-3.6-respond-1.1.0.min'); ?>
         <![endif]-->
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.2.min.js"><\/script>')</script>
-        <?php echo $this->Html->css('jquery-ui-1.9.0.custom.min'); ?>
-        <?php echo $this->Html->script('vendor/jquery-ui-1.9.0.custom/js/jquery-ui-1.9.0.custom.min'); ?>
+        <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+
+        <?php echo $this->Html->css('jquery-ui-1.9.2.custom.min'); ?>
+        <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
 
         <?php echo $this->Html->script('vendor/bootstrap.min'); ?>
     </head>
@@ -91,7 +91,6 @@
 
         </div>
 
-        <?php echo $this->Html->script('vendor/less-1.3.0.min'); ?>
         <?php echo $this->Html->script('plugins.js'); ?>
         <?php echo $this->Html->script('main.js'); ?>
     </body>

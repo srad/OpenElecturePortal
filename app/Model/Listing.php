@@ -30,6 +30,36 @@ class Listing extends AppModel {
         }
     }
 
+    public function findThreadedListing($category_id = null, $term_id = null) {
+        return $this->find('threaded', array(
+            'recursive' => -1,
+            'conditions' => array('Listing.category_id' => $category_id, 'Listing.term_id' => $term_id),
+            'order' => array('Listing.ordering ASC')
+        ));
+    }
+
+    /**
+     * Searches the child ids for a given parent id. Queries the whole tree and nests them to a tree.
+     * @param $parentId
+     * @return array
+     */
+    public function findVideoTree($parentId) {
+        $childIds = $this->findChildIds($parentId);
+
+        $videos = $this->find('all', array(
+            'fields' => array('Listing.name', 'Listing.id', 'Listing.parent_id', 'Listing.dynamic_view'),
+            'recursive' => 2,
+            'conditions' => array('Listing.id' => $childIds)
+        ));
+
+        $videos = Hash::nest($videos, array(
+            'idPath' => '{n}.Listing.id',
+            'parentPath' => '{n}.Listing.parent_id'
+        ));
+
+        return $videos;
+    }
+
     /**
      * Determines based on the 'last_update' database field, if an
      * update is required by using the interval set in

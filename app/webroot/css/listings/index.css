@@ -1,0 +1,17 @@
+form.hero-unit{border:1px solid #b0c4de !important;border-radius:5px 5px 5px 5px !important;font-size:13px;margin-bottom:30px;padding:15px 30px 30px !important;}
+#formListing.form-inline div.inline-block{line-height:35px;}#formListing.form-inline div.inline-block label{margin-left:5px;margin-right:20px;}
+ul#listings.sortable{list-style:none;margin:0;}ul#listings.sortable div.form-inline{border:1px solid #b0c4de;border-radius:3px 3px 3px 3px;line-height:35px;margin:0 0 3px;padding:0 4px;background:#ffffff;background:-moz-linear-gradient(top, #ffffff 0%, #f6f6f6 47%, #ededed 100%);background:-webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(47%, #f6f6f6), color-stop(100%, #ededed));background:-webkit-linear-gradient(top, #ffffff 0%, #f6f6f6 47%, #ededed 100%);background:-o-linear-gradient(top, #ffffff 0%, #f6f6f6 47%, #ededed 100%);background:-ms-linear-gradient(top, #ffffff 0%, #f6f6f6 47%, #ededed 100%);background:linear-gradient(to bottom, #ffffff 0%, #f6f6f6 47%, #ededed 100%);}ul#listings.sortable div.form-inline .checkbox{font-size:12px;line-height:22px;margin-bottom:0;padding-left:0;vertical-align:middle;}
+ul#listings.sortable .ui-sortable-placeholder{display:inline-block;height:30px;width:100%;border:1px dashed #006400;background:#90ee90;}
+ul#listings.sortable li.item input{border:1px solid #d3d3d3;padding:3px;border-radius:2px;margin-right:5px;color:#696969;}
+ul#listings.sortable li *{margin-bottom:2px;}
+ul#listings.sortable li .parent-item form input.code{display:none !important;}
+ul#listings.sortable form.form-inline{margin:0;}
+ul#listings.sortable li.has-children .code{display:none;}
+ul#listings.sortable li.no-children .code{display:inline-block;}
+#listings.sortable ul *{list-style:decimal;}
+.mover{cursor:move;margin:2px 7px 2px 6px;}
+table.listing{background-color:white;}table.listing tbody tr td{vertical-align:middle;border-top:1px solid lightgray;line-height:20px;padding:2px 10px 2px 2px;}table.listing tbody tr td input.name,table.listing tbody tr td input .code{width:100%;}
+table.listing tbody tr td input{margin-bottom:0;padding:3px 4px;margin:0;}
+table.listing tbody tr td.center{text-align:center;}
+table.embedded-col{width:100%;border:none;margin:0;padding:0;}
+#formListing span.form-inline{display:inline-block;margin-top:26px;}

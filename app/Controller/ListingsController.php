@@ -68,7 +68,7 @@ class ListingsController extends AppController {
      * @param      $id
      * @param      $category_id
      * @param null $term_id
-     * @param null $slug
+     * @param null $slug Not used right now.
      * @throws NotFoundException
      */
     public function view($id, $category_id, $term_id = null, $slug = null) {
@@ -92,27 +92,8 @@ class ListingsController extends AppController {
         $this->loadModel('Post');
         $links = $this->Post->findLinks();
 
-        $categoryList = $this->Listing->find('threaded', array(
-            'recursive' => -1,
-            'conditions' => array('Listing.category_id' => $category_id, 'Listing.term_id' => $term_id),
-            'order' => array('Listing.ordering ASC')
-        ));
-
-        // Removed unused relations
-        $this->Listing->unbindModel(array('belongsTo' => array('Provider', 'Category', 'Term'), 'hasMany' => array('MediaSite', 'Vilea')));
-
-        $childIds = $this->Listing->findChildIds($id);
-
-        $videos = $this->Listing->find('all', array(
-            'fields' => array('Listing.name', 'Listing.id', 'Listing.parent_id', 'Listing.dynamic_view'),
-            'recursive' => 2,
-            'conditions' => array('Listing.id' => $childIds)
-        ));
-
-        $videos = Hash::nest($videos, array(
-            'idPath' => '{n}.Listing.id',
-            'parentPath' => '{n}.Listing.parent_id'
-        ));
+        $categoryList = $this->Listing->findThreadedListing($category_id, $term_id);
+        $videos = $this->Listing->findVideoTree($id);
 
         $title_for_layout = $this->Listing->data['Listing']['name'];
         $listing_id = $id;

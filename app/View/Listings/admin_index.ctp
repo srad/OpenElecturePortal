@@ -1,6 +1,6 @@
 <?php echo $this->Html->script('vendor/jquery.mjs.nestedSortable'); ?>
 <?php echo $this->Html->script('vendor/mustache'); ?>
-<link rel="stylesheet/less" type="text/css" href="<?php echo $this->request->base; ?>/css/listings/index.less">
+<?php echo $this->Html->css('listings/index'); ?>
 
 <div class="span11">
 

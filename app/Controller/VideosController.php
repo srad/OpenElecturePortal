@@ -68,7 +68,7 @@ class VideosController extends AppController {
 
                     $videos = $this->Video->find('all', array(
                         'recursive' => 0,
-                        'fields' => array('Listing.name', 'Listing.id', 'Listing.thumbnail_url', 'Video.*'),
+                        'fields' => array('Listing.name', 'Listing.id', 'Video.*'),
                         'order' => array('Video.video_date' => 'DESC'),
                         'limit' => 20,
                         'conditions' => array('OR' => $terms)
