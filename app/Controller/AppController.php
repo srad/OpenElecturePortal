@@ -54,11 +54,10 @@ class AppController extends Controller {
     private function setCategories() {
         $categories = Cache::read('categories', 'long');
 
-        if ($this->name !== 'Categories' && !$categories) {
-            $this->loadModel('Category');
-        }
-
         if (!$categories) {
+            if ($this->name !== 'Categories' && !$categories) {
+                $this->loadModel('Category');
+            }
             $categories = $this->Category->find('list', array(
                 'fields' => array('Category.id', 'Category.name'),
                 'conditions' => array('Category.hide' => 0),
