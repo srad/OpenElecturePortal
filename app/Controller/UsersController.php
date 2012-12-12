@@ -126,7 +126,6 @@ class UsersController extends AppController {
     }
 
     public function logout() {
-        debug($this->Auth->logout());
         $this->redirect($this->Auth->logout());
     }
 

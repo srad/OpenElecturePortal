@@ -41,7 +41,7 @@ class AppController extends Controller {
     /**
      * Anything authentication related variables for the view are set here.
      */
-    private function setAuthVars() {
+    public function setAuthVars() {
         $this->set('loggedIn', $this->Auth->loggedIn());
         $this->set('group', $this->Auth->user('Group.name'));
         $this->set('username', $this->Auth->user('name'));

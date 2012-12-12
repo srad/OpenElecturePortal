@@ -40,10 +40,6 @@ html {
 legend {
   margin-bottom: 10px;
 }
-.container {
-  margin-top: 0px;
-  margin-bottom: 30px;
-}
 .container .row-content {
   background: #d1d2d3;
 }
