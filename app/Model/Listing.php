@@ -11,7 +11,7 @@ App::uses('AppModel', 'Model');
  */
 class Listing extends AppModel {
 
-    const MINUTES_UPDATE_CYCLE = 360;
+    const MINUTES_UPDATE_CYCLE = 60;
 
     /**
      * Display field

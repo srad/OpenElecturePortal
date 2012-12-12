@@ -68,9 +68,10 @@ class VideosController extends AppController {
 
                     $videos = $this->Video->find('all', array(
                         'recursive' => 0,
-                        'fields' => array('Listing.name', 'Listing.id', 'Video.*'),
+                        'fields' => array('Listing.term_id', 'Listing.category_id', 'Listing.name', 'Listing.id', 'Video.*'),
                         'order' => array('Video.video_date' => 'DESC'),
                         'limit' => 20,
+                        'group' => array('Listing.id'),
                         'conditions' => array('OR' => $terms)
                     ));
 
@@ -80,7 +81,8 @@ class VideosController extends AppController {
                     $videos = $this->Video->find('all', array(
                         'fields' => array('Listing.name', 'Listing.id', 'Video.*'),
                         'order' => array('Video.video_date' => 'DESC'),
-                        'limit' => 300,
+                        'limit' => 50,
+                        'group' => array('Listing.id'),
                         'conditions' => array('OR' => $terms)
                     ));
                 }

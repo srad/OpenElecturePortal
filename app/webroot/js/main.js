@@ -47,7 +47,7 @@ $(function () {
 
     UFM.ep.highlightCurrentMenuItem();
 
-    $('#formSearch .search-query').autocomplete({
+    UFM.ep.$autocomplete = $('#formSearch .search-query').autocomplete({
         source: function( request, response ) {
             $.ajax({
                 type: 'POST',
@@ -58,24 +58,24 @@ $(function () {
                     response( $.map( data, function( item ) {
                         return {
                             label: (item.Listing.name + ' - ' + item.Video.title).substring(0, 55),
-                            value: item.Listing.id
+                            value: { id: item.Listing.id, termId: item.Listing.term_id, categoryId: item.Listing.category_id }
                         }
                     }));
                 }
             });
         },
         minLength: 3,
-        select: function( event, ui ) {
-            log( ui.item ?
-                "Selected: " + ui.item.label :
-                "Nothing selected, input was " + this.value);
-        },
         open: function() {
             $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
         },
         close: function() {
             $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+        },
+        select: function( event, ui ) {
+            window.location = UFM.ep.baseUrl + '/listings/view/' + ui.item.value.id + '/' + ui.item.value.categoryId + '/' + ui.item.value.termId;
         }
     });
+
+    UFM.ep.$autocomplete.data('autocomplete').menu.element.css('min-width', '600px');
 
 });

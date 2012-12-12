@@ -1,95 +1,87 @@
-<div class="span9">
+<div id="listings" class="span9">
     <?php if (empty($videos)): ?>
         <div class="hero-unit"><?php echo __('Keine Videos.'); ?></div>
     <?php else: ?>
-        <?php $className = $isDynamicView ? 'dynamic-list' : ''; ?>
+        <?php
+        $className = '';
+        $tagType = 'ul';
+        if ($isDynamicView) {
+            $className = 'dynamic-list';
+            $tagType = 'div';
+        }
+        ?>
 
-        <ul class="video-list <?php echo $className; ?>">
+        <<?php echo $tagType; ?> class="video-list <?php echo $className; ?>">
             <?php
-            // Absolutely stupid, can't call here recursive function, todo: create a helper
+            // todo: create a helper with recursive call
             foreach ($videos as $video) {
-                echo '<li>' . $this->element('video_row', array('depth' => 0, 'videos' => $video)) . '</li>';
+                echo (($isDynamicView) ? '' : '<li>'). $this->element('video_row', array('depth' => 0, 'videos' => $video)) . (($isDynamicView) ? '' : '</li>');
 
-                echo '<ul>';
-                foreach ($video['children'] as $children) {
-                    echo '<li>' . $this->element('video_row', array('depth' => 1, 'videos' => $children)) . '</li>';
+                if (sizeof($video['children']) > 0) {
+                    echo '<'.$tagType.' class="child1  '.$className.'">';
+                    foreach ($video['children'] as $children) {
+                        echo (($isDynamicView) ? '' : '<li>') . $this->element('video_row', array('depth' => 1, 'videos' => $children)) . (($isDynamicView) ? '' : '</li>');
 
-                    echo '<ul>';
-                    foreach ($children['children'] as $children2) {
-                        echo '<li>' . $this->element('video_row', array('depth' => 2, 'videos' => $children2)) . '</li>';
+                        if (sizeof($children['children']) > 0) {
+                            echo '<'.$tagType.' class="child2 '.$className.'">';
+                            foreach ($children['children'] as $children2) {
+                                echo (($isDynamicView) ? '' : '<li>') . $this->element('video_row', array('depth' => 2, 'videos' => $children2)) . (($isDynamicView) ? '' : '</li>');
+                            }
+                            echo '</'.$tagType.'>';
+                        }
                     }
-                    echo '</ul>';
+                    echo '</'.$tagType.'>';
                 }
-                echo '</ul>';
             }
             ?>
-        </ul>
+        </<?php echo $tagType; ?>>
     <?php endif; ?>
 </div>
 
 <?php if ($isDynamicView): ?>
 <script>
-    (function($) {
-
-        var settings = {};
-
-        var methods = {
-            expand : function( options ) {
-                // THIS
-            },
-            collapse : function( ) {
-                // IS
-            },
-            toggle : function( ) {
-                // GOOD
-            }
-        };
-
-        $.fn.expandable = function(method, options) {
-            settings = $.extend({
-                'header-class'  : 'top',
-                'content-class' : 'blue'
-            }, options);
-
-            // Method calling logic
-            if ( methods[method] ) {
-                return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
-            } else if ( typeof method === 'object' || ! method ) {
-                return methods.init.apply( this, arguments );
-            } else {
-                $.error( 'Method ' +  method + ' does not exist on jQuery' );
-            }
-        };
-
-    })(jQuery);
-
-    $(function () {
-    });
+$(function () {
+    $('#listings .child1,#listings .child2').accordion({ heightStyle: 'content', collapsible: true });
+});
 </script>
-<?php endif; ?>
 
 <style>
-    .video-list .ui-accordion-header {
-        background: -moz-linear-gradient(center top, #FFFFFF 0%, #F6F6F6 47%, #EDEDED 100%) repeat scroll 0 0 transparent !important;
-        border: 1px solid lightsteelblue;
-        border-radius: 3px 3px 3px 3px;
-        cursor: pointer;
-        display: block;
-        margin-top: 2px;
-        padding: 9px !important;
-        position: relative;
-    }
+.video-list .ui-accordion-header {
+    background: #005eaa;
+    background: -moz-linear-gradient(top,  #005eaa 70%, #d1d2d3 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(70%,#005eaa), color-stop(100%,#d1d2d3));
+    background: -webkit-linear-gradient(top,  #005eaa 70%,#d1d2d3 100%);
+    background: -o-linear-gradient(top,  #005eaa 70%,#d1d2d3 100%);
+    background: -ms-linear-gradient(top,  #005eaa 70%,#d1d2d3 100%);
+    background: linear-gradient(to bottom,  #005eaa 70%,#d1d2d3 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#005eaa', endColorstr='#d1d2d3',GradientType=0 );
+    border: medium none;
+    border-radius: 2px 2px 0 0;
+    cursor: pointer;
+    display: block;
+    font-size: 16px;
+    margin-top: 2px;
+    padding: 7px 9px 15px !important;
+    position: relative;
+}
+.video-list div.child1 span.ui-accordion-header-icon,
+.video-list div.child2 span.ui-accordion-header-icon {
+    display: none;
+}
 
-    .video-list .ui-accordion-content {
-        background: none repeat scroll 0 0 gainsboro;
-        border-color: -moz-use-text-color lightsteelblue lightblue lightblue;
-        border-image: none;
-        border-style: none solid solid;
-        border-width: medium 1px 1px;
-        overflow: auto;
-        padding: 10px 15px !important;
-    }
+.video-list .ui-accordion-content {
+    background: none repeat scroll 0 0 gainsboro;
+    border-color: -moz-use-text-color lightsteelblue lightblue lightblue;
+    border-image: none;
+    border-style: none solid solid;
+    border-width: medium 1px 1px;
+    border-top:none;
+    overflow: auto;
+    padding: 10px 15px !important;
+    margin-bottom: 10px;
+}
 </style>
+<?php endif; ?>
 
 <div class="sidebar span3">
     <?php if (isset($terms)): ?>
