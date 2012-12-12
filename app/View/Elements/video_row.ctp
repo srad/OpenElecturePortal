@@ -11,7 +11,7 @@ else {
 }
 ?>
 
-<div class="video-content depth-<?php echo $depth; ?>">
+<div class="video-content">
     <?php foreach ($data as $video): ?>
 
     <?php
