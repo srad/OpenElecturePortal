@@ -41,22 +41,34 @@ class Listing extends AppModel {
 
     /**
      * Searches the child ids for a given parent id. Queries the whole tree and nests them to a tree.
+     *
+     * TODO: The ORM messes this query up by adding many duplicate SELECT statement. This must be rewritten.
+     *
      * @param $parentId
      * @return array
      */
     public function findVideoTree($parentId) {
         $childIds = $this->findChildIds($parentId);
 
-        $videos = $this->find('all', array(
-            'fields' => array('Listing.name', 'Listing.id', 'Listing.parent_id', 'Listing.dynamic_view'),
-            'recursive' => 2,
-            'conditions' => array('Listing.id' => $childIds)
-        ));
+        $cacheKey = 'video_tree_' . $parentId;
+        $videos = Cache::read($cacheKey, 'short');
 
-        $videos = Hash::nest($videos, array(
-            'idPath' => '{n}.Listing.id',
-            'parentPath' => '{n}.Listing.parent_id'
-        ));
+        // We write the video tree to the cache
+        // because the processing is pretty elaborate.
+        if (!$videos) {
+            $videos = $this->find('all', array(
+                'fields' => array('Listing.name', 'Listing.id', 'Listing.parent_id', 'Listing.dynamic_view'),
+                'conditions' => array('Listing.id' => $childIds),
+                'recursive' => 2
+            ));
+
+            $videos = Hash::nest($videos, array(
+                'idPath' => '{n}.Listing.id',
+                'parentPath' => '{n}.Listing.parent_id'
+            ));
+
+            Cache::write($cacheKey, $videos, 'short');
+        }
 
         return $videos;
     }

@@ -2,9 +2,7 @@
 
     <div class="hero-unit" style="padding-bottom: 30px;">
         <h1><?php echo __('Willkommen auf dem eLecture Portal <br />der Goethe-Universität'); ?></h1>
-        <br />
         <?php echo $this->Html->image('campus-westend-hz_small_low.jpg'); ?>
-        <br />
     </div>
 
     <?php foreach($posts as $post): ?>

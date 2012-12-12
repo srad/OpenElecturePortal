@@ -177,6 +177,9 @@ class ListingsController extends AppController {
                 throw new NotFoundException(__('Eintrag konnte nicht gelöscht werden'));
             }
         }
+        else {
+            throw new MethodNotAllowedException();
+        }
     }
 
 }
