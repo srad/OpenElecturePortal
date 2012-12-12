@@ -32,17 +32,26 @@ class Listing extends AppModel {
     }
 
     public function findThreadedListing($category_id = null, $term_id = null) {
-        return $this->find('threaded', array(
-            'recursive' => -1,
-            'conditions' => array('Listing.category_id' => $category_id, 'Listing.term_id' => $term_id),
-            'order' => array('Listing.ordering ASC')
-        ));
+        $cacheKey = 'threaded_list_'. $category_id .'_'. $term_id;
+
+        $list = Cache::read($cacheKey, 'short');
+
+        if (!$list) {
+            $list = $this->find('threaded', array(
+                'recursive' => -1,
+                'conditions' => array('Listing.category_id' => $category_id, 'Listing.term_id' => $term_id),
+                'order' => array('Listing.ordering ASC')
+            ));
+            Cache::write($cacheKey, $list, 'short');
+        }
+
+        return $list;
     }
 
     /**
      * Searches the child ids for a given parent id. Queries the whole tree and nests them to a tree.
      *
-     * TODO: The ORM messes this query up by adding many duplicate SELECT statement. This must be rewritten.
+     * TODO: The ORM messes this query up by adding many duplicate SELECT statements. This must be rewritten. But the cache lowers the pain a lot.
      *
      * @param $parentId
      * @return array
@@ -97,7 +106,7 @@ class Listing extends AppModel {
      * @return bool
      */
     public function hasValidVideoListId() {
-        return $this->data['Listing']['code'] !== null && $this->data['Listing']['code'] !== '';
+        return !empty($this->data['Listing']['code']);
     }
 
     /**
@@ -155,7 +164,7 @@ class Listing extends AppModel {
             // Build a list for the video type list
             // to save all video types at once for the many to many relationship.
             foreach ($formats as $formatId => $formatName) {
-                if ($video[$formatName] != null && $video[$formatName] != '') {
+                if (isset($video[$formatName]) && !empty($video[$formatName])) {
                     array_push($saves['Type'], array(
                         'type_name' => $formatName,
                         'url' => $video[$formatName]

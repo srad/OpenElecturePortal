@@ -40,6 +40,10 @@ html {
 legend {
   margin-bottom: 10px;
 }
+.container {
+  margin-top: 0px;
+  margin-bottom: 30px;
+}
 .container .row-content {
   background: #d1d2d3;
 }
@@ -365,4 +369,7 @@ ul.video-list {
 ul.static-list {
   list-style: none !important;
   margin: 0 !important;
+}
+div#listings {
+  margin-bottom: 60px;
 }

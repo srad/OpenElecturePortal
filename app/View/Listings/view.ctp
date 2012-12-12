@@ -37,8 +37,8 @@
         display: none;
     }
 
-    #listings  .depth-1 { margin-left: 20px; }
-    #listings  .depth-2 { margin-left: 40px; }
+    #listings .depth-1 { margin-left: 20px; }
+    #listings .depth-2 { margin-left: 40px; }
 
     #listings .container-videolist .video-content {
         background: none repeat scroll 0 0 gainsboro;
