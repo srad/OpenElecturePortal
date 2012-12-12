@@ -5,14 +5,17 @@
 
         <div class="triangle-right top">
             <?php
-            if ($this->request->params['controller'] == 'categories') {
-                $term_switch = $this->Html->url(array('controller' => 'categories', 'action' => 'view', $category['Category']['id']));
-            } elseif ($this->request->params['controller'] == 'listings') {
-                $term_switch = $this->Html->url(array('controller' => 'listings', 'action' => 'view', $listing_id, $category['Category']['id']));
-            }
-            $term_switch .= '/';
+            $termUrl = $this->Html->url(array('controller' => 'categories', 'action' => 'view', $category['Category']['id'])) . '/';
+
             echo $this->Form->create(array('id' => 'formSearch', 'class' => 'form'));
-            echo $this->Form->input('term_id', array('div' => false, 'class' => 'span2', 'default' => $term_id, 'onchange' => 'window.location=\'' . $term_switch . '\'+this.value', 'label' => false));
+            echo $this->Form->input('term_id', array(
+                    'div' => false,
+                    'class' => 'span2',
+                    'default' => $term_id,
+                    'onchange' => 'window.location=\'' . $termUrl . '\'+this.value',
+                    'label' => false
+                )
+            );
             echo $this->Form->end();
             ?>
         </div>
