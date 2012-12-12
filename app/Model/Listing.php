@@ -11,6 +11,7 @@ App::uses('AppModel', 'Model');
  */
 class Listing extends AppModel {
 
+    /** The amount if minutes between each update from the external video portals. */
     const MINUTES_UPDATE_CYCLE = 60;
 
     /**
@@ -238,7 +239,7 @@ class Listing extends AppModel {
 
     /**
      * Returns an array of all children ids, which is useful to query subtrees.
-     * This tree is limited to the depth of 2.
+     * This tree is limited to the depth of 2, the requirement doesn't need more.
      *
      * @param $parentId
      * @return mixed

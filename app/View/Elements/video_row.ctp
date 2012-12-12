@@ -1,16 +1,17 @@
 <?php if (isset($videos['Listing']['name'])): ?>
-    <h3 class="video-header"><?php echo $videos['Listing']['name']; ?></h3>
+    <h3 class="video-header depth-<?php echo $depth; ?>"><?php echo $videos['Listing']['name']; ?></h3>
 <?php endif; ?>
 
-<div class="video-content">
-    <?php
-    if (isset($videos['Video'])) {
-        $data = $videos['Video'];
-    }
-    else {
-        $data = $videos;
-    }
-    ?>
+<?php
+if (isset($videos['Video'])) {
+    $data = $videos['Video'];
+}
+else {
+    $data = $videos;
+}
+?>
+
+<div class="video-content depth-<?php echo $depth; ?>">
     <?php foreach ($data as $video): ?>
 
     <?php

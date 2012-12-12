@@ -362,3 +362,7 @@ ul.video-list {
 .ui-accordion .ui-accordion-header {
   padding: 1px 13px 3px !important;
 }
+ul.static-list {
+  list-style: none !important;
+  margin: 0 !important;
+}
