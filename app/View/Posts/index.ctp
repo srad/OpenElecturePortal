@@ -5,13 +5,13 @@
         <?php echo $this->Html->image('campus-westend-hz_small_low.jpg'); ?>
     </div>
 
-    <?php foreach($posts as $post): ?>
+    <?php foreach($posts as $listing): ?>
     <div class="hero-unit">
-        <h4><?php echo $post['Post']['title']; ?></h4>
-        <?php echo __('Erstellt am ') . date('d.m.Y', strtotime($post['Post']['created'])); ?>
+        <h4><?php echo $listing['Post']['title']; ?></h4>
+        <?php echo __('Erstellt am ') . date('d.m.Y', strtotime($listing['Post']['created'])); ?>
         <hr />
         <p class="content">
-            <?php echo $post['Post']['content']; ?>
+            <?php echo $listing['Post']['content']; ?>
         </p>
     </div>
     <?php endforeach; ?>

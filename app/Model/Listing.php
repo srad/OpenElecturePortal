@@ -66,7 +66,7 @@ class Listing extends AppModel {
         // because the processing is pretty elaborate.
         if (!$videos) {
             $videos = $this->find('all', array(
-                'fields' => array('Listing.name', 'Listing.id', 'Listing.parent_id', 'Listing.dynamic_view'),
+                'fields' => array('Listing.name', 'Listing.id', 'Listing.parent_id', 'Listing.dynamic_view', 'Listing.term_id', 'Listing.category_id'),
                 'conditions' => array('Listing.id' => $childIds),
                 'recursive' => 2
             ));

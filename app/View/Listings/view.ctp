@@ -37,8 +37,11 @@
         display: none;
     }
 
-    #listings .depth-1 { margin-left: 20px; }
-    #listings .depth-2 { margin-left: 40px; }
+    #listings .depth-1 { margin-left: 25px; }
+    #listings .depth-2 { margin-left: 50px; }
+
+    /* Prevent overflow */
+    #listings .depth-2 .span5 { max-width: 445px; }
 
     #listings .container-videolist .video-content {
         background: none repeat scroll 0 0 gainsboro;
@@ -50,6 +53,11 @@
         overflow: auto;
         padding: 10px 15px !important;
         margin-bottom: 10px;
+    }
+
+    .ui-accordion .ui-accordion-header {
+        border-radius: 3px 3px 3px 3px;
+        padding: 4px 13px 6px !important;
     }
     </style>
 <?php endif; ?>

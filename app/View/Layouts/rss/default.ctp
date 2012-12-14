@@ -1,4 +1,5 @@
 <?php
+
 if (!isset($channel)) {
 	$channel = array();
 }
@@ -11,4 +12,3 @@ echo $this->Rss->document(
 		array(), $channel, $this->fetch('content')
 	)
 );
-?>

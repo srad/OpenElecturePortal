@@ -359,13 +359,13 @@ ul.video-list {
   border-bottom: 1px dotted black;
   padding: 3px 0px;
 }
-.ui-accordion .ui-accordion-header {
-  padding: 1px 13px 3px !important;
-}
 ul.static-list {
   list-style: none !important;
   margin: 0 !important;
 }
 div#listings {
   margin-bottom: 60px;
+}
+.feed {
+  margin-bottom: 10px;
 }

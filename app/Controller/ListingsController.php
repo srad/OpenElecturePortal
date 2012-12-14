@@ -7,7 +7,9 @@ App::uses('AppController', 'Controller');
  */
 class ListingsController extends AppController {
 
-    public $helpers = array('Listing');
+    public $helpers = array('Listing', 'Text', 'Rss');
+
+    public $components = array('RequestHandler');
 
     public function beforeFilter() {
         parent::beforeFilter();
@@ -74,6 +76,23 @@ class ListingsController extends AppController {
 
         if (!$this->Listing->exists()) {
             throw new NotFoundException(__('Ungültige Videoliste'));
+        }
+
+        if ($this->RequestHandler->isRss() ) {
+
+            $listings = $this->Listing->find('first', array(
+                'recursive' => 1,
+                'conditions' => array('Listing.id' => $id)
+            ));
+
+            $channel = array(
+                'title' => $listings['Listing']['name'],
+                'link' => '/',
+                'description' => __('Neusten Videos'),
+                'language' => 'DE-de'
+            );
+
+            return $this->set(compact('listings', 'channel'));
         }
 
         // Update all children

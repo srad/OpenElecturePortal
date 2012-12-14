@@ -1,24 +1,36 @@
 <?php if (isset($videos['Listing']['name'])): ?>
-    <h3 class="video-header depth-<?php echo $depth; ?>"><?php echo $videos['Listing']['name']; ?></h3>
+<h3 class="video-header depth-<?php echo $depth; ?>">
+    <?php echo $videos['Listing']['name']; ?>
+</h3>
 <?php endif; ?>
 
-<?php
-if (isset($videos['Video'])) {
-    $data = $videos['Video'];
-}
-else {
-    $data = $videos;
-}
-?>
+<?php $data = isset($videos['Video']) ? $videos['Video'] : $videos; ?>
 
-<div class="video-content">
-    <?php foreach ($data as $video): ?>
+<div class="video-content <?php echo (isset($depth) ? 'depth-' . $depth : ''); ?>">
+    <?php if ((sizeof($data) > 0) && isset($videos['Listing'])): /* Skip this i.e. for search results. */ ?>
+    <div class="row feed">
+        <div class="pull-right">
+            <i class="icon-search icon-bookmark"></i>
+            <?php echo $this->Html->link(
+                __('Diese Veranstaltung abonnieren (rss)'),
+                array(
+                    'controller' => 'listings',
+                    'action' => 'view',
+                    $videos['Listing']['id'],
+                    $videos['Listing']['category_id'],
+                    $videos['Listing']['term_id'],
+                    'ext' => 'rss',
+                )
+            ); ?>
+        </div>
+    </div>
+    <?php endif; ?>
 
-    <?php
-    // Nest the video to have the same data structure as for "latest" videos
-    if (!isset($video['Video'])) {
-        $video['Video'] = $video;
-    }
+    <?php foreach ($data as $video):
+        // Nest the video to have the same data structure as for "latest" videos
+        if (!isset($video['Video'])) {
+            $video['Video'] = $video;
+        }
     ?>
     <div class="hero-unit video-row">
 
