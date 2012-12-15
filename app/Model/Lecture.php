@@ -11,9 +11,6 @@ App::uses('AppModel', 'Model');
  */
 class Lecture extends AppModel {
 
-    /** The amount if minutes between each update from the external video portals. */
-    const MINUTES_UPDATE_CYCLE = 60;
-
     /**
      * Display field
      *
@@ -86,7 +83,6 @@ class Lecture extends AppModel {
      * Determines based on the 'last_update' database field, if an
      * update is required by using the interval set in
      *
-     * @const {MINUTES_UPDATE_CYCLE}.
      * @return bool
      */
     public function isUpdateRequired() {
@@ -95,7 +91,7 @@ class Lecture extends AppModel {
         }
         else {
             $elapsedMinutesSinceLastUpdate = floor((time() - strtotime($this->data['Lecture']['last_update'])) / 60);
-            $update = $elapsedMinutesSinceLastUpdate > self::MINUTES_UPDATE_CYCLE;
+            $update = $elapsedMinutesSinceLastUpdate > Configure::read('Sync.Interval');
         }
         return $update;
     }

@@ -44,6 +44,7 @@ class MediaSite extends AbstractMedia {
         $this->createPostRequest();
 
         if (!isset($this->body->PresentationDetailsList)) {
+            CakeLog::write('error', 'MediaSite: ' . $this->body->Message);
             throw new Exception($this->body->Message);
         }
 
@@ -93,6 +94,7 @@ class MediaSite extends AbstractMedia {
         $fp = fsockopen(self::POST_HOST, 80, $errno, $errstr, 30);
 
         if (!$fp) {
+            CakeLog::write('error', $errstr);
             throw new Exception('Socket error: {$errstr} ({$errno}');
         }
         fwrite($fp, $this->getPostMessage());
@@ -113,6 +115,7 @@ class MediaSite extends AbstractMedia {
         $this->body = json_decode($this->body);
 
         if ($this->body === null) {
+            CakeLog::write('error', json_last_error());
             throw new Exception('JSON-Error (json_last_error): ' . json_last_error());
         }
     }
@@ -160,5 +163,3 @@ class MediaSite extends AbstractMedia {
         );
     }
 }
-
-?>

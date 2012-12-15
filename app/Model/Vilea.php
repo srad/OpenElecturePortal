@@ -19,16 +19,27 @@ class Vilea extends AbstractMedia {
      * @return array
      */
     public function fetch($id) {
+        $this->id = $id;
+
         $this->videoData = array(
             'data' => array(),
             'ids' => array()
         );
 
-        foreach ($this->getVideoHTMLChunk($id) as $videoHtml) {
-            $this->extractVideoData($videoHtml);
+        foreach ($this->getVideoHTMLChunk() as $videoHtml) {
+            // Some videos are somehow in the system but have incomplete
+            // Meta data. We must keep an eye on this.
+            try {
+                $this->extractVideoData($videoHtml);
 
-            $this->videoData['data'][$this->data['video_id']] = $this->data;
-            array_push($this->videoData['ids'], $this->data['video_id']);
+                $this->videoData['data'][$this->data['video_id']] = $this->data;
+                array_push($this->videoData['ids'], $this->data['video_id']);
+            }
+            catch(Exception $e) {
+                CakeLog::write('error', $e->getMessage());
+                CakeLog::write('error', 'Video-Daten unvollständig unter: ' . $this->getURL());
+                CakeLog::write('error', 'Datenblock der nicht vollständig geparsed werden konnte: '. $videoHtml);
+            }
         }
 
         return $this->videoData;
@@ -38,16 +49,24 @@ class Vilea extends AbstractMedia {
      * Fetches html content from the vilea website and
      * returns the raw html chunks for each video block.
      *
-     * @param $id
      * @return array
      */
-    private function getVideoHTMLChunk($id) {
-        $html = file_get_contents(self::PLS_BASE_URL . $id . '.js');
+    private function getVideoHTMLChunk() {
+        $html = file_get_contents($this->getURL());
 
         $elements = explode('<div class=\\"videoms_clip_box\\">', $html);
         array_shift($elements);
 
         return $elements;
+    }
+
+    /**
+     * Returns the URL for the raw video content.
+     *
+     * @return string
+     */
+    private function getURL() {
+        return self::PLS_BASE_URL . $this->id . '.js';
     }
 
     /**
@@ -79,8 +98,6 @@ class Vilea extends AbstractMedia {
         $this->data['location'] = ($finds > 0) ? trim($matches[3]) : '';
 
         $finds = preg_match('#((?s).*?)<li><span>(Datum|Date):<\\\/span>&nbsp;((?s).*?)<\\\/li>((?s).*?)#i', $html, $matches);
-        var_dump($matches);
-        var_dump(explode('<li', $html));
         $this->data['date'] = ($finds > 0) ? trim($matches[3]) : '';
 
         $dateTime = $this->getParsedTimestamp($this->data['date']);
@@ -108,6 +125,7 @@ class Vilea extends AbstractMedia {
 
         foreach ($listItems as $item) {
             preg_match('#((?s).*?)<a.*?href=\\\"((?s).*?)\\\".*?#i', $item, $matches);
+
 
             if (sizeof($matches) > 0) {
                 $match = $matches[2];
