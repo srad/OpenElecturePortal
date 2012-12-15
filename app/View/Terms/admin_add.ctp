@@ -14,7 +14,7 @@
 	<ul>
 
 		<li><?php echo $this->Html->link(__('List Terms'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Listings'), array('controller' => 'listings', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Listing'), array('controller' => 'listings', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Listings'), array('controller' => 'lectures', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Listing'), array('controller' => 'lectures', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

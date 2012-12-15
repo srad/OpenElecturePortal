@@ -79,6 +79,8 @@ class Vilea extends AbstractMedia {
         $this->data['location'] = ($finds > 0) ? trim($matches[3]) : '';
 
         $finds = preg_match('#((?s).*?)<li><span>(Datum|Date):<\\\/span>&nbsp;((?s).*?)<\\\/li>((?s).*?)#i', $html, $matches);
+        var_dump($matches);
+        var_dump(explode('<li', $html));
         $this->data['date'] = ($finds > 0) ? trim($matches[3]) : '';
 
         $dateTime = $this->getParsedTimestamp($this->data['date']);

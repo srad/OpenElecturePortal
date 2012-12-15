@@ -57,8 +57,8 @@ $(function () {
                 success: function(data) {
                     response( $.map( data, function( item ) {
                         return {
-                            label: (item.Listing.name + ' - ' + item.Video.title).substring(0, 55),
-                            value: { id: item.Listing.id, termId: item.Listing.term_id, categoryId: item.Listing.category_id }
+                            label: (item.Lecture.name + ' - ' + item.Video.title).substring(0, 55),
+                            value: { id: item.Lecture.id, termId: item.Lecture.term_id, categoryId: item.Lecture.category_id }
                         }
                     }));
                 }
@@ -72,7 +72,7 @@ $(function () {
             $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
         },
         select: function( event, ui ) {
-            window.location = UFM.ep.baseUrl + '/listings/view/' + ui.item.value.id + '/' + ui.item.value.categoryId + '/' + ui.item.value.termId;
+            window.location = UFM.ep.baseUrl + '/lectures/view/' + ui.item.value.id + '/' + ui.item.value.categoryId + '/' + ui.item.value.termId;
         }
     });
 

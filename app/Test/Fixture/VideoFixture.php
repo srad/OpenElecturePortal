@@ -12,7 +12,7 @@ class VideoFixture extends CakeTestFixture {
  */
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 20, 'key' => 'primary'),
-		'listing_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 20, 'key' => 'index'),
+		'lecture_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 20, 'key' => 'index'),
 		'video_id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 200, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'provider_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 20, 'key' => 'index'),
 		'title' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
@@ -25,8 +25,8 @@ class VideoFixture extends CakeTestFixture {
 		'updated' => array('type' => 'datetime', 'null' => false, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
-			'idx_unique_video_list_provider' => array('column' => array('listing_id', 'provider_id', 'video_id'), 'unique' => 1),
-			'fk_videos_list_idx' => array('column' => 'listing_id', 'unique' => 0),
+			'idx_unique_video_list_provider' => array('column' => array('lecture_id', 'provider_id', 'video_id'), 'unique' => 1),
+			'fk_videos_list_idx' => array('column' => 'lecture_id', 'unique' => 0),
 			'fk_videos_providers1_idx' => array('column' => 'provider_id', 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'InnoDB')
@@ -40,7 +40,7 @@ class VideoFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'listing_id' => 1,
+			'lecture_id' => 1,
 			'video_id' => 'Lorem ipsum dolor sit amet',
 			'provider_id' => 1,
 			'title' => 'Lorem ipsum dolor sit amet',

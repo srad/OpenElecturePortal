@@ -6,7 +6,7 @@
  * Time: 19:44
  * To change this template use File | Settings | File Templates.
  */
-class ListingHelper extends AppHelper {
+class LectureHelper extends AppHelper {
 
     public function renderIndex($videos) {
         $html = '<ol class="video-index">';

@@ -3,7 +3,7 @@ App::uses('AppModel', 'Model');
 /**
  * Video Model
  *
- * @property Listing $Listing
+ * @property Lecture $Lecture
  * @property Video $Video
  * @property Type $Type
  */
@@ -13,10 +13,10 @@ class Video extends AppModel {
         $this->query('DELETE FROM videos_types WHERE videos_types.video_id = ?', array($this->id));
     }
 
-    public function removeNotAnymoreExistentVideoIds($listingId, $videoIds) {
+    public function removeNotAnymoreExistentVideoIds($lectureId, $videoIds) {
         // Delete ids, which don't exist anymore
         $this->deleteAll(array(
-            'Video.listing_id' => $listingId,
+            'Video.lecture_id' => $lectureId,
             'NOT' => array('Video.video_id' => $videoIds)
         ), true);
     }
@@ -27,7 +27,7 @@ class Video extends AppModel {
      * @var array
      */
     public $validate = array(
-        'listing_id' => array(
+        'lecture_id' => array(
             'numeric' => array(
                 'rule' => array('numeric'),
                 //'message' => 'Your custom message here',
@@ -57,9 +57,9 @@ class Video extends AppModel {
      * @var array
      */
     public $belongsTo = array(
-        'Listing' => array(
-            'className' => 'Listing',
-            'foreignKey' => 'listing_id',
+        'Lecture' => array(
+            'className' => 'Lecture',
+            'foreignKey' => 'lecture_id',
             'conditions' => '',
             'fields' => '',
             'order' => ''

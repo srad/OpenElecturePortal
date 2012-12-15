@@ -3,7 +3,7 @@
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('listing_id'); ?></th>
+			<th><?php echo $this->Paginator->sort('lecture_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('video_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('title'); ?></th>
 			<th><?php echo $this->Paginator->sort('subtitle'); ?></th>
@@ -20,7 +20,7 @@
 	<tr>
 		<td><?php echo h($video['Video']['id']); ?>&nbsp;</td>
 		<td>
-			<?php echo $this->Html->link($video['Listing']['name'], array('controller' => 'listings', 'action' => 'view', $video['Listing']['id'])); ?>
+			<?php echo $this->Html->link($video['Lecture']['name'], array('controller' => 'lectures', 'action' => 'view', $video['Lecture']['id'])); ?>
 		</td>
 		<td>
 			<?php echo $this->Html->link($video['Video']['title'], array('controller' => 'videos', 'action' => 'view', $video['Video']['id'])); ?>
@@ -60,8 +60,8 @@
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
 		<li><?php echo $this->Html->link(__('New Video'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Listings'), array('controller' => 'listings', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Listing'), array('controller' => 'listings', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Listings'), array('controller' => 'lectures', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Listing'), array('controller' => 'lectures', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Videos'), array('controller' => 'videos', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Video'), array('controller' => 'videos', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Providers'), array('controller' => 'providers', 'action' => 'index')); ?> </li>

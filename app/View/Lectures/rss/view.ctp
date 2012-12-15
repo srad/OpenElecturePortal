@@ -1,15 +1,15 @@
 <?php
 App::uses('Sanitize', 'Utility');
 
-foreach ($listings['Video'] as $video) {
+foreach ($lectures['Video'] as $video) {
     $lastUpdate = strtotime($video['video_date']);
 
     $link = array(
-        'controller' => 'listings',
+        'controller' => 'lectures',
         'action' => 'view',
-        $listings['Listing']['id'],
-        $listings['Listing']['category_id'],
-        $listings['Listing']['term_id'],
+        $lectures['Lecture']['id'],
+        $lectures['Lecture']['category_id'],
+        $lectures['Lecture']['term_id'],
     );
 
     $bodyText = preg_replace('=\(.*?\)=is', '', $video['description']);

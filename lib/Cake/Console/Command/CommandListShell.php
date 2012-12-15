@@ -67,7 +67,7 @@ class CommandListShell extends AppShell {
 	}
 
 /**
- * Gets the shell command listing.
+ * Gets the shell command Lecture.
  *
  * @return array
  */

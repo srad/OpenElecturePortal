@@ -5,7 +5,7 @@ App::uses('AppModel', 'Model');
  * @email: saman.sr@gmail.com
  * @date: 29.10.12
  * @time: 21:01
- * @property Listing $Listing
+ * @property Lecture $Lecture
  */
 abstract class AbstractMedia extends AppModel {
 
@@ -54,9 +54,9 @@ abstract class AbstractMedia extends AppModel {
      * @var array
      */
     public $belongsTo = array(
-        'Listing' => array(
-            'className' => 'Listing',
-            'foreignKey' => 'listing_id',
+        'Lecture' => array(
+            'className' => 'Lecture',
+            'foreignKey' => 'lecture_id',
             'conditions' => '',
             'fields' => '',
             'order' => ''

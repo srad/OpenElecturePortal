@@ -11,12 +11,17 @@
                 <ul class="nav">
                     <li data-controller="posts" data-action="index" data-id="*"><?php echo $this->Html->link(__('Startseite'), '/startseite'); ?></li>
                     <li class="divider-vertical"></li>
+
+                    <li data-controller="lectures" data-action="overview" data-id="*"><?php echo $this->Html->link(__('Übersicht aller Veranstaltungen'), '/lectures/overview'); ?></li>
+                    <li class="divider-vertical"></li>
+
                     <?php if (isset($categories)): ?>
                     <?php foreach ($categories as $id => $category): ?>
-                        <li data-controller="categories||listings" data-action="*" data-id="<?php echo $id; ?>"><?php echo $this->Html->link($category, '/categories/view/' . $id); ?></li>
+                        <li data-controller="categories||lectures" data-action="*" data-id="<?php echo $id; ?>"><?php echo $this->Html->link($category, '/categories/view/' . $id); ?></li>
                     <?php endforeach; ?>
                     <li class="divider-vertical"></li>
                     <?php endif; ?>
+
                     <li data-controller="videos" data-action="latest" data-id="*"><?php echo $this->Html->link(__('Neuste Videos'), '/videos/latest'); ?></li>
                 </ul>
 
@@ -27,7 +32,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user icon-white"></i> <?php echo __('Administration'); ?> <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><?php echo $this->Html->link(__('Menüpunkte'), '/admin/listings'); ?></li>
+                            <li><?php echo $this->Html->link(__('Menüpunkte'), '/admin/lectures'); ?></li>
                             <li><?php echo $this->Html->link(__('Semester'), '/admin/terms'); ?></li>
                             <li><?php echo $this->Html->link(__('Kategorien'), '/admin/categories'); ?></li>
                             <?php if ($group == 'admin'): ?>

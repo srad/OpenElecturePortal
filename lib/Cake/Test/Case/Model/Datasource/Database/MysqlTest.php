@@ -2294,14 +2294,14 @@ class MysqlTest extends CakeTestCase {
 		$expected = " WHERE `TestModel`.`field` = 'gribe$@()lu'";
 		$this->assertEquals($expected, $result);
 
-		$conditions['NOT'] = array('Listing.expiration BETWEEN ? AND ?' => array("1", "100"));
+		$conditions['NOT'] = array('Lecture.expiration BETWEEN ? AND ?' => array("1", "100"));
 		$conditions[0]['OR'] = array(
-			"Listing.title LIKE" => "%term%",
-			"Listing.description LIKE" => "%term%"
+			"Lecture.title LIKE" => "%term%",
+			"Lecture.description LIKE" => "%term%"
 		);
 		$conditions[1]['OR'] = array(
-			"Listing.title LIKE" => "%term_2%",
-			"Listing.description LIKE" => "%term_2%"
+			"Lecture.title LIKE" => "%term_2%",
+			"Lecture.description LIKE" => "%term_2%"
 		);
 		$result = $this->Dbo->conditions($conditions);
 		$expected = " WHERE NOT (`Listing`.`expiration` BETWEEN '1' AND '100') AND" .
@@ -2360,7 +2360,7 @@ class MysqlTest extends CakeTestCase {
 		$expected = " WHERE `MysqlModel`.`id` IS NULL";
 		$this->assertEquals($expected, $result);
 
-		$result = $this->Dbo->conditions(array('Listing.beds >=' => 0));
+		$result = $this->Dbo->conditions(array('Lecture.beds >=' => 0));
 		$expected = " WHERE `Listing`.`beds` >= 0";
 		$this->assertEquals($expected, $result);
 

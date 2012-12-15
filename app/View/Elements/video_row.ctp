@@ -1,24 +1,24 @@
-<?php if (isset($videos['Listing']['name'])): ?>
+<?php if (isset($videos['Lecture']['name'])): ?>
 <h3 class="video-header depth-<?php echo $depth; ?>">
-    <?php echo $videos['Listing']['name']; ?>
+    <?php echo $videos['Lecture']['name']; ?>
 </h3>
 <?php endif; ?>
 
 <?php $data = isset($videos['Video']) ? $videos['Video'] : $videos; ?>
 
 <div class="video-content <?php echo (isset($depth) ? 'depth-' . $depth : ''); ?>">
-    <?php if ((sizeof($data) > 0) && isset($videos['Listing'])): /* Skip this i.e. for search results. */ ?>
+    <?php if ((sizeof($data) > 0) && isset($videos['Lecture'])): /* Skip this i.e. for search results. */ ?>
     <div class="row feed">
         <div class="pull-right">
             <i class="icon-search icon-bookmark"></i>
             <?php echo $this->Html->link(
                 __('Diese Veranstaltung abonnieren (rss)'),
                 array(
-                    'controller' => 'listings',
+                    'controller' => 'lectures',
                     'action' => 'view',
-                    $videos['Listing']['id'],
-                    $videos['Listing']['category_id'],
-                    $videos['Listing']['term_id'],
+                    $videos['Lecture']['id'],
+                    $videos['Lecture']['category_id'],
+                    $videos['Lecture']['term_id'],
                     'ext' => 'rss',
                 )
             ); ?>

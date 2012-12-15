@@ -3,7 +3,7 @@
 	<fieldset>
 		<legend><?php echo __('Add Video'); ?></legend>
 	<?php
-		echo $this->Form->input('listing_id');
+		echo $this->Form->input('lecture_id');
 		echo $this->Form->input('video_id');
 		echo $this->Form->input('title');
 		echo $this->Form->input('subtitle');
@@ -21,8 +21,8 @@
 	<ul>
 
 		<li><?php echo $this->Html->link(__('List Videos'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Listings'), array('controller' => 'listings', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Listing'), array('controller' => 'listings', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Listings'), array('controller' => 'lectures', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Listing'), array('controller' => 'lectures', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Videos'), array('controller' => 'videos', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Video'), array('controller' => 'videos', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Providers'), array('controller' => 'providers', 'action' => 'index')); ?> </li>

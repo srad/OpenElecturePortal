@@ -48,7 +48,7 @@
 		foreach ($type['Video'] as $video): ?>
 		<tr>
 			<td><?php echo $video['id']; ?></td>
-			<td><?php echo $video['listing_id']; ?></td>
+			<td><?php echo $video['lecture_id']; ?></td>
 			<td><?php echo $video['video_id']; ?></td>
 			<td><?php echo $video['provider_name']; ?></td>
 			<td><?php echo $video['title']; ?></td>

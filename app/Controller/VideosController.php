@@ -57,7 +57,7 @@ class VideosController extends AppController {
                                 'Video.description LIKE' => '%' . trim($term) . '%',
                                 'Video.subtitle LIKE' => '%' . trim($term) . '%',
                                 'Video.speaker LIKE' => '%' . trim($term) . '%',
-                                'Listing.name LIKE' => '%' . trim($term) . '%',
+                                'Lecture.name LIKE' => '%' . trim($term) . '%',
                             )
                         )
                     );
@@ -68,10 +68,10 @@ class VideosController extends AppController {
 
                     $videos = $this->Video->find('all', array(
                         'recursive' => 0,
-                        'fields' => array('Listing.term_id', 'Listing.category_id', 'Listing.name', 'Listing.id', 'Video.*'),
+                        'fields' => array('Lecture.term_id', 'Lecture.category_id', 'Lecture.name', 'Lecture.id', 'Video.*'),
                         'order' => array('Video.video_date' => 'DESC'),
                         'limit' => 20,
-                        'group' => array('Listing.id'),
+                        'group' => array('Lecture.id'),
                         'conditions' => array('OR' => $terms)
                     ));
 
@@ -79,10 +79,10 @@ class VideosController extends AppController {
                 }
                 else {
                     $videos = $this->Video->find('all', array(
-                        'fields' => array('Listing.name', 'Listing.id', 'Video.*'),
+                        'fields' => array('Lecture.name', 'Lecture.id', 'Video.*'),
                         'order' => array('Video.video_date' => 'DESC'),
                         'limit' => 50,
-                        'group' => array('Listing.id'),
+                        'group' => array('Lecture.id'),
                         'conditions' => array('OR' => $terms)
                     ));
                 }
@@ -125,9 +125,9 @@ class VideosController extends AppController {
                 $this->Session->setFlash(__('The video could not be saved. Please, try again.'));
             }
         }
-        $listings = $this->Video->Listing->find('list');
+        $lectures = $this->Video->Lecture->find('list');
         $types = $this->Video->Type->find('list');
-        $this->set(compact('listings', 'types'));
+        $this->set(compact('lectures', 'types'));
     }
 
     /**
@@ -154,9 +154,9 @@ class VideosController extends AppController {
         else {
             $this->request->data = $this->Video->read(null, $id);
         }
-        $listings = $this->Video->Listing->find('list');
+        $lectures = $this->Video->Lecture->find('list');
         $types = $this->Video->Type->find('list');
-        $this->set(compact('listings', 'types'));
+        $this->set(compact('lectures', 'types'));
     }
 
     /**

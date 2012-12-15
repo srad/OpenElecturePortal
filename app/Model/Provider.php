@@ -37,8 +37,8 @@ class Provider extends AppModel {
      * @var array
      */
     public $hasMany = array(
-        'Listing' => array(
-            'className'    => 'Listing',
+        'Lecture' => array(
+            'className'    => 'Lecture',
             'foreignKey'   => 'provider_name',
             'dependent'    => false,
             'conditions'   => '',

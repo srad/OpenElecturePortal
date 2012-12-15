@@ -6,9 +6,9 @@
 			<?php echo h($video['Video']['id']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Listing'); ?></dt>
+		<dt><?php echo __('Lecture'); ?></dt>
 		<dd>
-			<?php echo $this->Html->link($video['Listing']['name'], array('controller' => 'listings', 'action' => 'view', $video['Listing']['id'])); ?>
+			<?php echo $this->Html->link($video['Lecture']['name'], array('controller' => 'lectures', 'action' => 'view', $video['Lecture']['id'])); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Video'); ?></dt>
@@ -65,8 +65,8 @@
 		<li><?php echo $this->Form->postLink(__('Delete Video'), array('action' => 'delete', $video['Video']['id']), null, __('Are you sure you want to delete # %s?', $video['Video']['id'])); ?> </li>
 		<li><?php echo $this->Html->link(__('List Videos'), array('action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Video'), array('action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Listings'), array('controller' => 'listings', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Listing'), array('controller' => 'listings', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Listings'), array('controller' => 'lectures', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Listing'), array('controller' => 'lectures', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Videos'), array('controller' => 'videos', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Video'), array('controller' => 'videos', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Providers'), array('controller' => 'providers', 'action' => 'index')); ?> </li>
@@ -98,7 +98,7 @@
 		foreach ($video['Video'] as $video): ?>
 		<tr>
 			<td><?php echo $video['id']; ?></td>
-			<td><?php echo $video['listing_id']; ?></td>
+			<td><?php echo $video['lecture_id']; ?></td>
 			<td><?php echo $video['video_id']; ?></td>
 			<td><?php echo $video['title']; ?></td>
 			<td><?php echo $video['subtitle']; ?></td>

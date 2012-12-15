@@ -1,11 +1,11 @@
 <?php
-App::uses('ListingsController', 'Controller');
+App::uses('LecturesController', 'Controller');
 
 /**
- * ListingsController Test Case
+ * LecturesController Test Case
  *
  */
-class ListingsControllerTest extends ControllerTestCase {
+class LecturesControllerTest extends ControllerTestCase {
 
 /**
  * Fixtures

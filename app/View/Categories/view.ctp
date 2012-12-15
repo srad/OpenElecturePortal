@@ -8,7 +8,7 @@
     <?php echo $this->element('block_terms', array(
         'terms'      => (isset($terms) ? $terms : null),
         'category'   => $category,
-        'listing_id' => (isset($listing_id) ? $listing_id : null)
+        'lecture_id' => (isset($lecture_id) ? $lecture_id : null)
     )); ?>
     <?php echo $this->element('block_categories', $categoryList, $category); ?>
     <?php echo $this->element('block_links', $links); ?>

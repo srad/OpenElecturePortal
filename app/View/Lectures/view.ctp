@@ -2,7 +2,7 @@
     <?php if (empty($videos)): ?>
         <div class="hero-unit"><?php echo __('Keine Videos.'); ?></div>
     <?php else: ?>
-        <?php echo $this->Listing->renderVideoList($videos, $isDynamicView); ?>
+        <?php echo $this->Lecture->renderVideoList($videos, $isDynamicView); ?>
     <?php endif; ?>
 </div>
 
@@ -64,8 +64,8 @@
 
 <div class="sidebar span3">
     <?php if (isset($terms)): ?>
-    <?php echo $this->element('block_terms', array($terms, $category, $listing_id), array('cache' => array('key' => 'block_terms', 'config' => 'view_long'))); ?>
+    <?php echo $this->element('block_terms', array($terms, $category, $lecture_id), array('cache' => array('key' => 'block_terms', 'config' => 'view_long'))); ?>
     <?php endif; ?>
-    <?php echo $this->element('block_categories', array($categoryList, $category, isset($listing_id) ? $listing_id : null, (isset($term_id) ? $term_id : null))); ?>
+    <?php echo $this->element('block_categories', array($categoryList, $category, isset($lecture_id) ? $lecture_id : null, (isset($term_id) ? $term_id : null))); ?>
     <?php echo $this->element('block_links', array($links), array('cache' => array('key' => 'block_category', 'config' => 'view_long'))); ?>
 </div>

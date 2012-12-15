@@ -15,10 +15,9 @@ CREATE  TABLE IF NOT EXISTS `electure_portal`.`terms` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(100) NOT NULL ,
   `ordering` BIGINT NOT NULL DEFAULT 0 ,
-  PRIMARY KEY (`id`) )
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `idx_unique_name` (`name` ASC) )
 ENGINE = InnoDB;
-
-CREATE UNIQUE INDEX `idx_unique_name` ON `electure_portal`.`terms` (`name` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -32,10 +31,9 @@ CREATE  TABLE IF NOT EXISTS `electure_portal`.`categories` (
   `ordering` BIGINT NOT NULL DEFAULT 0 ,
   `hide` TINYINT(1) NOT NULL DEFAULT 0 ,
   `term_free` TINYINT(1) NOT NULL DEFAULT 0 ,
-  PRIMARY KEY (`id`) )
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `idx_unique_name` (`name` ASC) )
 ENGINE = InnoDB;
-
-CREATE UNIQUE INDEX `idx_unique_name` ON `electure_portal`.`categories` (`name` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -50,11 +48,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `electure_portal`.`listings`
+-- Table `electure_portal`.`Lectures`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `electure_portal`.`listings` ;
+DROP TABLE IF EXISTS `electure_portal`.`Lectures` ;
 
-CREATE  TABLE IF NOT EXISTS `electure_portal`.`listings` (
+CREATE  TABLE IF NOT EXISTS `electure_portal`.`Lectures` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(200) NOT NULL ,
   `slug` VARCHAR(200) NULL ,
@@ -74,6 +72,12 @@ CREATE  TABLE IF NOT EXISTS `electure_portal`.`listings` (
   `created` DATETIME NOT NULL ,
   `updated` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
+  INDEX `fk_lists_terms1_idx` (`term_id` ASC) ,
+  INDEX `fk_lists_categories1_idx` (`category_id` ASC) ,
+  INDEX `idx_ordering` (`ordering` ASC) ,
+  INDEX `idx_parent_id` (`parent_id` ASC) ,
+  INDEX `fk_listings_providers1_idx` (`provider_name` ASC) ,
+  INDEX `idx_category_term_ordering` (`category_id` ASC, `term_id` ASC, `ordering` ASC) ,
   CONSTRAINT `fk_lists_terms1`
     FOREIGN KEY (`term_id` )
     REFERENCES `electure_portal`.`terms` (`id` )
@@ -91,18 +95,6 @@ CREATE  TABLE IF NOT EXISTS `electure_portal`.`listings` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_lists_terms1_idx` ON `electure_portal`.`listings` (`term_id` ASC) ;
-
-CREATE INDEX `fk_lists_categories1_idx` ON `electure_portal`.`listings` (`category_id` ASC) ;
-
-CREATE INDEX `idx_ordering` ON `electure_portal`.`listings` (`ordering` ASC) ;
-
-CREATE INDEX `idx_parent_id` ON `electure_portal`.`listings` (`parent_id` ASC) ;
-
-CREATE INDEX `fk_listings_providers1_idx` ON `electure_portal`.`listings` (`provider_name` ASC) ;
-
-CREATE INDEX `idx_category_term_ordering` ON `electure_portal`.`listings` (`category_id` ASC, `term_id` ASC, `ordering` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `electure_portal`.`videos`
@@ -111,7 +103,7 @@ DROP TABLE IF EXISTS `electure_portal`.`videos` ;
 
 CREATE  TABLE IF NOT EXISTS `electure_portal`.`videos` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `listing_id` BIGINT UNSIGNED NOT NULL ,
+  `lecture_id` BIGINT UNSIGNED NOT NULL ,
   `video_id` VARCHAR(200) NOT NULL ,
   `title` VARCHAR(255) NULL ,
   `subtitle` VARCHAR(255) NULL ,
@@ -120,20 +112,16 @@ CREATE  TABLE IF NOT EXISTS `electure_portal`.`videos` (
   `description` VARCHAR(255) NULL ,
   `thumbnail_url` VARCHAR(255) NULL ,
   `video_date` DATETIME NOT NULL ,
-  `views` BIGINT NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`id`) ,
+  INDEX `fk_videos_list_idx` (`lecture_id` ASC) ,
+  UNIQUE INDEX `idx_unique_video_list_provider` (`lecture_id` ASC, `video_id` ASC) ,
+  INDEX `idx_video_date` (`video_date` DESC) ,
   CONSTRAINT `fk_videos_lists`
-    FOREIGN KEY (`listing_id` )
-    REFERENCES `electure_portal`.`listings` (`id` )
+    FOREIGN KEY (`lecture_id` )
+    REFERENCES `electure_portal`.`Lectures` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_videos_list_idx` ON `electure_portal`.`videos` (`listing_id` ASC) ;
-
-CREATE UNIQUE INDEX `idx_unique_video_list_provider` ON `electure_portal`.`videos` (`listing_id` ASC, `video_id` ASC) ;
-
-CREATE INDEX `idx_video_date` ON `electure_portal`.`videos` (`video_date` DESC) ;
 
 
 -- -----------------------------------------------------
@@ -143,10 +131,9 @@ DROP TABLE IF EXISTS `electure_portal`.`types` ;
 
 CREATE  TABLE IF NOT EXISTS `electure_portal`.`types` (
   `name` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`name`) )
+  PRIMARY KEY (`name`) ,
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC) )
 ENGINE = InnoDB;
-
-CREATE UNIQUE INDEX `name_UNIQUE` ON `electure_portal`.`types` (`name` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -160,6 +147,9 @@ CREATE  TABLE IF NOT EXISTS `electure_portal`.`videos_types` (
   `type_name` VARCHAR(45) NOT NULL ,
   `url` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`id`) ,
+  INDEX `fk_videos_types_videos1_idx` (`video_id` ASC) ,
+  UNIQUE INDEX `idx_unique_video_type` (`video_id` ASC, `type_name` ASC) ,
+  INDEX `fk_videos_types_types1_idx` (`type_name` ASC) ,
   CONSTRAINT `fk_videos_types_videos1`
     FOREIGN KEY (`video_id` )
     REFERENCES `electure_portal`.`videos` (`id` )
@@ -172,12 +162,6 @@ CREATE  TABLE IF NOT EXISTS `electure_portal`.`videos_types` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_videos_types_videos1_idx` ON `electure_portal`.`videos_types` (`video_id` ASC) ;
-
-CREATE UNIQUE INDEX `idx_unique_video_type` ON `electure_portal`.`videos_types` (`video_id` ASC, `type_name` ASC) ;
-
-CREATE INDEX `fk_videos_types_types1_idx` ON `electure_portal`.`videos_types` (`type_name` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `electure_portal`.`groups`
@@ -187,12 +171,10 @@ DROP TABLE IF EXISTS `electure_portal`.`groups` ;
 CREATE  TABLE IF NOT EXISTS `electure_portal`.`groups` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`id`) )
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC) ,
+  UNIQUE INDEX `idx_unique` (`name` ASC) )
 ENGINE = InnoDB;
-
-CREATE UNIQUE INDEX `name_UNIQUE` ON `electure_portal`.`groups` (`name` ASC) ;
-
-CREATE UNIQUE INDEX `idx_unique` ON `electure_portal`.`groups` (`name` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -211,16 +193,14 @@ CREATE  TABLE IF NOT EXISTS `electure_portal`.`users` (
   `last_login` DATETIME NULL ,
   `created` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `email_UNIQUE` (`username` ASC) ,
+  INDEX `fk_users_groups1_idx` (`group_id` ASC) ,
   CONSTRAINT `fk_users_groups1`
     FOREIGN KEY (`group_id` )
     REFERENCES `electure_portal`.`groups` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE UNIQUE INDEX `email_UNIQUE` ON `electure_portal`.`users` (`username` ASC) ;
-
-CREATE INDEX `fk_users_groups1_idx` ON `electure_portal`.`users` (`group_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -230,6 +210,7 @@ DROP TABLE IF EXISTS `electure_portal`.`logs` ;
 
 CREATE  TABLE IF NOT EXISTS `electure_portal`.`logs` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `type` VARCHAR(45) NOT NULL ,
   `message` TEXT NOT NULL ,
   `created` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) )
@@ -253,14 +234,13 @@ CREATE  TABLE IF NOT EXISTS `electure_portal`.`posts` (
   `show_link` TINYINT(1) NOT NULL DEFAULT 0 ,
   `show_frontpage` TINYINT(1) NOT NULL DEFAULT 1 ,
   PRIMARY KEY (`id`) ,
+  INDEX `fk_posts_users1_idx` (`user_id` ASC) ,
   CONSTRAINT `fk_posts_users1`
     FOREIGN KEY (`user_id` )
     REFERENCES `electure_portal`.`users` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_posts_users1_idx` ON `electure_portal`.`posts` (`user_id` ASC) ;
 
 
 

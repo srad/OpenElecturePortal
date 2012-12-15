@@ -4,7 +4,7 @@
 
 <div class="span11">
 
-    <?php echo $this->Form->create('Listing', array('action' => 'add', 'id' => 'formListing', 'class' => 'hero-unit')); ?>
+    <?php echo $this->Form->create('Lecture', array('action' => 'add', 'id' => 'formListing', 'class' => 'hero-unit')); ?>
         <legend><?php echo __('Veranstaltung Anlegen'); ?></legend>
         <p class="text-info"><?php echo __('Zum Filtern der Menüpunkte bitte Semester und Kategorie wählen'); ?></p>
 
@@ -48,7 +48,7 @@
         <input type="submit" class="btn btn-primary" value="<?php echo __('Speichern'); ?>"/>
     <?php echo $this->Form->end(); ?>
 
-    <?php echo $this->Form->create('listings', array('action' => 'edit', 'class' => 'form hero-unit', 'action' => 'edit')); ?>
+    <?php echo $this->Form->create('lectures', array('action' => 'edit', 'class' => 'form hero-unit', 'action' => 'edit')); ?>
     <fieldset>
 
         <legend>
@@ -79,9 +79,9 @@ ul#listings li ul li label.dynamic-view {
 <li class="{{className}}" id="listing_{{id}}">
     <div class="form-inline">
         <span class="mover icon-move"></span>
-        <?php echo $this->Form->hidden('Listing.{{id}}.id', array('label' => false, 'value' => '{{id}}', 'div' => false)); ?>
-        <?php echo $this->Form->input('Listing.{{id}}.name', array('label' => false, 'value' => '{{name}}', 'div' => false, 'class' => 'span4 name')); ?>
-        <?php echo $this->Form->input('Listing.{{id}}.code', array('label' => false, 'value' => '{{code}}', 'div' => false, 'class' => 'span2 code')); ?>
+        <?php echo $this->Form->hidden('Lecture.{{id}}.id', array('label' => false, 'value' => '{{id}}', 'div' => false)); ?>
+        <?php echo $this->Form->input('Lecture.{{id}}.name', array('label' => false, 'value' => '{{name}}', 'div' => false, 'class' => 'span4 name')); ?>
+        <?php echo $this->Form->input('Lecture.{{id}}.code', array('label' => false, 'value' => '{{code}}', 'div' => false, 'class' => 'span2 code')); ?>
 
         <span class="pull-right">
             <span class="label {{provider_class}}">{{provider_name}}</span>
@@ -296,37 +296,37 @@ $(function () {
                                 html,
                                 providerClass = ((this.Provider.name === 'vilea') ? 'label-warning' : 'label-info');
 
-                            if (this.Listing.parent_id === null) {
+                            if (this.Lecture.parent_id === null) {
                                 className = 'parent-item item';
 
                                 UFM.ep.listings.$root.append(Mustache.render(template, {
                                     className: className,
-                                    id: this.Listing.id,
-                                    name: this.Listing.name,
-                                    code: this.Listing.code,
+                                    id: this.Lecture.id,
+                                    name: this.Lecture.name,
+                                    code: this.Lecture.code,
                                     provider_name: this.Provider.name,
                                     provider_class: providerClass,
-                                    inactive: (this.Listing.inactive) ? 'checked' : '',
-                                    dynamic_view: (this.Listing.dynamic_view) ? 'checked' : '',
-                                    invert_sorting: (this.Listing.invert_sorting) ? 'checked' : ''
+                                    inactive: (this.Lecture.inactive) ? 'checked' : '',
+                                    dynamic_view: (this.Lecture.dynamic_view) ? 'checked' : '',
+                                    invert_sorting: (this.Lecture.invert_sorting) ? 'checked' : ''
                                 }));
                             }
                             else {
-                                $parent = $('#' + UFM.ep.listings.createElementId(this.Listing.parent_id));
+                                $parent = $('#' + UFM.ep.listings.createElementId(this.Lecture.parent_id));
 
                                 if ($parent.find('ul').length > 0) {
                                     className = 'child-item item depth-2';
 
                                     $parent.find('ul').append(Mustache.render(template, {
                                         className: className,
-                                        id: this.Listing.id,
-                                        name: this.Listing.name,
-                                        code: this.Listing.code,
+                                        id: this.Lecture.id,
+                                        name: this.Lecture.name,
+                                        code: this.Lecture.code,
                                         provider_name: this.Provider.name,
                                         provider_class: providerClass,
-                                        inactive: (this.Listing.inactive) ? 'checked' : '',
-                                        dynamic_view: (this.Listing.dynamic_view) ? 'checked' : '',
-                                        invert_sorting: (this.Listing.invert_sorting) ? 'checked' : ''
+                                        inactive: (this.Lecture.inactive) ? 'checked' : '',
+                                        dynamic_view: (this.Lecture.dynamic_view) ? 'checked' : '',
+                                        invert_sorting: (this.Lecture.invert_sorting) ? 'checked' : ''
                                     }));
                                 }
                                 else {
@@ -334,14 +334,14 @@ $(function () {
 
                                     $parent.append('<ul class="sublist child-item depth-1">' + Mustache.render(template, {
                                         className: className,
-                                        id: this.Listing.id,
-                                        name: this.Listing.name,
-                                        code: this.Listing.code,
+                                        id: this.Lecture.id,
+                                        name: this.Lecture.name,
+                                        code: this.Lecture.code,
                                         provider_class: providerClass,
                                         provider_name: this.Provider.name,
-                                        inactive: (this.Listing.inactive) ? 'checked' : '',
-                                        dynamic_view: (this.Listing.dynamic_view) ? 'checked' : '',
-                                        invert_sorting: (this.Listing.invert_sorting) ? 'checked' : ''
+                                        inactive: (this.Lecture.inactive) ? 'checked' : '',
+                                        dynamic_view: (this.Lecture.dynamic_view) ? 'checked' : '',
+                                        invert_sorting: (this.Lecture.invert_sorting) ? 'checked' : ''
                                     }) + '</ul>')
                                 }
                             }

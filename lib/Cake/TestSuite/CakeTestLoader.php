@@ -78,7 +78,7 @@ class CakeTestLoader extends PHPUnit_Runner_StandardTestSuiteLoader {
 	}
 
 /**
- * Get the list of files for the test listing.
+ * Get the list of files for the test Lecture.
  *
  * @return void
  */

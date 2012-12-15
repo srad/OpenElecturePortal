@@ -3,7 +3,7 @@ App::uses('AppModel', 'Model');
 /**
  * Category Model
  *
- * @property Listing $Listing
+ * @property Lecture $Lecture
  */
 class Category extends AppModel {
 
@@ -69,8 +69,8 @@ class Category extends AppModel {
      * @var array
      */
     public $hasMany = array(
-        'Listing' => array(
-            'className' => 'Listing',
+        'Lecture' => array(
+            'className' => 'Lecture',
             'foreignKey' => 'category_id',
             'dependent' => false,
             'conditions' => '',

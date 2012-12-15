@@ -1,5 +1,5 @@
 <?php
-App::uses('Listing', 'Model');
+App::uses('Lecture', 'Model');
 
 /**
  * Listing Test Case
@@ -28,7 +28,7 @@ class ListingTest extends CakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		$this->Listing = ClassRegistry::init('Listing');
+		$this->Listing = ClassRegistry::init('Lecture');
 	}
 
 /**

@@ -5,8 +5,8 @@
         <div class="triangle-right top">
             <?php
             if (isset($links) && (sizeof($links) > 0)) {
-                foreach ($links as $listing) {
-                    echo $this->Html->link($listing['Post']['title'], '/posts/view/' . $listing['Post']['id'] . '/' . $listing['Post']['slug']);
+                foreach ($links as $lecture) {
+                    echo $this->Html->link($lecture['Post']['title'], '/posts/view/' . $lecture['Post']['id'] . '/' . $lecture['Post']['slug']);
                 }
             }
             else {

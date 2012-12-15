@@ -2460,7 +2460,7 @@ class RouterTest extends CakeTestCase {
 			'requested' => 1,
 			'plugin' => null,
 			'controller' => 'comments',
-			'action' => 'listing'
+			'action' => 'Lecture'
 		))->addPaths(array('base' => ''));
 
 		Router::setRequestInfo($firstRequest);

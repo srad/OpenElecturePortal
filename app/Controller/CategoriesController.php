@@ -60,7 +60,7 @@ class CategoriesController extends AppController {
         $category = $this->Category->read(array('Category.*'), $id);
 
         if ($category['Category']['term_free'] == false) {
-            $terms = $this->Category->Listing->Term->find('list', array('order' => array('Term.ordering ASC')));
+            $terms = $this->Category->Lecture->Term->find('list', array('order' => array('Term.ordering ASC')));
             $this->set(compact('terms'));
 
             if ($term_id == null) {
@@ -73,10 +73,10 @@ class CategoriesController extends AppController {
         $this->loadModel('Post');
         $links = $this->Post->findLinks();
 
-        $categoryList = $this->Category->Listing->find('threaded', array(
+        $categoryList = $this->Category->Lecture->find('threaded', array(
             'recursive' => -1,
-            'conditions' => array('Listing.category_id' => $id, 'Listing.term_id' => $term_id),
-            'order' => array('Listing.ordering ASC')
+            'conditions' => array('Lecture.category_id' => $id, 'Lecture.term_id' => $term_id),
+            'order' => array('Lecture.ordering ASC')
         ));
 
         $title_for_layout = $category['Category']['name'];
