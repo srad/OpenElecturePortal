@@ -8,16 +8,20 @@
  */
 class LectureHelper extends AppHelper {
 
+    /**
+     * Creates an list which allows to jump to a video.
+     *
+     * @param $videos
+     * @return string
+     */
     public function renderIndex($videos) {
-        $html = '<ol class="video-index">';
+        $html = '<div class="video-index">';
 
         foreach($videos as $video) {
-            $html .= '<li><a href="#video_'.$video['id'].'">' . $video['title'] . '</a><li>';
+            $html .= '<li><a href="#video_'.$video['id'].'">' . $video['title'] . '</a></li>';
         }
 
-        $html .= '</ol>';
-
-        return $html;
+        return '<div class="video-index expandable"><a><i class="icon-plus"></i> '.__('Index').'</a><ol>' . $html . '</ol></div>';
     }
 
     /**
@@ -57,7 +61,7 @@ class LectureHelper extends AppHelper {
         }
 
         foreach ($videos as $video) {
-            $html .= (($isDynamicView) ? '' : '<li>').  $this->_View->element('video_row', array('depth' => $depth, 'videos' => $video)) . (($isDynamicView) ? '' : '</li>');
+            $html .= (($isDynamicView) ? '' : '<li>').  $this->_View->element('video_row', array('depth' => $depth, 'videos' => $video, 'renderIndex' => !$isDynamicView)) . (($isDynamicView) ? '' : '</li>');
 
             if (sizeof($video['children']) > 0) {
                 // Don't use pre-increment. It's ugly.

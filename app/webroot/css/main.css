@@ -367,5 +367,21 @@ div#listings {
   margin-bottom: 60px;
 }
 .feed {
+  display: table;
+  float: inherit;
   margin-bottom: 10px;
+  width: 100%;
+}
+.expandable a {
+  cursor: default !important;
+}
+.expandable ol {
+  background-color: #EEEEEE;
+  border-radius: 5px 5px 5px 5px;
+  font-size: 13px;
+  margin: 10px 0;
+  padding: 11px 35px;
+}
+.expandable ol li {
+  line-height: 28px;
 }

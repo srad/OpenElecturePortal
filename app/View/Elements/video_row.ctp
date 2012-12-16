@@ -8,7 +8,9 @@
 
 <div class="video-content <?php echo (isset($depth) ? 'depth-' . $depth : ''); ?>">
     <?php if ((sizeof($data) > 0) && isset($videos['Lecture'])): /* Skip this i.e. for search results. */ ?>
-    <div class="row feed">
+    <div class="feed">
+        <div class="pull-left"><?php if ($renderIndex) { echo $this->Lecture->renderIndex($data); } ?></div>
+
         <div class="pull-right">
             <i class="icon-search icon-bookmark"></i>
             <?php echo $this->Html->link(
@@ -32,7 +34,7 @@
             $video['Video'] = $video;
         }
     ?>
-    <div class="hero-unit video-row">
+    <div id="video_<?php echo $video['Video']['id'];?>" class="hero-unit video-row">
 
         <div class="row">
 

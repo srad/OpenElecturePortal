@@ -60,6 +60,26 @@
         padding: 4px 13px 6px !important;
     }
     </style>
+<?php else: ?>
+<script>
+$(function () {
+    // TODO: Could be a plugin...
+    var $e = $('#listings .expandable');
+    var $header = $($e.children()[0]);
+    var $content = $($e.children()[1]);
+
+    $content.hide();
+
+    $header.click(function(event) {
+        if ($content.is(":visible")) {
+            $content.slideUp('fast');
+        }
+        else {
+            $content.slideDown('fast');
+        }
+    });
+});
+</script>
 <?php endif; ?>
 
 <div class="sidebar span3">
