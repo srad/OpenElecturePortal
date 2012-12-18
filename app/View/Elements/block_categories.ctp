@@ -40,7 +40,7 @@
                     <?php
                     if (sizeof($lecture['children']) > 0) {
                         foreach ($lecture['children'] as $child) {
-                            echo '<p><i class="icon-share-alt"></i> ' . $this->Html->link($child['Lecture']['name'], '/lectures/view/' . $child['Lecture']['id'] . '/' . $category['Category']['id'] . '/' . (isset($term_id) ? $term_id : ''), array('data-id' => $child['Lecture']['id'])) . '</p>';
+                            echo '<p><i class="icon-share-alt"></i> ' . $this->Html->link($child['Lecture']['name'], '/lectures/view/' . $child['Lecture']['id'] . '/' . $category['Category']['id'] . '/' . (isset($term_id) ? $term_id : '') . '/' . $child['Lecture']['slug'], array('data-id' => $child['Lecture']['id'])) . '</p>';
                         }
                     }
                     ?>
