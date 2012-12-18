@@ -78,6 +78,18 @@ class LecturesController extends AppController {
             throw new NotFoundException(__('Ungültige Videoliste'));
         }
 
+        // Update tree with root
+        $childrenIds = $this->Lecture->findChildIds($id);
+
+        $this->Lecture->recursive = 0;
+        foreach ($childrenIds as $pos => $lectureId) {
+            $this->Lecture->data = $this->Lecture->read(array('Provider.name', 'Category.*', 'Lecture.name', 'Lecture.category_id', 'Lecture.last_update', 'Lecture.code'), $lectureId);
+
+            if ($this->Lecture->isUpdateRequired() && $this->Lecture->hasValidLectureId()) {
+                $this->Lecture->updateVideos();
+            }
+        }
+
         if ($this->RequestHandler->isRss()) {
 
             $lectures = $this->Lecture->find('first', array(
@@ -93,18 +105,6 @@ class LecturesController extends AppController {
             );
 
             return $this->set(compact('lectures', 'channel'));
-        }
-
-        // Update all children
-        $childrenIds = $this->Lecture->findChildIds($id);
-
-        $this->Lecture->recursive = 0;
-        foreach ($childrenIds as $pos => $listId) {
-            $this->Lecture->data = $this->Lecture->read(array('Provider.name', 'Category.*', 'Lecture.name', 'Lecture.category_id', 'Lecture.last_update', 'Lecture.code'), $listId);
-
-            if ($this->Lecture->isUpdateRequired() && $this->Lecture->hasValidVideoListId()) {
-                $this->Lecture->updateVideos();
-            }
         }
 
         $this->Lecture->Category->recursive = -1;
