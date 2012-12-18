@@ -6,6 +6,7 @@
 /vendors
 /build
 /dist
+/docs
 .DS_Store
 /tags
 *.bak
