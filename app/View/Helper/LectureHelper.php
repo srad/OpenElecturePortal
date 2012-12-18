@@ -12,13 +12,20 @@ class LectureHelper extends AppHelper {
      * Creates an list which allows to jump to a video.
      *
      * @param $videos
+     * @param bool $ascending Sort order of the ordered list. Via HTML5 tag.
      * @return string
      */
-    public function renderIndex($videos) {
+    public function renderIndex($videos, $ascending = false) {
         $html = '<div class="video-index">';
+        $size = sizeof($videos);
 
+        $i = 0;
         foreach($videos as $video) {
-            $html .= '<li><a href="#video_'.$video['id'].'">' . $video['title'] . '</a></li>';
+            $counter = ($ascending) ? $i : $size - $i;
+
+            $html .= '<li value="'.$counter.'"><a href="#video_'.$video['id'].'">' . $video['title'] . '</a></li>';
+
+            $i += 1;
         }
 
         return '<div class="video-index expandable"><a><i class="icon-plus"></i> '.__('Index').'</a><ol>' . $html . '</ol></div>';

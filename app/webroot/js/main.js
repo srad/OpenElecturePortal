@@ -1,30 +1,63 @@
 $(function () {
 
-    $('#accordion').accordion({
-        autoHeight:false,
-        clearStyle:true,
-        header:'span.accordion-header',
-        collapsible:true,
-        active: 'span.selected'
-    });
+    UFM.ep.accordion = {};
 
-    $('.sidebar .accordion-header a').click(function (event) {
-        var $this = $(this),
-            href = $this.attr('href');
+    UFM.ep.accordion.expandByLectureId = function (id) {
+        $('#listings h3.depth-1,#listings h3.depth-2').each(function(index) {
+            if (parseInt($(this).data('id'), 10) === parseInt(id, 10)) {
+                $('#listings .container-videolist').accordion('option', 'active', index);
+                return;
+            }
+        });
+    };
 
-        if ($this.hasClass('disabled')) {
+    UFM.ep.accordion.init = function () {
+        $('#accordion').accordion({
+            autoHeight:false,
+            clearStyle:true,
+            header:'span.accordion-header',
+            collapsible:true,
+            active: 'span.selected',
+            beforeActivate: function(event, ui) {
+                if (ui.newPanel.children().size() === 0 || ui.newHeader.hasClass('disabled')) {
+                    event.stopPropagation();
+                    return false;
+                }
+            },
+            create : function (event, ui) {
+                var content = ui.header.next();
+
+                if (content.children().size() === 0) {
+                    content.hide();
+                }
+            }
+        });
+
+        $('.sidebar .accordion-header a').click(function (event) {
+            var $this = $(this),
+                href = $this.attr('href');
+
+            if ($this.hasClass('disabled')) {
+                event.stopPropagation();
+                return false;
+            }
+
+            if (href !== '') {
+                event.stopPropagation();
+
+                window.location = href;
+
+                return false;
+            }
+        });
+
+        // Expand selected index for accordion
+        $('#accordion .dynamic').next().find('a').click(function (event) {
             event.stopPropagation();
+            UFM.ep.accordion.expandByLectureId($(this).data('id'));
             return false;
-        }
-
-        if (href !== '') {
-            event.stopPropagation();
-
-            window.location = href;
-
-            return false;
-        }
-    });
+        });
+    };
 
     UFM.ep.highlightCurrentMenuItem = function () {
         var $buttons = $('.navbar .navbar-inner ul.nav li'),
@@ -45,8 +78,6 @@ $(function () {
         });
     };
 
-    UFM.ep.highlightCurrentMenuItem();
-
     UFM.ep.$autocomplete = $('#formSearch .search-query').autocomplete({
         source: function( request, response ) {
             $.ajax({
@@ -58,7 +89,8 @@ $(function () {
                     response( $.map( data, function( item ) {
                         return {
                             label: (item.Lecture.name + ' - ' + item.Video.title).substring(0, 55),
-                            value: { id: item.Lecture.id, termId: item.Lecture.term_id, categoryId: item.Lecture.category_id }
+                            value: item.Lecture.name,
+                            data: { id: item.Lecture.id, termId: item.Lecture.term_id, categoryId: item.Lecture.category_id }
                         }
                     }));
                 }
@@ -72,10 +104,14 @@ $(function () {
             $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
         },
         select: function( event, ui ) {
-            window.location = UFM.ep.baseUrl + '/lectures/view/' + ui.item.value.id + '/' + ui.item.value.categoryId + '/' + ui.item.value.termId;
+            window.location = UFM.ep.baseUrl + '/lectures/view/' + ui.item.data.id + '/' + ui.item.data.categoryId + '/' + ui.item.data.termId;
         }
     });
 
-    UFM.ep.$autocomplete.data('autocomplete').menu.element.css('min-width', '600px');
+    return function () {
+        UFM.ep.highlightCurrentMenuItem();
+        UFM.ep.$autocomplete.data('autocomplete').menu.element.css('min-width', '500px');
+        UFM.ep.accordion.init();
+    };
 
-});
+}());

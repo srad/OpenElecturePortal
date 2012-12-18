@@ -30,6 +30,9 @@
                                 $className = 'selected';
                             }
                         }
+                        if ($lecture['Lecture']['dynamic_view']) {
+                            $className .= ' dynamic';
+                        }
                         ?>
                         <span class="accordion-header <?php echo $className; ?>"><?php echo $this->Html->link($lecture['Lecture']['name'], '/lectures/view/' . $lecture['Lecture']['id'] . '/' . $category['Category']['id'] . '/' . (isset($term_id) ? $term_id : '')); ?></span>
                     <?php endif; ?>
@@ -37,7 +40,7 @@
                     <?php
                     if (sizeof($lecture['children']) > 0) {
                         foreach ($lecture['children'] as $child) {
-                            echo '<p><i class="icon-share-alt"></i> ' . $this->Html->link($child['Lecture']['name'], '/lectures/view/' . $child['Lecture']['id'] . '/' . $category['Category']['id'] . '/' . (isset($term_id) ? $term_id : '')) . '</p>';
+                            echo '<p><i class="icon-share-alt"></i> ' . $this->Html->link($child['Lecture']['name'], '/lectures/view/' . $child['Lecture']['id'] . '/' . $category['Category']['id'] . '/' . (isset($term_id) ? $term_id : ''), array('data-id' => $child['Lecture']['id'])) . '</p>';
                         }
                     }
                     ?>

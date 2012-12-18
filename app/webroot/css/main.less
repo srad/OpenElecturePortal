@@ -194,12 +194,14 @@ input.search-query {
         line-height: 22px;
         margin: 0;
     }
-
-    .accordion-header .disabled {
+    .accordion-header .disabled, .disabled,.disabled:hover {
+        background: #005eaa;
+        border: 1px solid #005eaa;
         color: #696969 !important;
         cursor: default !important;
         text-decoration: none !important;
     }
+
     .ui-icon { display: none; }
     .ui-accordion-header a { padding-left: 0; }
 }
@@ -459,7 +461,7 @@ div#listings {
         border-radius: 5px 5px 5px 5px;
         font-size: 13px;
         margin: 10px 0;
-        padding: 11px 35px;
+        padding: 11px 42px;
 
         li {
             line-height: 28px;

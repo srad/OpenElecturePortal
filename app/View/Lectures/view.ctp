@@ -37,8 +37,8 @@
         display: none;
     }
 
-    #listings .depth-1 { margin-left: 25px; }
-    #listings .depth-2 { margin-left: 50px; }
+    #listings .depth-1 { margin-left: 0px; }
+    #listings .depth-2 { margin-left: 25px; }
 
     /* Prevent overflow */
     #listings .depth-2 .span5 { max-width: 445px; }
@@ -58,6 +58,10 @@
     .ui-accordion .ui-accordion-header {
         border-radius: 3px 3px 3px 3px;
         padding: 4px 13px 6px !important;
+    }
+    #listings .video-content div.feed a {
+        color: #0088CC !important;
+        font-size:14px !important;
     }
     </style>
 <?php else: ?>

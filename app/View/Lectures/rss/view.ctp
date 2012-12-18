@@ -9,17 +9,15 @@ foreach ($lectures['Video'] as $video) {
         'action' => 'view',
         $lectures['Lecture']['id'],
         $lectures['Lecture']['category_id'],
-        $lectures['Lecture']['term_id'],
+        $lectures['Lecture']['term_id']
     );
 
     $bodyText = preg_replace('=\(.*?\)=is', '', $video['description']);
+
     $bodyText = $this->Text->stripLinks($bodyText);
     $bodyText = Sanitize::stripAll($bodyText);
-    $bodyText = $this->Text->truncate($bodyText, 400, array(
-        'ending' => '...',
-        'exact' => true,
-        'html' => true,
-    ));
+
+    $bodyText = $this->Text->truncate($bodyText, 400, array('ending' => '...', 'exact' => true, 'html' => true));
 
     echo $this->Rss->item(array(), array(
         'title' => $video['title'],

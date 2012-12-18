@@ -1,5 +1,5 @@
 <?php if (isset($videos['Lecture']['name'])): ?>
-<h3 class="video-header depth-<?php echo $depth; ?>">
+<h3 data-id="<?php echo $videos['Lecture']['id']; ?>" class="video-header depth-<?php echo $depth; ?>">
     <?php echo $videos['Lecture']['name']; ?>
 </h3>
 <?php endif; ?>
