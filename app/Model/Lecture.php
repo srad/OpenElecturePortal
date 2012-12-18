@@ -81,7 +81,8 @@ class Lecture extends AppModel {
 
     /**
      * Determines based on the 'last_update' database field, if an
-     * update is required by using the interval set in
+     * update is required by using the i*
+     * et in
      *
      * @return bool
      */
@@ -97,11 +98,12 @@ class Lecture extends AppModel {
     }
 
     /**
-     * Checks if a video id list if set.
+     * Checks if a video i*
+     *  set.
      *
      * @return bool
      */
-    public function hasValidVideoListId() {
+    public function hasValidLectureId() {
         return !empty($this->data['Lecture']['code']);
     }
 
@@ -110,7 +112,8 @@ class Lecture extends AppModel {
      * 1. Delete all old videos
      * 2. Check via the Provider.name if we have to fetch the data via mediasite or vilea.
      * 3. Get the data from the model
-     * 4. insert all new videos.
+     * 4. insert a*
+     * deos.
      *
      * @return bool
      * @throws Exception
@@ -120,7 +123,12 @@ class Lecture extends AppModel {
         $this->Video->removeNotAnymoreExistentVideoIds($this->id, $this->httpVideoData['ids']);
 
         // We iterate though all returned video types
-        $formats = $this->Video->Type->find('list');
+
+        $videoTypes = Cache::read('videos_types', 'long');
+        if (!$videoTypes) {
+            $videoTypes = $this->Video->Type->find('list');
+            Cache::write('videos_types', $videoTypes, 'long');
+        }
 
         foreach ($this->httpVideoData['data'] as $videoId => $video) {
             $data = $this->Video->find('first', array('recursive' => -1, 'fields' => array('Video.id'), 'conditions' => array('Video.video_id' => $videoId)));
@@ -159,7 +167,7 @@ class Lecture extends AppModel {
 
             // Build a list for the video type list
             // to save all video types at once for the many to many relationship.
-            foreach ($formats as $formatId => $formatName) {
+            foreach ($videoTypes as $formatId => $formatName) {
                 if (isset($video[$formatName]) && !empty($video[$formatName])) {
                     array_push($saves['Type'], array(
                         'type_name' => $formatName,
@@ -191,14 +199,15 @@ class Lecture extends AppModel {
 
     /**
      * Returns a nested list that we can use for the video list at the
-     * right sidebar and the editable menu list within the admin backend.
-     *
+     * right sidebar and the editable menu list within the *
      * We can't use the build in "threaded" cakephp function
      * because the nested video results have a wrong sorting.
      *
      * In this case we are limited to a tree depth of 2 as required,
      * mysql doesn't support recursive joins, deeper trees
      * need additional joins or another data structure.
+     *
+     * ture.
      *
      * @param $category_id
      * @param $term_id
@@ -258,7 +267,8 @@ class Lecture extends AppModel {
 
     /**
      * Returns an array of all children ids, which is useful to query subtrees.
-     * This tree is limited to the depth of 2, the requirement doesn't need more.
+     * This tree is limited to the depth of 2, the requirement does*
+     * more.
      *
      * @param $parentId
      * @return mixed
@@ -285,11 +295,11 @@ class Lecture extends AppModel {
 
     /**
      * This query returns all video data down to the tree depth of 2
-     * this data is supposed to be used for the final output of the video
-     * rows.
-     *
+     * this data is supposed to be used for the final output of the vide*
      * This query is really expensive but is compensated by Cakephps query caching
      * and sorted indexes in the database for the video_date and ordering.
+     *
+     * ring.
      *
      * @param $categoryId
      * @param $termId
@@ -314,22 +324,22 @@ class Lecture extends AppModel {
         $sql .= '    Children1_Video.id, Children1_Video.title, Children1_Video.subtitle, Children1_Video.speaker, Children1_Video.location, Children1_Video.description,';
         $sql .= '    Children1_Video.thumbnail, Children1_Video.thumbnail_mime_type, Children1_Video.video_date,';
         $sql .= '    Children1_VideoTypes.type_name, Children1_VideoTypes.url,';
-        
+
         $sql .= '    Children2.id, Children2.name, Children2.code, Children2.parent_id, Children2.inactive, Children2.invert_sorting, Children2.dynamic_view,';
         $sql .= '    Children2_Video.id, Children2_Video.title, Children2_Video.subtitle, Children2_Video.speaker, Children2_Video.location, Children2_Video.description,';
         $sql .= '    Children2_Video.thumbnail, Children2_Video.thumbnail_mime_type, Children2_Video.video_date,';
         $sql .= '    Children2_VideoTypes.type_name, Children2_VideoTypes.url';
-        
+
         $sql .= ' FROM';
         $sql .= '    categories Category';
         $sql .= '    INNER JOIN lectures Lecture ON (Category.id = Lecture.category_id)';
         $sql .= '    LEFT OUTER JOIN videos Lecture_Video ON (Lecture.id = Lecture_Video.lecture_id)';
         $sql .= '    LEFT OUTER JOIN videos_types Lecture_VideoTypes ON (Lecture_Video.id = Lecture_VideoTypes.video_id)';
-        
+
         $sql .= '    LEFT OUTER JOIN lectures Children1 ON (Lecture.id = Children1.parent_id)';
         $sql .= '    LEFT OUTER JOIN videos Children1_Video ON (Children1.id = Children1_Video.lecture_id)';
         $sql .= '    LEFT OUTER JOIN videos_types Children1_VideoTypes ON (Children1_Video.id = Children1_VideoTypes.video_id)';
-        
+
         $sql .= '    LEFT OUTER JOIN lectures Children2 ON (Children1.id = Children2.parent_id)';
         $sql .= '    LEFT OUTER JOIN videos Children2_Video ON (Children2.id = Children2_Video.lecture_id)';
         $sql .= '    LEFT OUTER JOIN videos_types Children2_VideoTypes ON (Children2_Video.id = Children2_VideoTypes.video_id)';
@@ -389,7 +399,8 @@ class Lecture extends AppModel {
     }
 
     /**
-     * Validation rules
+     * Va*
+     * rules
      *
      * @var array
      */
@@ -449,7 +460,8 @@ class Lecture extends AppModel {
     //The Associations below have been created with all possible keys, those that are not needed can be removed
 
     /**
-     * belongsTo associations
+     * belongsT*
+     * tions
      *
      * @var array
      */
@@ -478,7 +490,8 @@ class Lecture extends AppModel {
     );
 
     /**
-     * hasMany associations
+     * hasMan*
+     * tions
      *
      * @var array
      */
