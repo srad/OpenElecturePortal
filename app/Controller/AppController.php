@@ -87,6 +87,20 @@ class AppController extends Controller {
     }
 
     /**
+     * Some controller and action combinations need a list of
+     * links for the sidebar to Links to the Post or a URL.
+     */
+    protected function setLinks() {
+        $this->loadModel('Post');
+        $this->loadModel('Link');
+
+        $links['Posts'] = $this->Post->findLinks();
+        $links['Links'] = $this->Link->findLinks();
+
+        $this->set('links', $links);
+    }
+
+    /**
      * Callback for auth component.
      *
      * @param $user

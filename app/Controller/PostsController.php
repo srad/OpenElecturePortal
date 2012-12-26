@@ -34,17 +34,19 @@ class PostsController extends AppController {
             'order' => 'Post.created DESC'
         ));
 
-        $links = $this->Post->find('all', array(
-            'fields' => array('Post.id', 'Post.title', 'Post.slug'),
-            'conditions' => array(
-                'AND' => array(
-                    'Post.publish' => 1,
-                    'Post.show_link' => 1
-                )
-            )
-        ));
+        $this->setLinks();
 
-        $this->set(compact('posts', 'links'));
+        $this->set(compact('posts'));
+    }
+
+    /**
+     * index method
+     *
+     * @return void
+     */
+    public function admin_index() {
+        $this->Post->recursive = 0;
+        $this->set('posts', $this->paginate());
     }
 
     /**
@@ -60,8 +62,7 @@ class PostsController extends AppController {
             throw new NotFoundException(__('Invalid post'));
         }
 
-        $this->loadModel('Post');
-        $links = $this->Post->findLinks();
+        $this->setLinks();
 
         $this->set('post', $this->Post->read(null, $id));
         $this->set(compact('links'));

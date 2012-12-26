@@ -23,8 +23,7 @@ class VideosController extends AppController {
     }
 
     public function latest() {
-        $this->loadModel('Post');
-        $links = $this->Post->findLinks();
+        $this->setLinks();
 
         $videos = $this->Video->find('all', array(
             'fields' => array('Video.*'),
@@ -37,8 +36,7 @@ class VideosController extends AppController {
     }
 
     public function search() {
-        $this->loadModel('Post');
-        $links = $this->Post->findLinks();
+        $this->setLinks();
 
         if ($this->request->is('post') && isset($this->request->data['term'])) {
 

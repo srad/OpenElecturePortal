@@ -111,9 +111,7 @@ class LecturesController extends AppController {
         $category = $this->Lecture->Category->read(array('Category.name', 'Category.id'), $category_id);
 
         $terms = $this->Lecture->Term->findTermsList();
-
-        $this->loadModel('Post');
-        $links = $this->Post->findLinks();
+        $this->setLinks();
 
         $categoryList = $this->Lecture->findThreadedLectures($category_id, $term_id);
         $videos = $this->Lecture->findVideoTree($id);

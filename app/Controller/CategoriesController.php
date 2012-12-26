@@ -70,8 +70,7 @@ class CategoriesController extends AppController {
             }
         }
 
-        $this->loadModel('Post');
-        $links = $this->Post->findLinks();
+        $this->setLinks();
 
         $categoryList = $this->Category->Lecture->find('threaded', array(
             'recursive' => -1,

@@ -194,6 +194,12 @@ div.sidebar div.row div.span3 h4 {
   font-variant: small-caps;
   margin-bottom: 25px;
 }
+.row .sidebar .row div.span3 div.triangle-right p {
+  margin: 0;
+}
+.row .sidebar .row div.span3 div.triangle-right p+p {
+  margin-top: 10px;
+}
 div.sidebar form {
   margin: 0;
 }

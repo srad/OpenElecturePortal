@@ -12,7 +12,7 @@ class Post extends AppModel {
     }
 
     public function findLinks() {
-        $links = Cache::read('links', 'long');
+        $links = Cache::read('posts', 'long');
 
         if (!$links) {
             $links = $this->find('all', array(
@@ -25,7 +25,7 @@ class Post extends AppModel {
                     )
                 )
             ));
-            Cache::write('links', $links, 'long');
+            Cache::write('posts', $links, 'long');
         }
 
         return $links;
