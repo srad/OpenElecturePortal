@@ -41,6 +41,10 @@
                                 <li><?php echo $this->Html->link(__('Benutzer anlegen'), '/admin/users/add'); ?></li>
                                 <li class="divider"></li>
                                 <li><?php echo $this->Html->link(__('Post anlegen'), '/admin/posts/add'); ?></li>
+                                <li><?php echo $this->Html->link(__('Posts bearbeiten'), '/admin/posts'); ?></li>
+                                <li class="divider"></li>
+                                <li><?php echo $this->Html->link(__('Link anlegen'), '/admin/links/add'); ?></li>
+                                <li><?php echo $this->Html->link(__('Links bearbeiten'), '/admin/links'); ?></li>
                             <?php endif; ?>
                             <li class="divider"></li>
                             <li><?php echo $this->Html->link(__('Abmelden'), '/users/logout'); ?></li>

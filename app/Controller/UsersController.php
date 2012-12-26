@@ -116,7 +116,7 @@ class UsersController extends AppController {
         if ($this->request->is('post')) {
             if ($this->Auth->login()) {
                 if ($this->isAdmin() || $this->isAssistant()) {
-                    $this->redirect('/admin/listings');
+                    $this->redirect('/admin/lectures');
                 }
             }
             else {
