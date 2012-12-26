@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('Sanitize', 'Utility');
 /**
  * Videos Controller
  *
@@ -36,8 +37,6 @@ class VideosController extends AppController {
     }
 
     public function search() {
-        $this->setLinks();
-
         if ($this->request->is('post') && isset($this->request->data['term'])) {
 
             $search_term = trim($this->request->data['term']);
@@ -48,14 +47,18 @@ class VideosController extends AppController {
 
             if (!empty($search_term)) {
                 $terms = array();
+
                 foreach ($search_term as $term) {
+                    $term = trim($term);
+                    $term = Sanitize::escape($term);
+
                     array_push($terms, array(
                             'OR' => array(
-                                'Video.title LIKE' => '%' . trim($term) . '%',
-                                'Video.description LIKE' => '%' . trim($term) . '%',
-                                'Video.subtitle LIKE' => '%' . trim($term) . '%',
-                                'Video.speaker LIKE' => '%' . trim($term) . '%',
-                                'Lecture.name LIKE' => '%' . trim($term) . '%',
+                                'Video.title LIKE'       => '%'.$term.'%',
+                                'Video.description LIKE' => '%'.$term.'%',
+                                'Video.subtitle LIKE'    => '%'.$term.'%',
+                                'Video.speaker LIKE'     => '%'.$term.'%',
+                                'Lecture.name LIKE'      => '%'.$term.'%',
                             )
                         )
                     );
@@ -88,6 +91,8 @@ class VideosController extends AppController {
                 $search = $this->request->data['term'];
                 $this->set(compact('videos', 'search'));
             }
+        } else {
+            $this->setLinks();
         }
         $this->set(compact('links'));
     }
