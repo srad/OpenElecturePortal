@@ -1,23 +1,41 @@
-<div class="span9">
+<div class="hero-unit posts index span11">
+    <h2><?php echo __('Posts'); ?></h2>
+    <table class="table table-bordered table-striped table-condensed">
+        <tr>
+            <th><?php echo $this->Paginator->sort('title'); ?></th>
+            <th><?php echo $this->Paginator->sort('publish'); ?></th>
+            <th><?php echo $this->Paginator->sort('show_link'); ?></th>
+            <th><?php echo $this->Paginator->sort('show_frontpage'); ?></th>
+            <th><?php echo $this->Paginator->sort('created'); ?></th>
+            <th class="actions"><?php echo __('Actions'); ?></th>
+        </tr>
+        <?php
+        foreach ($posts as $post): ?>
+            <tr>
+                <td><?php echo h($post['Post']['title']); ?>&nbsp;</td>
+                <td><?php echo h($post['Post']['publish']); ?>&nbsp;</td>
+                <td><?php echo h($post['Post']['show_link']); ?>&nbsp;</td>
+                <td><?php echo h($post['Post']['show_frontpage']); ?>&nbsp;</td>
+                <td><?php echo h($post['Post']['created']); ?>&nbsp;</td>
+                <td class="actions">
+                <?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $post['Post']['id'])); ?>
+                    <?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $post['Post']['id']), null, __('Are you sure you want to delete # %s?', $post['Post']['id'])); ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+    </table>
+    <p>
+        <?php
+        echo $this->Paginator->counter(array(
+            'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
+        ));
+        ?>    </p>
 
-    <div class="hero-unit" style="padding-bottom: 30px;">
-        <h1><?php echo __('Willkommen auf dem eLecture Portal <br />der Goethe-Universität'); ?></h1>
-        <?php echo $this->Html->image('campus-westend-hz_small_low.jpg'); ?>
+    <div class="paging">
+        <?php
+        echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
+        echo $this->Paginator->numbers(array('separator' => ''));
+        echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
+        ?>
     </div>
-
-    <?php foreach($posts as $lecture): ?>
-    <div class="hero-unit">
-        <h4><?php echo $lecture['Post']['title']; ?></h4>
-        <?php echo __('Erstellt am ') . date('d.m.Y', strtotime($lecture['Post']['created'])); ?>
-        <hr />
-        <p class="content">
-            <?php echo $lecture['Post']['content']; ?>
-        </p>
-    </div>
-    <?php endforeach; ?>
-
-</div>
-
-<div class="sidebar span3">
-    <?php echo $this->element('block_links', $links); ?>
 </div>

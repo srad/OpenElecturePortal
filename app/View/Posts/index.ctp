@@ -8,8 +8,8 @@
     <?php foreach($posts as $lecture): ?>
     <div class="hero-unit">
         <h4><?php echo $lecture['Post']['title']; ?></h4>
-        <?php echo __('Erstellt am ') . date('d.m.Y', strtotime($lecture['Post']['created'])); ?>
-        <hr />
+        <?php //echo __('Erstellt am ') . date('d.m.Y', strtotime($lecture['Post']['created'])); ?>
+        <!--<hr />-->
         <p class="content">
             <?php echo $lecture['Post']['content']; ?>
         </p>
