@@ -31,3 +31,12 @@ It is based on:
 ![](https://raw.github.com/srad/electure-portal/master/resources/screenshots/4.png)
 
 ![](https://raw.github.com/srad/electure-portal/master/resources/screenshots/5.png)
+
+# License
+
+This project has a non-commercial open source license. You need to get in contact with me for a commercial license.
+
+# Code Notes
+
+* Notice that the video data are fetched from external system and that the video synchronization is made synchronously.
+* That must be changed to an async style or as a background job.
