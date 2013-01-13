@@ -12,25 +12,25 @@ It is based on:
 
 ## Expandle related lectures
 
-![](https://raw.github.com/srad/electure-portal/master/resources/screenshots/2.png)
+![](https://raw.github.com/srad/open-electure-portal/master/resources/screenshots/2.png)
 
 ## Autocomplete search
 
-![](https://raw.github.com/srad/electure-portal/master/resources/screenshots/1.png)
+![](https://raw.github.com/srad/open-electure-portal/master/resources/screenshots/1.png)
 
 ## Searchable index of all listed lectures
 
-![](https://raw.github.com/srad/electure-portal/master/resources/screenshots/6.png)
+![](https://raw.github.com/srad/open-electure-portal/master/resources/screenshots/6.png)
 
 ## Admin interface
 
-![](https://raw.github.com/srad/electure-portal/master/resources/screenshots/3.png)
+![](https://raw.github.com/srad/open-electure-portal/master/resources/screenshots/3.png)
 
 ## Expandable index
 
-![](https://raw.github.com/srad/electure-portal/master/resources/screenshots/4.png)
+![](https://raw.github.com/srad/open-electure-portal/master/resources/screenshots/4.png)
 
-![](https://raw.github.com/srad/electure-portal/master/resources/screenshots/5.png)
+![](https://raw.github.com/srad/open-electure-portal/master/resources/screenshots/5.png)
 
 # License
 
