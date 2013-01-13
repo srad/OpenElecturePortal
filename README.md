@@ -1,4 +1,4 @@
-# electure-portal
+# Open Electure-Portal
 
 open source implementation or the frankfurt university electure-portal.
 It is based on:
