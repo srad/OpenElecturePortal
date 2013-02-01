@@ -1,39 +1,43 @@
-CakePHP
-=======
+# Open Electure-Portal
 
-[![CakePHP](http://cakephp.org/img/cake-logo.png)](http://www.cakephp.org)
+open source implementation or the frankfurt university electure-portal.
+It is based on:
 
-CakePHP is a rapid development framework for PHP which uses commonly known design patterns like Active Record, Association Data Mapping, Front Controller and MVC.
-Our primary goal is to provide a structured framework that enables PHP users at all levels to rapidly develop robust web applications, without any loss to flexibility.
+* [CakePHP](http://cakephp.org/)
+* [Twitter Bootstrap](http://twitter.github.com/bootstrap/)
+* jQuery + [jQuery UI](http://jqueryui.com/)
+* [jQuery NestedSortable](https://github.com/mjsarfatti/nestedSortable)
+* Support for MediaSite and Vilea as external data sources.
 
-Some Handy Links
-----------------
+# Some screenshots:
 
-[CakePHP](http://www.cakephp.org) - The rapid development PHP framework
+## Expandle related lectures
 
-[Cookbook](http://book.cakephp.org) - THE Cake user documentation; start learning here!
+![](https://raw.github.com/srad/open-electure-portal/master/resources/screenshots/2.png)
 
-[Plugins](http://plugins.cakephp.org/) - A repository of extensions to the framework
+## Autocomplete search
 
-[The Bakery](http://bakery.cakephp.org) - Tips, tutorials and articles
+![](https://raw.github.com/srad/open-electure-portal/master/resources/screenshots/1.png)
 
-[API](http://api.cakephp.org) - A reference to Cake's classes
+## Searchable index of all listed lectures
 
-[CakePHP TV](http://tv.cakephp.org) - Screen casts from events and video tutorials
+![](https://raw.github.com/srad/open-electure-portal/master/resources/screenshots/6.png)
 
-[The Cake Software Foundation](http://cakefoundation.org/) - promoting development related to CakePHP
+## Admin interface
 
-Get Support!
-------------
+![](https://raw.github.com/srad/open-electure-portal/master/resources/screenshots/3.png)
 
-[Our Google Group](http://groups.google.com/group/cake-php) - community mailing list and forum
+## Expandable index
 
-[#cakephp](http://webchat.freenode.net/?channels=#cakephp) on irc.freenode.net - Come chat with us, we have cake.
+![](https://raw.github.com/srad/open-electure-portal/master/resources/screenshots/4.png)
 
-[Q & A](http://ask.cakephp.org/) - Ask questions here, all questions welcome
+![](https://raw.github.com/srad/open-electure-portal/master/resources/screenshots/5.png)
 
-[Lighthouse](http://cakephp.lighthouseapp.com/) - Got issues? Please tell us!
+# License
 
-[![Bake Status](https://secure.travis-ci.org/cakephp/cakephp.png?branch=master)](http://travis-ci.org/cakephp/cakephp)
+This project has a non-commercial open source license. You need to get in contact with me for a commercial license.
 
-![Cake Power](https://raw.github.com/cakephp/cakephp/master/lib/Cake/Console/Templates/skel/webroot/img/cake.power.gif)
+# Code Notes
+
+* Notice that the video data are fetched from external system and that the video synchronization is made synchronously.
+* That must be changed to an async style or as a background job.
