@@ -150,7 +150,7 @@ class CakeLogTest extends CakeTestCase {
 		$this->assertEquals(array('file'), $result);
 
 		if (file_exists(LOGS . 'error.log')) {
-			@unlink(LOGS . 'error.log');
+			unlink(LOGS . 'error.log');
 		}
 		CakeLog::write(LOG_WARNING, 'Test warning');
 		$this->assertTrue(file_exists(LOGS . 'error.log'));
@@ -164,7 +164,7 @@ class CakeLogTest extends CakeTestCase {
  * explicit tests for drop()
  *
  * @return void
- **/
+ */
 	public function testDrop() {
 		CakeLog::config('file', array(
 			'engine' => 'FileLog',
@@ -175,7 +175,7 @@ class CakeLogTest extends CakeTestCase {
 
 		CakeLog::drop('file');
 		$result = CakeLog::configured();
-		$this->assertEquals(array(), $result);
+		$this->assertSame(array(), $result);
 	}
 
 /**
@@ -383,7 +383,11 @@ class CakeLogTest extends CakeTestCase {
 		CakeLog::drop('shops');
 	}
 
-
+/**
+ * Test that scopes are exclusive and don't bleed.
+ *
+ * @return void
+ */
 	public function testScopedLoggingExclusive() {
 		$this->_deleteLogs();
 
@@ -650,7 +654,7 @@ class CakeLogTest extends CakeTestCase {
 		$this->_deleteLogs();
 		$this->_resetLogConfig();
 
-		$levels = CakeLog::levels(array('spam', 'eggs'));
+		CakeLog::levels(array('spam', 'eggs'));
 
 		$testMessage = 'error message';
 		CakeLog::write('error', $testMessage);

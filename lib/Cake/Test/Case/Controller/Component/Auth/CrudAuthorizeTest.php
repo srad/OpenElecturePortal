@@ -142,7 +142,7 @@ class CrudAuthorizeTest extends CakeTestCase {
 	public function testMapActionsSet() {
 		$map = array(
 			'create' => array('generate'),
-			'read' => array('Lecture', 'show'),
+			'read' => array('listing', 'show'),
 			'update' => array('update'),
 			'random' => 'custom'
 		);
@@ -155,13 +155,12 @@ class CrudAuthorizeTest extends CakeTestCase {
 			'create' => 'create',
 			'read' => 'read',
 			'index' => 'read',
-			'add' => 'create',
 			'edit' => 'update',
 			'view' => 'read',
 			'delete' => 'delete',
 			'remove' => 'delete',
 			'generate' => 'create',
-			'Lecture' => 'read',
+			'listing' => 'read',
 			'show' => 'read',
 			'update' => 'update',
 			'random' => 'custom',

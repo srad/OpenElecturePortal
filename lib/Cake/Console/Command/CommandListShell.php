@@ -67,7 +67,7 @@ class CommandListShell extends AppShell {
 	}
 
 /**
- * Gets the shell command Lecture.
+ * Gets the shell command listing.
  *
  * @return array
  */
@@ -100,7 +100,7 @@ class CommandListShell extends AppShell {
  * @param string $type
  * @param array $shells
  * @param array $shellList
- * @return array
+ * @return void
  */
 	protected function _appendShells($type, $shells, &$shellList) {
 		foreach ($shells as $shell) {
