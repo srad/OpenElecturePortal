@@ -23,8 +23,8 @@
         <script>
         UFM = {};
         UFM.ep = {};
-        UFM.ep.controller = '<?php echo $this->request->params['controller'] ?>';
-        UFM.ep.action = '<?php echo $this->request->params['action'] ?>';
+        UFM.ep.controller = '<?php echo $this->request->params['controller']; ?>';
+        UFM.ep.action = '<?php echo $this->request->params['action']; ?>';
         UFM.ep.currentId = <?php echo ((isset($id)) ? $id : 'null'); ?>;
         UFM.ep.here = '<?php echo rtrim($this->request->here, '/') . '/'; ?>';
         UFM.ep.baseUrl = '<?php echo $this->request->base; ?>';
@@ -34,7 +34,7 @@
         <?php echo $this->Html->script('vendor/html5-3.6-respond-1.1.0.min'); ?>
         <![endif]-->
 
-        <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+        <script src="http://code.jquery.com/jquery-1.9.0.js"></script>
 
         <?php echo $this->Html->css('jquery-ui-1.9.2.custom.min'); ?>
         <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
