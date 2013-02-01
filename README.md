@@ -7,6 +7,7 @@ It is based on:
 * [Twitter Bootstrap](http://twitter.github.com/bootstrap/)
 * jQuery + [jQuery UI](http://jqueryui.com/)
 * [jQuery NestedSortable](https://github.com/mjsarfatti/nestedSortable)
+* Support for MediaSite and Vilea as external data sources.
 
 # Some screenshots:
 
