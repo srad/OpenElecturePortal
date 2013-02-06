@@ -48,8 +48,6 @@
 </div>
 
 <style>
-table.overview { background-color: white; }
-table.overview th { background-color: #005EAA; color: white; }
 #overview_length { float:right; }
 </style>
 

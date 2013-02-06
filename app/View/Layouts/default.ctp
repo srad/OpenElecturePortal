@@ -53,12 +53,8 @@
 
             <div class="row row-header">
 
-                <span class="span2 logo">
+                <span class="logo">
                     <?php echo $this->Html->image('head_logo.png'); ?>
-                </span>
-
-                <span class="span2 logo">
-                    <?php echo $this->Html->image('sd_logo_weiss.png'); ?>
                 </span>
 
                 <form id="formSearch" class="form-search span4 pull-right" method="POST" action="<?php echo $this->Html->url(array('controller' => 'lectures', 'action' => 'search'));?>">

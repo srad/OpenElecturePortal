@@ -11,31 +11,18 @@ It is based on:
 
 # Some screenshots:
 
-## Expandle related lectures
-
-![](https://raw.github.com/srad/open-electure-portal/master/resources/screenshots/2.png)
-
-## Autocomplete search
-
 ![](https://raw.github.com/srad/open-electure-portal/master/resources/screenshots/1.png)
-
-## Searchable index of all listed lectures
-
-![](https://raw.github.com/srad/open-electure-portal/master/resources/screenshots/6.png)
-
-## Admin interface
-
+![](https://raw.github.com/srad/open-electure-portal/master/resources/screenshots/2.png)
 ![](https://raw.github.com/srad/open-electure-portal/master/resources/screenshots/3.png)
-
-## Expandable index
-
 ![](https://raw.github.com/srad/open-electure-portal/master/resources/screenshots/4.png)
-
 ![](https://raw.github.com/srad/open-electure-portal/master/resources/screenshots/5.png)
+![](https://raw.github.com/srad/open-electure-portal/master/resources/screenshots/6.png)
+![](https://raw.github.com/srad/open-electure-portal/master/resources/screenshots/7.png)
+![](https://raw.github.com/srad/open-electure-portal/master/resources/screenshots/8.png)
 
 # License
 
-This project has a non-commercial open source license. You need to get in contact with me for a commercial license.
+This project has dual license. It's open source but you need a license to host it and use it.
 
 # Code Notes
 

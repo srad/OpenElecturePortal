@@ -22,7 +22,7 @@
                     <li class="divider-vertical"></li>
                     <?php endif; ?>
 
-                    <li data-controller="videos" data-action="latest" data-id="*"><?php echo $this->Html->link(__('Neuste Videos'), '/videos/latest'); ?></li>
+                    <!--<li data-controller="videos" data-action="latest" data-id="*"><?php echo $this->Html->link(__('Neuste Videos'), '/videos/latest'); ?></li>-->
                 </ul>
 
                 <ul class="nav pull-right">
