@@ -1,7 +1,12 @@
-$(function () {
+$(function (UFM) {
+    'use strict';
 
     UFM.ep.accordion = {};
 
+    /**
+     * Expands a certain accordion.
+     * @param id The lecture id.
+     */
     UFM.ep.accordion.expandByLectureId = function (id) {
         $('#listings h3.depth-1,#listings h3.depth-2').each(function(index) {
             if (parseInt($(this).data('id'), 10) === parseInt(id, 10)) {
@@ -59,6 +64,9 @@ $(function () {
         });
     };
 
+    /**
+     * This could be done server side.
+     */
     UFM.ep.highlightCurrentMenuItem = function () {
         var $buttons = $('.navbar .navbar-inner ul.nav li'),
             controller = UFM.ep.controller,
@@ -82,13 +90,13 @@ $(function () {
         source: function( request, response ) {
             $.ajax({
                 type: 'POST',
-                url: UFM.ep.baseUrl + "/videos/search",
+                url: UFM.ep.baseUrl + "/lectures/search",
                 dataType: 'json',
                 data: { term: request.term },
                 success: function(data) {
                     response( $.map( data, function( item ) {
                         return {
-                            label: (item.Lecture.name + ' - ' + item.Video.title).substring(0, 55),
+                            label: UFM.ep.getLabel(item),
                             value: item.Lecture.name,
                             data: { id: item.Lecture.id, termId: item.Lecture.term_id, categoryId: item.Lecture.category_id }
                         }
@@ -108,10 +116,26 @@ $(function () {
         }
     });
 
+    /**
+     * Label Callback. It got a little long, separated to a function
+     * @param data
+     * @return {String}
+     */
+    UFM.ep.getLabel = function (data) {
+        var label = String(data.Lecture.name).substring(0, 40);
+        if (data.Term.name !== null) {
+            label += (' - ' + data.Term.name);
+        }
+        if (data.Video.speaker !== null) {
+            label += (' - ' + data.Video.speaker);
+        }
+        return label.substring(0, 65)
+    }
+
     return function () {
         UFM.ep.highlightCurrentMenuItem();
         UFM.ep.$autocomplete.data('autocomplete').menu.element.css('min-width', '500px');
         UFM.ep.accordion.init();
     };
 
-}());
+}(UFM));

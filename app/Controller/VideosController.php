@@ -1,6 +1,5 @@
 <?php
 App::uses('AppController', 'Controller');
-App::uses('Sanitize', 'Utility');
 /**
  * Videos Controller
  *
@@ -10,7 +9,7 @@ class VideosController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow(array('latest', 'search', 'view'));
+        $this->Auth->allow(array('latest', 'view'));
     }
 
     /**
@@ -34,67 +33,6 @@ class VideosController extends AppController {
         ));
 
         $this->set(compact('links', 'videos'));
-    }
-
-    public function search() {
-        if ($this->request->is('post') && isset($this->request->data['term'])) {
-
-            $search_term = trim($this->request->data['term']);
-            if ($search_term == '') {
-                return;
-            }
-            $search_term = explode(' ', $search_term);
-
-            if (!empty($search_term)) {
-                $terms = array();
-
-                foreach ($search_term as $term) {
-                    $term = trim($term);
-                    $term = Sanitize::escape($term);
-
-                    array_push($terms, array(
-                            'OR' => array(
-                                'Video.title LIKE'       => '%'.$term.'%',
-                                'Video.description LIKE' => '%'.$term.'%',
-                                'Video.subtitle LIKE'    => '%'.$term.'%',
-                                'Video.speaker LIKE'     => '%'.$term.'%',
-                                'Lecture.name LIKE'      => '%'.$term.'%',
-                            )
-                        )
-                    );
-                }
-
-                if ($this->request->is('ajax')) {
-                    $this->autoRender = false;
-
-                    $videos = $this->Video->find('all', array(
-                        'recursive' => 0,
-                        'fields' => array('Lecture.term_id', 'Lecture.category_id', 'Lecture.name', 'Lecture.id', 'Video.*'),
-                        'order' => array('Video.video_date' => 'DESC'),
-                        'limit' => 20,
-                        'group' => array('Lecture.id'),
-                        'conditions' => array('OR' => $terms)
-                    ));
-
-                    return json_encode($videos);
-                }
-                else {
-                    $videos = $this->Video->find('all', array(
-                        'fields' => array('Lecture.name', 'Lecture.id', 'Video.*'),
-                        'order' => array('Video.video_date' => 'DESC'),
-                        'limit' => 50,
-                        'group' => array('Lecture.id'),
-                        'conditions' => array('OR' => $terms)
-                    ));
-                }
-
-                $search = $this->request->data['term'];
-                $this->set(compact('videos', 'search'));
-            }
-        } else {
-            $this->setLinks();
-        }
-        $this->set(compact('links'));
     }
 
     /**

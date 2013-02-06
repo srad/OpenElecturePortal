@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('Sanitize', 'Utility');
 /**
  * Lectures Controller
  *
@@ -16,7 +17,7 @@ class LecturesController extends AppController {
         if ($this->isAssistant()) {
             $this->Auth->allow('*');
         }
-        $this->Auth->allow('view', 'overview');
+        $this->Auth->allow('view', 'overview', 'search');
     }
 
     /**
@@ -219,6 +220,71 @@ class LecturesController extends AppController {
         ));
 
         $this->set(compact('lectures'));
+    }
+
+    public function search() {
+        if (!$this->request->is('post') || !isset($this->request->data['term'])) {
+            $this->setLinks();
+            return;
+        }
+        $search_term = trim($this->request->data['term']);
+        if (empty($search_term)) {
+            return;
+        }
+
+        $search_term = explode(' ', $search_term);
+        $terms = array();
+
+        foreach ($search_term as $term) {
+            $term = trim($term);
+            $term = Sanitize::escape($term);
+
+            array_push($terms, array(
+                    'OR' => array(
+                        'Video.title LIKE' => '%' . $term . '%',
+                        'Video.description LIKE' => '%' . $term . '%',
+                        'Video.subtitle LIKE' => '%' . $term . '%',
+                        'Video.speaker LIKE' => '%' . $term . '%',
+                        'Lecture.name LIKE' => '%' . $term . '%',
+                        'Term.name LIKE' => '%' . $term . '%',
+                    )
+                )
+            );
+        }
+
+        $lectures = $this->Lecture->find('all', array(
+            'recursive' => -1,
+            'joins' => array(
+                array(
+                    'table' => 'videos',
+                    'alias' => 'Video',
+                    'type' => 'LEFT',
+                    'conditions' => array(
+                        'Lecture.id = Video.lecture_id',
+                    )
+                ),
+                array(
+                    'table' => 'terms',
+                    'alias' => 'Term',
+                    'type' => 'LEFT',
+                    'conditions' => array(
+                        'Lecture.term_id = Term.id',
+                    )
+                )
+            ),
+            'fields' => array('Lecture.name', 'Lecture.id', 'Lecture.category_id', 'Term.*', 'Video.speaker'),
+            'order' => array('Lecture.name' => 'ASC', 'Term.ordering DESC'),
+            'limit' => 30,
+            'group' => array('Lecture.name'),
+            'conditions' => array('NOT' => array('Lecture.provider_name' => null), 'AND' => $terms)
+        ));
+
+        if ($this->request->is('ajax')) {
+            $this->autoRender = false;
+            return json_encode($lectures);
+        }
+        $search = $this->request->data['term'];
+        $this->set(compact('lectures', 'search'));
     }
 
 }

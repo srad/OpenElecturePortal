@@ -61,7 +61,7 @@
                     <?php echo $this->Html->image('sd_logo_weiss.png'); ?>
                 </span>
 
-                <form id="formSearch" class="form-search span4 pull-right" method="POST" action="<?php echo $this->Html->url(array('controller' => 'videos', 'action' => 'search'));?>">
+                <form id="formSearch" class="form-search span4 pull-right" method="POST" action="<?php echo $this->Html->url(array('controller' => 'lectures', 'action' => 'search'));?>">
                     <div class="input-append">
                         <input type="text" name="term" placeholder="Suchbegriff" class="span3 search-query" required="true" />
                         <button type="submit" class="btn"><?php echo __('Suchen'); ?></button>
