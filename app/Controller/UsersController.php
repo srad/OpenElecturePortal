@@ -137,7 +137,7 @@ class UsersController extends AppController {
         $this->User->set(array(
             'User' => array(
                 'username'  => 'admin',
-                'password'  => 'n4z074znmqx9037t4',
+                'password'  => 'admin',
                 'firstname' => 'admin',
                 'lastname'  => 'admin',
                 'active'    => 1,

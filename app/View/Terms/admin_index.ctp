@@ -1,41 +1,48 @@
-<div class="span11">
-    <div class="hero-unit">
-        <?php echo $this->Form->create('Term', array('class' => 'form', 'action' => 'add')); ?>
-        <fieldset>
-            <legend><?php echo __('Semester anlegen'); ?></legend>
-            <label><?php echo __('Semester-Name'); ?></label>
-            <?php echo $this->Form->input('name', array('label' => false, 'div' => false, 'required' => true)); ?>
-            <br/>
-            <button type="submit" class="btn btn-primary"><?php echo __('Speichern'); ?></button>
-        </fieldset>
-        <?php echo $this->Form->end(); ?>
-    </div>
+<div class="row-fluid">
+    <div class="content-padding">
 
-    <?php echo $this->Form->create('terms', array('class' => 'form hero-unit', 'action' => 'edit')); ?>
-    <fieldset>
-
-        <legend>
-            <?php echo __('Angezeigte Reihenfolge'); ?>
-            <p class="text-info"><?php echo __('Umsortierungen werden sofort gespeichert, bei Fehlern werden Sie benachrichtigt'); ?></p>
-        </legend>
-
-        <ul id="termList">
-            <?php foreach ($terms as $termId => $termName): ?>
-            <li id="term_<?php echo $termId; ?>" class="form-inline span6">
-                <?php echo $this->Form->hidden('Term.' . $termId . '.id', array('value' => $termId)); ?>
-                <?php echo $this->Form->input('Term.' . $termId . '.name', array('class' => 'span4', 'value' => $termName, 'label' => false, 'div' => false, 'required' => true)); ?>
-                <button type="button" class="btn btn-danger btn-small"><?php echo __('Löschen'); ?></button>
-                <span class="pull-right mover icon-move"></span>
-            </li>
-            <?php endforeach; ?>
-        </ul>
-
-        <div class="form-actions">
-            <input type="submit" class="btn btn-primary" value="<?php echo __('Speichern'); ?>"/>
+        <div class="row-fluid">
+            <div class="hero-unit">
+                <?php echo $this->Form->create('Term', array('class' => 'form', 'action' => 'add')); ?>
+                <fieldset>
+                    <legend><?php echo __('Semester anlegen'); ?></legend>
+                    <label><?php echo __('Semester-Name'); ?></label>
+                    <?php echo $this->Form->input('name', array('label' => false, 'div' => false, 'required' => true)); ?>
+                    <br/>
+                    <button type="submit" class="btn btn-primary"><?php echo __('Speichern'); ?></button>
+                </fieldset>
+                <?php echo $this->Form->end(); ?>
+            </div>
         </div>
 
-    </fieldset>
-    <?php echo $this->Form->end(); ?>
+        <div class="row-fluid">
+            <?php echo $this->Form->create('terms', array('class' => 'form hero-unit', 'action' => 'edit')); ?>
+            <fieldset>
+                <legend>
+                    <?php echo __('Angezeigte Reihenfolge'); ?>
+                    <p class="text-info"><?php echo __('Umsortierungen werden sofort gespeichert, bei Fehlern werden Sie benachrichtigt'); ?></p>
+                </legend>
+
+                <ul id="termList">
+                    <?php foreach ($terms as $termId => $termName): ?>
+                    <li id="term_<?php echo $termId; ?>" class="form-inline">
+                        <?php echo $this->Form->hidden('Term.' . $termId . '.id', array('value' => $termId)); ?>
+                        <?php echo $this->Form->input('Term.' . $termId . '.name', array('class' => 'input-xxl', 'value' => $termName, 'label' => false, 'div' => false, 'required' => true)); ?>
+                        <button type="button" class="btn btn-danger btn-small"><?php echo __('Löschen'); ?></button>
+                        <span class="pull-right mover icon-move"></span>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+
+                <div class="form-actions">
+                    <input type="submit" class="btn btn-primary" value="<?php echo __('Speichern'); ?>"/>
+                </div>
+
+            </fieldset>
+            <?php echo $this->Form->end(); ?>
+        </div>
+
+    </div>
 </div>
 
 <style>

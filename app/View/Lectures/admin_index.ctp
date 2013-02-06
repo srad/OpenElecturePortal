@@ -2,32 +2,33 @@
 <?php echo $this->Html->script('vendor/mustache'); ?>
 <?php echo $this->Html->css('listings/index'); ?>
 
-<div class="span11">
+<div class="row-fluid">
+    <div class="content-padding">
 
-    <?php echo $this->Form->create('Lecture', array('action' => 'add', 'id' => 'formListing', 'class' => 'hero-unit')); ?>
+        <?php echo $this->Form->create('Lecture', array('action' => 'add', 'id' => 'formListing', 'class' => 'hero-unit')); ?>
         <legend><?php echo __('Veranstaltung Anlegen'); ?></legend>
         <p class="text-info"><?php echo __('Zum Filtern der Menüpunkte bitte Semester und Kategorie wählen'); ?></p>
 
-        <div class="row">
+        <div class="row-fluid">
             <div class="span3">
                 <label><?php echo __('Name'); ?></label>
-                <?php echo $this->Form->input('name', array('class' => 'span3', 'name' => 'name', 'div' => false, 'label' => false, 'required' => true, 'placeholder' => '')); ?>
+                <?php echo $this->Form->input('name', array('class' => 'input-xxl', 'name' => 'name', 'div' => false, 'label' => false, 'required' => true, 'placeholder' => '')); ?>
 
                 <label><?php echo __('Video Id'); ?></label>
-                <?php echo $this->Form->input('code', array('class' => 'span3', 'name' => 'code', 'div' => false, 'label' => false, 'placeholder' => '')); ?>
+                <?php echo $this->Form->input('code', array('class' => 'input-xxl', 'name' => 'code', 'div' => false, 'label' => false, 'placeholder' => '')); ?>
             </div>
 
             <div class="span3">
                 <label><?php echo __('Semester'); ?></label>
-                <?php echo $this->Form->input('term_id', array('class' => 'span3', 'name' => 'term_id', 'div' => false, 'label' => false, 'empty' => 'Semesterübergreifend', 'default' => key($terms))); ?>
+                <?php echo $this->Form->input('term_id', array('class' => 'input-xxl', 'name' => 'term_id', 'div' => false, 'label' => false, 'empty' => 'Semesterübergreifend', 'default' => key($terms))); ?>
 
                 <label><?php echo __('Kategorie'); ?></label>
-                <?php echo $this->Form->input('category_id', array('class' => 'span3', 'name' => 'category_id', 'div' => false, 'label' => false, 'required' => true)); ?>
+                <?php echo $this->Form->input('category_id', array('class' => 'input-xxl', 'name' => 'category_id', 'div' => false, 'label' => false, 'required' => true)); ?>
             </div>
 
             <div class="span3">
                 <label><?php echo __('Anbieter'); ?></label>
-                <?php echo $this->Form->input('provider_id', array('class' => 'span3', 'name' => 'provider_id', 'div' => false, 'label' => false, 'empty' => true)); ?>
+                <?php echo $this->Form->input('provider_id', array('class' => 'input-xxl', 'name' => 'provider_id', 'div' => false, 'label' => false, 'empty' => true)); ?>
 
                 <span class="form-inline">
                         <label class="checkbox">
@@ -46,26 +47,27 @@
 
         </div>
         <input type="submit" class="btn btn-primary" value="<?php echo __('Speichern'); ?>"/>
-    <?php echo $this->Form->end(); ?>
+        <?php echo $this->Form->end(); ?>
 
-    <?php echo $this->Form->create('lectures', array('action' => 'edit', 'class' => 'form hero-unit', 'action' => 'edit')); ?>
-    <fieldset>
+        <?php echo $this->Form->create('lectures', array('action' => 'edit', 'class' => 'form hero-unit', 'action' => 'edit')); ?>
+        <fieldset>
 
-        <legend>
-            <?php echo __('Menüpunkte'); ?>
-            <p class="text-info"><?php echo __('Umsortierungen werden sofort gespeichert, bei Fehlern werden Sie benachrichtigt'); ?></p>
-        </legend>
+            <legend>
+                <?php echo __('Menüpunkte'); ?>
+                <p class="text-info"><?php echo __('Umsortierungen werden sofort gespeichert, bei Fehlern werden Sie benachrichtigt'); ?></p>
+            </legend>
 
-        <ul id="listings" class="sortable">
-            <li><h3><?php echo __('Lade...'); ?></h3></li>
-        </ul>
+            <ul id="listings" class="sortable">
+                <li><h3><?php echo __('Lade...'); ?></h3></li>
+            </ul>
 
-        <div class="form-actions">
-            <input type="submit" class="btn btn-primary" value="<?php echo __('Speichern'); ?>"/>
-        </div>
+            <div class="form-actions">
+                <input type="submit" class="btn btn-primary" value="<?php echo __('Speichern'); ?>"/>
+            </div>
 
-    </fieldset>
-    <?php echo $this->Form->end(); ?>
+        </fieldset>
+        <?php echo $this->Form->end(); ?>
+    </div>
 </div>
 
 <style>
