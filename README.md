@@ -1,6 +1,6 @@
 # OpenLectures-Portal
 
-open source implementation or the frankfurt university electure-portal.
+This is open source implementation of a video aggregator for the video storage systems Vilean and MediaSite which are often used by universities.
 It is based on:
 
 * [CakePHP](http://cakephp.org/)
