@@ -7,16 +7,17 @@
  * should respond to the different needs of a handheld computer and a desktop machine.
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Controller.Component
  * @since         CakePHP(tm) v 0.10.4.1076
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('Component', 'Controller');
@@ -129,7 +130,7 @@ class RequestHandlerComponent extends Component {
 		if (isset($this->request->params['ext'])) {
 			$this->ext = $this->request->params['ext'];
 		}
-		if (empty($this->ext) || $this->ext == 'html') {
+		if (empty($this->ext) || $this->ext === 'html') {
 			$this->_setExtension();
 		}
 		$this->params = $controller->params;
@@ -143,6 +144,9 @@ class RequestHandlerComponent extends Component {
  * Compares the accepted types and configured extensions.
  * If there is one common type, that is assigned as the ext/content type
  * for the response.
+ * Type with the highest weight will be set. If the highest weight has more
+ * then one type matching the extensions, the order in which extensions are specified
+ * determines which type will be set.
  *
  * If html is one of the preferred types, no content type will be set, this
  * is to avoid issues with browsers that prefer html and several other content types.
@@ -154,13 +158,19 @@ class RequestHandlerComponent extends Component {
 		if (empty($accept)) {
 			return;
 		}
+
+		$accepts = $this->response->mapType($accept);
+		$preferedTypes = current($accepts);
+		if (array_intersect($preferedTypes, array('html', 'xhtml'))) {
+			return null;
+		}
+
 		$extensions = Router::extensions();
-		$preferred = array_shift($accept);
-		$preferredTypes = $this->response->mapType($preferred);
-		if (!in_array('xhtml', $preferredTypes) && !in_array('html', $preferredTypes)) {
-			$similarTypes = array_intersect($extensions, $preferredTypes);
-			if (count($similarTypes) === 1) {
-				$this->ext = array_shift($similarTypes);
+		foreach ($accepts as $types) {
+			$ext = array_intersect($extensions, $types);
+			if ($ext) {
+				$this->ext = current($ext);
+				break;
 			}
 		}
 	}
@@ -241,6 +251,9 @@ class RequestHandlerComponent extends Component {
  */
 	public function beforeRedirect(Controller $controller, $url, $status = null, $exit = true) {
 		if (!$this->request->is('ajax')) {
+			return;
+		}
+		if (empty($url)) {
 			return;
 		}
 		$_SERVER['REQUEST_METHOD'] = 'GET';
@@ -505,6 +518,9 @@ class RequestHandlerComponent extends Component {
 		}
 
 		list($contentType) = explode(';', env('CONTENT_TYPE'));
+		if ($contentType === '') {
+			list($contentType) = explode(';', CakeRequest::header('CONTENT_TYPE'));
+		}
 		if (!$type) {
 			return $this->mapType($contentType);
 		}
@@ -589,7 +605,7 @@ class RequestHandlerComponent extends Component {
 		}
 		$options = array_merge($defaults, $options);
 
-		if ($type == 'ajax') {
+		if ($type === 'ajax') {
 			$controller->layout = $this->ajaxLayout;
 			return $this->respondAs('html', $options);
 		}

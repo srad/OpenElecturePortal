@@ -2,20 +2,18 @@
 /**
  * Memcache storage engine for cache
  *
- *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Cache.Engine
  * @since         CakePHP(tm) v 1.2.0.4933
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 /**
@@ -29,7 +27,7 @@ class MemcacheEngine extends CacheEngine {
 
 /**
  * Contains the compiled group names
- * (prefixed witht the global configuration prefix)
+ * (prefixed with the global configuration prefix)
  *
  * @var array
  */
@@ -105,10 +103,10 @@ class MemcacheEngine extends CacheEngine {
  * @return array Array containing host, port
  */
 	protected function _parseServerString($server) {
-		if ($server[0] == 'u') {
+		if ($server[0] === 'u') {
 			return array($server, 0);
 		}
-		if (substr($server, 0, 1) == '[') {
+		if (substr($server, 0, 1) === '[') {
 			$position = strpos($server, ']:');
 			if ($position !== false) {
 				$position++;
@@ -164,7 +162,7 @@ class MemcacheEngine extends CacheEngine {
 	public function increment($key, $offset = 1) {
 		if ($this->settings['compress']) {
 			throw new CacheException(
-				__d('cake_dev', 'Method increment() not implemented for compressed cache in %s', __CLASS__)
+				__d('cake_dev', 'Method %s not implemented for compressed cache in %s', 'increment()', __CLASS__)
 			);
 		}
 		return $this->_Memcache->increment($key, $offset);
@@ -181,7 +179,7 @@ class MemcacheEngine extends CacheEngine {
 	public function decrement($key, $offset = 1) {
 		if ($this->settings['compress']) {
 			throw new CacheException(
-				__d('cake_dev', 'Method decrement() not implemented for compressed cache in %s', __CLASS__)
+				__d('cake_dev', 'Method %s not implemented for compressed cache in %s', 'decrement()', __CLASS__)
 			);
 		}
 		return $this->_Memcache->decrement($key, $offset);
@@ -207,13 +205,13 @@ class MemcacheEngine extends CacheEngine {
 		if ($check) {
 			return true;
 		}
-		foreach ($this->_Memcache->getExtendedStats('slabs') as $slabs) {
+		foreach ($this->_Memcache->getExtendedStats('slabs', 0) as $slabs) {
 			foreach (array_keys($slabs) as $slabId) {
 				if (!is_numeric($slabId)) {
 					continue;
 				}
 
-				foreach ($this->_Memcache->getExtendedStats('cachedump', $slabId) as $stats) {
+				foreach ($this->_Memcache->getExtendedStats('cachedump', $slabId, 0) as $stats) {
 					if (!is_array($stats)) {
 						continue;
 					}

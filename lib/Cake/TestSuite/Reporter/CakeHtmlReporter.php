@@ -2,19 +2,19 @@
 /**
  * CakeHtmlReporter
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 1.2.0.4433
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 App::uses('CakeBaseReporter', 'TestSuite/Reporter');
 
 /**
@@ -95,7 +95,7 @@ class CakeHtmlReporter extends CakeBaseReporter {
 			$urlExtra = '&plugin=' . $plugin;
 		}
 
-		if (1 > count($testCases)) {
+		if (count($testCases) < 1) {
 			$buffer .= "<strong>EMPTY</strong>";
 		}
 
@@ -370,7 +370,8 @@ class CakeHtmlReporter extends CakeBaseReporter {
 /**
  * A test suite started.
  *
- * @param  PHPUnit_Framework_TestSuite $suite
+ * @param PHPUnit_Framework_TestSuite $suite
+ * @return void
  */
 	public function startTestSuite(PHPUnit_Framework_TestSuite $suite) {
 		if (!$this->_headerSent) {

@@ -1,6 +1,10 @@
 .idea
-/app/Config
-/app/tmp
+/app/Config/core.php
+/app/Config/database.php
+/app/Config/email.php
+/app/tmp/cache/models/**
+/app/tmp/cache/persistent/**
+/app/tmp/logs/**
 /lib/Cake/Console/Templates/skel/tmp/
 /plugins
 /vendors
